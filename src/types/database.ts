@@ -29,6 +29,15 @@ export type CorRaca =
   | "indigena"
   | "nao_declarada";
 
+export type ParentescoResponsavel =
+  | "mae"
+  | "pai"
+  | "avo"
+  | "tio"
+  | "irmao"
+  | "tutor"
+  | "outro";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -57,6 +66,56 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;
+        Relationships: [];
+      };
+      alunos_responsaveis: {
+        Row: {
+          id: string;
+          aluno_id: string;
+          nome: string;
+          parentesco: ParentescoResponsavel;
+          cpf: string | null;
+          rg: string | null;
+          telefone: string | null;
+          telefone_alt: string | null;
+          email: string | null;
+          endereco: string | null;
+          bairro: string | null;
+          cep: string | null;
+          local_trabalho: string | null;
+          telefone_trabalho: string | null;
+          responsavel_legal: boolean;
+          autorizado_retirar: boolean;
+          observacoes: string | null;
+          atualizado_por: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          aluno_id: string;
+          nome: string;
+          parentesco: ParentescoResponsavel;
+          cpf?: string | null;
+          rg?: string | null;
+          telefone?: string | null;
+          telefone_alt?: string | null;
+          email?: string | null;
+          endereco?: string | null;
+          bairro?: string | null;
+          cep?: string | null;
+          local_trabalho?: string | null;
+          telefone_trabalho?: string | null;
+          responsavel_legal?: boolean;
+          autorizado_retirar?: boolean;
+          observacoes?: string | null;
+          atualizado_por?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["alunos_responsaveis"]["Insert"]
+        >;
         Relationships: [];
       };
       alunos_complementares: {

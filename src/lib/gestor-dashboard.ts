@@ -184,6 +184,19 @@ export const gestorMenuItems: MenuItem[] = [
                       href: `/gestor/alunos/outras-opcoes/documentacao/${id}`,
                     })),
                   },
+                  {
+                    label: "Cadastro de Responsáveis",
+                    children: [
+                      {
+                        label: "Cadastro de Responsáveis",
+                        href: "/gestor/alunos/outras-opcoes/complementares/responsaveis",
+                      },
+                      {
+                        label: "Ficha em Branco",
+                        href: "/gestor/alunos/outras-opcoes/complementares/responsaveis/branco",
+                      },
+                    ],
+                  },
                 ],
               },
               {

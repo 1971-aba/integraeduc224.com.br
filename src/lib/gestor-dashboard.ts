@@ -105,7 +105,24 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Cadastro de Alunos", href: "/gestor/alunos" },
+      {
+        label: "Cadastro de Alunos",
+        children: [
+          { label: "Alunos Rede Municipal", href: "/gestor/alunos" },
+          { label: "Alunos da Escola", href: "/gestor/alunos/escola" },
+          {
+            label: "Informações Médicas",
+            children: [
+              { label: "Preencher Ficha", href: "/gestor/alunos/ficha-medica" },
+              {
+                label: "Ficha em Branco",
+                href: "/gestor/alunos/ficha-medica/branco",
+              },
+            ],
+          },
+          { label: "Imprimir Carteirinhas", href: "/gestor/alunos/carteirinhas" },
+        ],
+      },
       { label: "Cadastro de Professores", href: "/gestor/atribuicoes" },
       { label: "Cadastro de Servidores", href: "/gestor/servidores" },
       { label: "Calendário Escolar", href: "/gestor/calendario" },

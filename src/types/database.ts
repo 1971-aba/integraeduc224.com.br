@@ -46,6 +46,46 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;
         Relationships: [];
       };
+      fichas_medicas: {
+        Row: {
+          id: string;
+          aluno_id: string;
+          tipo_sanguineo: string | null;
+          alergias: string | null;
+          medicamentos: string | null;
+          restricoes_alimentares: string | null;
+          condicoes_saude: string | null;
+          plano_saude: string | null;
+          unidade_saude: string | null;
+          contato_nome: string | null;
+          contato_telefone: string | null;
+          observacoes: string | null;
+          atualizado_por: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          aluno_id: string;
+          tipo_sanguineo?: string | null;
+          alergias?: string | null;
+          medicamentos?: string | null;
+          restricoes_alimentares?: string | null;
+          condicoes_saude?: string | null;
+          plano_saude?: string | null;
+          unidade_saude?: string | null;
+          contato_nome?: string | null;
+          contato_telefone?: string | null;
+          observacoes?: string | null;
+          atualizado_por?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["fichas_medicas"]["Insert"]
+        >;
+        Relationships: [];
+      };
       atividades_extras: {
         Row: {
           id: string;

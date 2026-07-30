@@ -64,8 +64,8 @@ export default async function GestorAlunosPage({
   return (
     <>
       <GestorPageHeader
-        title="Alunos"
-        description="Cadastro, matrícula e transferência de estudantes"
+        title="Alunos Rede Municipal"
+        description="Todos os estudantes cadastrados na rede, de qualquer unidade escolar"
         actions={
           <Link href="/gestor/alunos/novo">
             <Button className="w-full sm:w-auto">

@@ -101,7 +101,11 @@ export function tituloNivelPlano(nivel: NivelEnsinoPlano) {
   return nivel === "fundamental" ? "Ensino Fundamental" : "Educação Infantil";
 }
 
-export type SecaoPlano = "metodologia" | "recursos" | "avaliacao";
+export type SecaoPlano =
+  | "metodologia"
+  | "recursos"
+  | "avaliacao"
+  | "experiencias";
 
 type SecaoPlanoConfig = {
   slug: string;
@@ -132,7 +136,20 @@ export const SECOES_PLANO: Record<SecaoPlano, SecaoPlanoConfig> = {
       "Instrumentos e critérios de avaliação previstos nos seus planos de aula.",
     marcadores: ["AVALIACAO", "AVALIACOES"],
   },
+  experiencias: {
+    slug: "experiencias",
+    titulo: "Experiências",
+    descricao:
+      "Campos de experiências da BNCC contemplados nos seus planos de aula.",
+    marcadores: ["CAMPOS DE EXPERIENCIA", "EXPERIENCIA"],
+  },
 };
+
+/** Seções disponíveis em cada nível: campos de experiências só existem na educação infantil. */
+export function secoesDoNivel(nivel: NivelEnsinoPlano): SecaoPlano[] {
+  const base: SecaoPlano[] = ["metodologia", "recursos", "avaliacao"];
+  return nivel === "infantil" ? [...base, "experiencias"] : base;
+}
 
 function semAcentos(texto: string) {
   return texto.normalize("NFD").replace(/\p{Diacritic}/gu, "");

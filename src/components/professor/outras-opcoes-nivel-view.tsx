@@ -5,14 +5,27 @@ import {
   Lightbulb,
   Package,
   Sparkles,
+  Sprout,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import type { NivelEnsinoPlano } from "@/lib/professor-planos";
-import { SECOES_PLANO, tituloNivelPlano } from "@/lib/professor-planos";
+import type { NivelEnsinoPlano, SecaoPlano } from "@/lib/professor-planos";
+import {
+  SECOES_PLANO,
+  secoesDoNivel,
+  tituloNivelPlano,
+} from "@/lib/professor-planos";
 
 type OutrasOpcoesNivelViewProps = {
   nivel: NivelEnsinoPlano;
+};
+
+const ICONE_SECAO: Record<SecaoPlano, LucideIcon> = {
+  metodologia: Lightbulb,
+  recursos: Package,
+  avaliacao: ClipboardCheck,
+  experiencias: Sprout,
 };
 
 export function OutrasOpcoesNivelView({ nivel }: OutrasOpcoesNivelViewProps) {
@@ -31,24 +44,12 @@ export function OutrasOpcoesNivelView({ nivel }: OutrasOpcoesNivelViewProps) {
       description: `Crie um novo plano de aula para séries do ${titulo.toLowerCase()}.`,
       icon: Sparkles,
     },
-    {
-      href: `/professor/planos/outras-opcoes/${nivel}/metodologias`,
-      title: SECOES_PLANO.metodologia.titulo,
-      description: SECOES_PLANO.metodologia.descricao,
-      icon: Lightbulb,
-    },
-    {
-      href: `/professor/planos/outras-opcoes/${nivel}/recursos`,
-      title: SECOES_PLANO.recursos.titulo,
-      description: SECOES_PLANO.recursos.descricao,
-      icon: Package,
-    },
-    {
-      href: `/professor/planos/outras-opcoes/${nivel}/avaliacoes`,
-      title: SECOES_PLANO.avaliacao.titulo,
-      description: SECOES_PLANO.avaliacao.descricao,
-      icon: ClipboardCheck,
-    },
+    ...secoesDoNivel(nivel).map((secao) => ({
+      href: `/professor/planos/outras-opcoes/${nivel}/${SECOES_PLANO[secao].slug}`,
+      title: SECOES_PLANO[secao].titulo,
+      description: SECOES_PLANO[secao].descricao,
+      icon: ICONE_SECAO[secao],
+    })),
   ];
 
   return (

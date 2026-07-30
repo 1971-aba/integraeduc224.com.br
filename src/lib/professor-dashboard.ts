@@ -213,16 +213,20 @@ export const professorMenuItems: MenuItem[] = [
                     href: "/professor/planos/novo?nivel=infantil",
                   },
                   {
-                    label: "Metodologias",
+                    label: "Metodologias Infantil",
                     href: "/professor/planos/outras-opcoes/infantil/metodologias",
                   },
                   {
-                    label: "Recursos",
+                    label: "Recursos Infantil",
                     href: "/professor/planos/outras-opcoes/infantil/recursos",
                   },
                   {
-                    label: "Avaliações",
+                    label: "Avaliações Infantil",
                     href: "/professor/planos/outras-opcoes/infantil/avaliacoes",
+                  },
+                  {
+                    label: "Experiências Infantil",
+                    href: "/professor/planos/outras-opcoes/infantil/experiencias",
                   },
                 ],
               },

@@ -2,7 +2,7 @@
 
 import { ChevronDown, ExternalLink, LogOut, Menu } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { logout } from "@/actions/auth";
 import { MobileNavDrawer } from "@/components/dashboard/mobile-nav-drawer";
@@ -15,9 +15,74 @@ type NavMenuItemProps = {
   item: MenuItem;
 };
 
+/** Margem mínima entre o painel e a borda da janela. */
+const PANEL_MARGIN = 8;
+
 export function NavMenuItem({ item }: NavMenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [shift, setShift] = useState(0);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const hasChildren = Boolean(item.children?.length);
+
+  // O painel abre alinhado à esquerda; quando as colunas passam da janela,
+  // ele é deslocado para a esquerda até caber.
+  useEffect(() => {
+    if (!isOpen) {
+      setShift(0);
+      return;
+    }
+
+    function adjust() {
+      const wrapper = wrapperRef.current;
+      const panel = panelRef.current;
+      if (!wrapper || !panel) return;
+
+      const naturalLeft = wrapper.getBoundingClientRect().left;
+      const overflow =
+        naturalLeft + panel.offsetWidth - (window.innerWidth - PANEL_MARGIN);
+
+      setShift(
+        overflow > 0
+          ? -Math.min(overflow, Math.max(0, naturalLeft - PANEL_MARGIN))
+          : 0,
+      );
+    }
+
+    adjust();
+
+    const panel = panelRef.current;
+    const observer = panel ? new ResizeObserver(adjust) : null;
+    if (panel && observer) observer.observe(panel);
+    window.addEventListener("resize", adjust);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", adjust);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handlePointerDown(event: MouseEvent) {
+      if (!wrapperRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   if (!hasChildren) {
     return (
@@ -31,7 +96,7 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
   }
 
   return (
-    <div className="relative flex items-stretch">
+    <div ref={wrapperRef} className="relative flex items-stretch">
       <span
         className={cn(
           "flex items-center whitespace-nowrap px-3 py-2 text-sm font-medium text-white",
@@ -60,9 +125,16 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
       </button>
 
       {isOpen ? (
-        <div className="absolute left-0 top-full z-50 max-w-[calc(100vw-1rem)] overflow-x-auto rounded-md border border-slate-200 bg-white shadow-lg">
+        <div
+          ref={panelRef}
+          style={{ transform: `translateX(${shift}px)` }}
+          className="absolute left-0 top-full z-50 max-w-[calc(100vw-1rem)] overflow-x-auto rounded-md border border-slate-200 bg-white shadow-lg"
+        >
           {item.children!.length > 0 ? (
-            <NavDropdownPanel items={item.children!} />
+            <NavDropdownPanel
+              items={item.children!}
+              onNavigate={() => setIsOpen(false)}
+            />
           ) : null}
         </div>
       ) : null}

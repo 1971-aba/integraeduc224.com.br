@@ -13,9 +13,10 @@ function menuItemKey(item: MenuItem, index: number, prefix: string) {
 
 type NavDropdownPanelProps = {
   items: MenuItem[];
+  onNavigate?: () => void;
 };
 
-export function NavDropdownPanel({ items }: NavDropdownPanelProps) {
+export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
   const [path, setPath] = useState<number[]>([]);
 
   const columns = useMemo(() => {
@@ -60,6 +61,7 @@ export function NavDropdownPanel({ items }: NavDropdownPanelProps) {
                 <Link
                   key={menuItemKey(item, index, prefix)}
                   href={item.href ?? "#"}
+                  onClick={onNavigate}
                   className="block border-b border-slate-100 px-4 py-2.5 text-sm font-medium text-[#1E7BB8] transition-colors last:border-b-0 hover:bg-[#E3F2FD]"
                 >
                   {item.label}

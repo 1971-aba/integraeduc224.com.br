@@ -66,6 +66,11 @@ export type Database = {
           cor_raca: CorRaca | null;
           etnia_indigena: string | null;
           foto_path: string | null;
+          rg: string | null;
+          rg_orgao_emissor: string | null;
+          certidao_nascimento: string | null;
+          codigo_inep: string | null;
+          cartao_sus: string | null;
           atualizado_por: string | null;
           created_at: string;
           updated_at: string;
@@ -76,6 +81,11 @@ export type Database = {
           cor_raca?: CorRaca | null;
           etnia_indigena?: string | null;
           foto_path?: string | null;
+          rg?: string | null;
+          rg_orgao_emissor?: string | null;
+          certidao_nascimento?: string | null;
+          codigo_inep?: string | null;
+          cartao_sus?: string | null;
           atualizado_por?: string | null;
           created_at?: string;
           updated_at?: string;

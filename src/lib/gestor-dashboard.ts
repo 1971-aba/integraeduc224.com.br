@@ -1,6 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { formatDashboardDate, formatTurnoLabel } from "@/lib/dashboard-utils";
+import {
+  DOCUMENTOS_ALUNO,
+  DOCUMENTOS_ALUNO_IDS,
+} from "@/lib/documentos-aluno-config";
 import { DEMO_ESCOLA_ID, DEMO_ESCOLA_NOME } from "@/lib/dev-auth";
 import type { DashboardConfig, DashboardNotification, MenuItem } from "@/types/dashboard";
 import type { Database, Profile } from "@/types/database";
@@ -172,6 +176,13 @@ export const gestorMenuItems: MenuItem[] = [
                   {
                     label: "Casos de Idade Incompatível",
                     href: "/gestor/alunos/outras-opcoes/complementares/idade-serie",
+                  },
+                  {
+                    label: "Documentação Pendente",
+                    children: DOCUMENTOS_ALUNO_IDS.map((id) => ({
+                      label: DOCUMENTOS_ALUNO[id].titulo,
+                      href: `/gestor/alunos/outras-opcoes/documentacao/${id}`,
+                    })),
                   },
                 ],
               },

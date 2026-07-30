@@ -1,21 +1,15 @@
 import Link from "next/link";
-import { FileText, Plus, Sparkles } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { GestorPageHeader } from "@/components/dashboard/gestor-page-header";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { PlanosListaView } from "@/components/professor/planos-lista-view";
 import { Button } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
+import { getPlanosProfessor } from "@/lib/professor-planos";
 
 export default async function PlanosListPage() {
   const { profile } = await requireRole(["professor"]);
-  const supabase = await createClient();
-
-  const { data: planos } = await supabase
-    .from("planos_aula")
-    .select("id, tema, serie, disciplina, updated_at")
-    .eq("professor_id", profile.id)
-    .order("updated_at", { ascending: false });
+  const planos = await getPlanosProfessor(profile.id);
 
   return (
     <>
@@ -32,45 +26,21 @@ export default async function PlanosListPage() {
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {planos?.map((plano) => (
-          <Link key={plano.id} href={`/professor/planos/${plano.id}`}>
-            <Card className="h-full transition-shadow hover:shadow-md">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 text-violet-700">
-                <FileText className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <CardTitle className="line-clamp-2">{plano.tema}</CardTitle>
-              <CardDescription>
-                {plano.serie}
-                {plano.disciplina ? ` • ${plano.disciplina}` : ""}
-              </CardDescription>
-              <p className="mt-4 text-xs text-slate-500">
-                Atualizado em{" "}
-                {new Date(plano.updated_at).toLocaleDateString("pt-BR")}
-              </p>
-            </Card>
-          </Link>
-        )) ?? null}
-
-        {(!planos || planos.length === 0) && (
-          <Card className="sm:col-span-2 lg:col-span-3">
-            <div className="flex items-start gap-3">
-              <Sparkles className="mt-1 h-5 w-5 text-violet-600" aria-hidden="true" />
-              <div>
-                <CardTitle>Nenhum plano criado</CardTitle>
-                <CardDescription className="mt-2">
-                  Gere seu primeiro plano de aula informando o tema e a série.
-                  A IA elaborará objetivos, habilidades BNCC, metodologia e
-                  avaliação — prontos para revisão e exportação em PDF.
-                </CardDescription>
-                <Link href="/professor/planos/novo" className="mt-4 inline-block">
-                  <Button>Criar plano com IA</Button>
-                </Link>
-              </div>
-            </div>
-          </Card>
-        )}
-      </div>
+      {planos.length === 0 ? (
+        <PlanosListaView
+          planos={[]}
+          novoHref="/professor/planos/novo"
+          emptyTitle="Nenhum plano criado"
+          emptyDescription="Gere seu primeiro plano de aula informando o tema e a série. A IA elaborará objetivos, habilidades BNCC, metodologia e avaliação — prontos para revisão e exportação em PDF."
+        />
+      ) : (
+        <PlanosListaView
+          planos={planos}
+          novoHref="/professor/planos/novo"
+          emptyTitle="Nenhum plano criado"
+          emptyDescription=""
+        />
+      )}
     </>
   );
 }

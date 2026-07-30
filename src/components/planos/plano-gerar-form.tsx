@@ -20,6 +20,7 @@ type PlanoGerarFormProps = {
   aiDisponivel: boolean;
   providerLabel: string | null;
   isDemoMode?: boolean;
+  seriesOptions?: readonly string[];
 };
 
 export function PlanoGerarForm({
@@ -27,6 +28,7 @@ export function PlanoGerarForm({
   aiDisponivel,
   providerLabel,
   isDemoMode = false,
+  seriesOptions = SERIES_ESCOLARES,
 }: PlanoGerarFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +102,7 @@ export function PlanoGerarForm({
             <option value="" disabled>
               Selecione...
             </option>
-            {SERIES_ESCOLARES.map((serie) => (
+            {seriesOptions.map((serie) => (
               <option key={serie} value={serie}>
                 {serie}
               </option>

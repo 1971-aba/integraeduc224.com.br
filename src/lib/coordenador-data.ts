@@ -456,6 +456,8 @@ export async function getFrequenciaConsolidadaEscola(
 
     resumos.push({
       atribuicaoId: atribuicao.id,
+      turmaId: atribuicao.turma_id,
+      disciplinaId: atribuicao.disciplina_id,
       disciplina: atribuicao.disciplinas?.nome ?? "Disciplina",
       turma: atribuicao.turmas?.nome ?? "Turma",
       serie: atribuicao.turmas?.serie ?? "—",

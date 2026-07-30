@@ -32,6 +32,8 @@ export type FrequenciaAlunoResumo = {
 
 export type FrequenciaTurmaResumo = {
   atribuicaoId: string;
+  turmaId: string;
+  disciplinaId: string;
   disciplina: string;
   turma: string;
   serie: string;
@@ -121,6 +123,7 @@ export async function getDiarioPendencias(
 export async function getFrequenciaConsolidada(
   professorId: string,
   bimestreId?: string,
+  escopo: "bimestre" | "anual" = "bimestre",
 ): Promise<FrequenciaTurmaResumo[]> {
   const atribuicoes = await getProfessorAtribuicoes(professorId);
   const turmasAtivas = atribuicoes.filter((item) => item.anos_letivos?.ativo);
@@ -131,35 +134,37 @@ export async function getFrequenciaConsolidada(
   const resumos: FrequenciaTurmaResumo[] = [];
 
   for (const atribuicao of turmasAtivas) {
-    let periodoLabel = "Período letivo";
+    let periodoLabel = escopo === "anual" ? "Ano letivo" : "Período letivo";
     let dataInicio: string | null = null;
     let dataFim: string | null = null;
 
-    if (bimestreId) {
-      const { data: bimestre } = await supabase
-        .from("bimestres")
-        .select("numero, data_inicio, data_fim")
-        .eq("id", bimestreId)
-        .maybeSingle();
+    if (escopo === "bimestre") {
+      if (bimestreId) {
+        const { data: bimestre } = await supabase
+          .from("bimestres")
+          .select("numero, data_inicio, data_fim")
+          .eq("id", bimestreId)
+          .maybeSingle();
 
-      if (bimestre) {
-        periodoLabel = `${bimestre.numero}º bimestre`;
-        dataInicio = bimestre.data_inicio;
-        dataFim = bimestre.data_fim;
-      }
-    } else {
-      const { data: bimestreAtual } = await supabase
-        .from("bimestres")
-        .select("numero, data_inicio, data_fim")
-        .eq("ano_letivo_id", atribuicao.ano_letivo_id)
-        .lte("data_inicio", new Date().toISOString().slice(0, 10))
-        .gte("data_fim", new Date().toISOString().slice(0, 10))
-        .maybeSingle();
+        if (bimestre) {
+          periodoLabel = `${bimestre.numero}º bimestre`;
+          dataInicio = bimestre.data_inicio;
+          dataFim = bimestre.data_fim;
+        }
+      } else {
+        const { data: bimestreAtual } = await supabase
+          .from("bimestres")
+          .select("numero, data_inicio, data_fim")
+          .eq("ano_letivo_id", atribuicao.ano_letivo_id)
+          .lte("data_inicio", new Date().toISOString().slice(0, 10))
+          .gte("data_fim", new Date().toISOString().slice(0, 10))
+          .maybeSingle();
 
-      if (bimestreAtual) {
-        periodoLabel = `${bimestreAtual.numero}º bimestre (atual)`;
-        dataInicio = bimestreAtual.data_inicio;
-        dataFim = bimestreAtual.data_fim;
+        if (bimestreAtual) {
+          periodoLabel = `${bimestreAtual.numero}º bimestre (atual)`;
+          dataInicio = bimestreAtual.data_inicio;
+          dataFim = bimestreAtual.data_fim;
+        }
       }
     }
 
@@ -234,6 +239,8 @@ export async function getFrequenciaConsolidada(
 
     resumos.push({
       atribuicaoId: atribuicao.id,
+      turmaId: atribuicao.turma_id,
+      disciplinaId: atribuicao.disciplina_id,
       disciplina: atribuicao.disciplinas?.nome ?? "Disciplina",
       turma: atribuicao.turmas?.nome ?? "Turma",
       serie: atribuicao.turmas?.serie ?? "—",
@@ -247,6 +254,10 @@ export async function getFrequenciaConsolidada(
   }
 
   return resumos;
+}
+
+export async function getFrequenciaAnualConsolidada(professorId: string) {
+  return getFrequenciaConsolidada(professorId, undefined, "anual");
 }
 
 export async function getProfessorBimestreOptions(professorId: string) {

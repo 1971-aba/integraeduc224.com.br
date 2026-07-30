@@ -86,17 +86,38 @@ export const professorMenuItems: MenuItem[] = [
       },
       { label: "Turmas e Disciplinas", href: "/professor/turmas" },
       { label: "Turmas e Alunos", href: "/professor/alunos" },
-      { label: "Horário Escolar", href: "/professor/horario-escolar" },
+      {
+        label: "Horário Escolar",
+        children: [
+          {
+            label: "Horário Completo",
+            href: "/professor/horario-escolar/completo",
+          },
+        ],
+      },
       {
         label: "Frequência Escolar",
         children: [
           {
-            label: "Frequência Consolidada",
-            href: "/professor/consultas/frequencia",
+            label: "Frequência Aluno",
+            href: "/professor/frequencia-escolar/aluno",
           },
           {
-            label: "Percentual Atingido",
-            href: "/professor/consultas/frequencia?tipo=lte",
+            label: "Frequência Anual",
+            children: [
+              {
+                label: "Percentual Atingido",
+                href: "/professor/frequencia-escolar/anual/percentual",
+              },
+              {
+                label: "Turma Ano %",
+                href: "/professor/frequencia-escolar/anual/turma",
+              },
+              {
+                label: "Disciplina %",
+                href: "/professor/frequencia-escolar/anual/disciplina",
+              },
+            ],
           },
         ],
       },

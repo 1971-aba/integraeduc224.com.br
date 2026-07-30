@@ -12,6 +12,12 @@ export type HorarioAulaSlot = {
   atribuicaoId: string;
 };
 
+export type PeriodoEscolar = {
+  numero: number;
+  inicio: string;
+  fim: string;
+};
+
 const DIAS_SEMANA = [
   "Segunda",
   "Terça",
@@ -20,20 +26,20 @@ const DIAS_SEMANA = [
   "Sexta",
 ] as const;
 
-const PERIODOS_MANHA = [
-  { inicio: "07:00", fim: "07:50" },
-  { inicio: "07:50", fim: "08:40" },
-  { inicio: "08:40", fim: "09:30" },
-  { inicio: "09:50", fim: "10:40" },
-  { inicio: "10:40", fim: "11:30" },
+const PERIODOS_MANHA: PeriodoEscolar[] = [
+  { numero: 1, inicio: "07:00", fim: "07:50" },
+  { numero: 2, inicio: "07:50", fim: "08:40" },
+  { numero: 3, inicio: "08:40", fim: "09:30" },
+  { numero: 4, inicio: "09:50", fim: "10:40" },
+  { numero: 5, inicio: "10:40", fim: "11:30" },
 ];
 
-const PERIODOS_TARDE = [
-  { inicio: "13:00", fim: "13:50" },
-  { inicio: "13:50", fim: "14:40" },
-  { inicio: "14:40", fim: "15:30" },
-  { inicio: "15:50", fim: "16:40" },
-  { inicio: "16:40", fim: "17:30" },
+const PERIODOS_TARDE: PeriodoEscolar[] = [
+  { numero: 1, inicio: "13:00", fim: "13:50" },
+  { numero: 2, inicio: "13:50", fim: "14:40" },
+  { numero: 3, inicio: "14:40", fim: "15:30" },
+  { numero: 4, inicio: "15:50", fim: "16:40" },
+  { numero: 5, inicio: "16:40", fim: "17:30" },
 ];
 
 function periodosPorTurno(turno: string) {
@@ -90,4 +96,4 @@ export async function getHorarioProfessor(
   });
 }
 
-export { DIAS_SEMANA, formatTurnoLabel };
+export { DIAS_SEMANA, PERIODOS_MANHA, PERIODOS_TARDE, formatTurnoLabel };

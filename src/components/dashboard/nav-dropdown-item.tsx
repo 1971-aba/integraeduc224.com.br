@@ -32,13 +32,14 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
     return result;
   }, [items, path]);
 
-  function selectItem(depth: number, index: number) {
-    setPath((current) => {
-      if (current[depth] === index) {
-        return current.slice(0, depth);
-      }
-      return [...current.slice(0, depth), index];
-    });
+  /** Abre a coluna do item apontado, descartando os níveis mais profundos. */
+  function openItem(depth: number, index: number) {
+    setPath((current) => [...current.slice(0, depth), index]);
+  }
+
+  /** Item sem filhos: fecha as colunas abertas a partir deste nível. */
+  function closeDeeper(depth: number) {
+    setPath((current) => current.slice(0, depth));
   }
 
   return (
@@ -61,6 +62,8 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
                 <Link
                   key={menuItemKey(item, index, prefix)}
                   href={item.href ?? "#"}
+                  onMouseEnter={() => closeDeeper(depth)}
+                  onFocus={() => closeDeeper(depth)}
                   onClick={onNavigate}
                   className="block border-b border-slate-100 px-4 py-2.5 text-sm font-medium text-[#1E7BB8] transition-colors last:border-b-0 hover:bg-[#E3F2FD]"
                 >
@@ -74,7 +77,9 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
                 key={menuItemKey(item, index, prefix)}
                 type="button"
                 aria-expanded={isActive}
-                onClick={() => selectItem(depth, index)}
+                onMouseEnter={() => openItem(depth, index)}
+                onFocus={() => openItem(depth, index)}
+                onClick={() => openItem(depth, index)}
                 className={cn(
                   "flex w-full items-center justify-between gap-3 border-b border-slate-100 px-4 py-2.5 text-left text-sm font-medium transition-colors last:border-b-0",
                   isActive

@@ -18,12 +18,35 @@ type NavMenuItemProps = {
 /** Margem mínima entre o painel e a borda da janela. */
 const PANEL_MARGIN = 8;
 
+/** Tolerância ao sair do menu, para o painel não fechar em falsos movimentos. */
+const CLOSE_DELAY_MS = 180;
+
 export function NavMenuItem({ item }: NavMenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [shift, setShift] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasChildren = Boolean(item.children?.length);
+
+  function cancelClose() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }
+
+  function openNow() {
+    cancelClose();
+    setIsOpen(true);
+  }
+
+  function scheduleClose() {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setIsOpen(false), CLOSE_DELAY_MS);
+  }
+
+  useEffect(() => cancelClose, []);
 
   // O painel abre alinhado à esquerda; quando as colunas passam da janela,
   // ele é deslocado para a esquerda até caber.
@@ -96,7 +119,12 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
   }
 
   return (
-    <div ref={wrapperRef} className="relative flex items-stretch">
+    <div
+      ref={wrapperRef}
+      onMouseEnter={openNow}
+      onMouseLeave={scheduleClose}
+      className="relative flex items-stretch"
+    >
       <span
         className={cn(
           "flex items-center whitespace-nowrap px-3 py-2 text-sm font-medium text-white",

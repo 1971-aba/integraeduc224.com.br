@@ -176,8 +176,32 @@ export const professorMenuItems: MenuItem[] = [
           {
             label: "Outras opções",
             children: [
-              { label: "Meus Planos", href: "/professor/planos" },
-              { label: "Gerar Plano com IA", href: "/professor/planos/novo" },
+              {
+                label: "Ensino Fundamental",
+                children: [
+                  {
+                    label: "Meus Planos",
+                    href: "/professor/planos/fundamental",
+                  },
+                  {
+                    label: "Gerar Plano com IA",
+                    href: "/professor/planos/novo?nivel=fundamental",
+                  },
+                ],
+              },
+              {
+                label: "Educação Infantil",
+                children: [
+                  {
+                    label: "Meus Planos",
+                    href: "/professor/planos/infantil",
+                  },
+                  {
+                    label: "Gerar Plano com IA",
+                    href: "/professor/planos/novo?nivel=infantil",
+                  },
+                ],
+              },
             ],
           },
         ],

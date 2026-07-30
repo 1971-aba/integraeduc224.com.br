@@ -1,30 +1,24 @@
 import { GestorPageHeader } from "@/components/dashboard/gestor-page-header";
-import { PlanoCursoView } from "@/components/professor/plano-curso-view";
+import { PlanoCursoListaView } from "@/components/professor/plano-curso-lista-view";
 import { requireRole } from "@/lib/auth";
-import {
-  agruparPlanosCurso,
-  getPlanosProfessor,
-  tituloNivelPlano,
-} from "@/lib/professor-planos";
+import { getPlanosCursoProfessor } from "@/lib/professor-plano-curso";
+import { tituloNivelPlano } from "@/lib/professor-planos";
 
 export default async function PlanoCursoInfantilPage() {
   const { profile } = await requireRole(["professor"]);
-  const grupos = agruparPlanosCurso(
-    await getPlanosProfessor(profile.id),
-    "infantil",
-  );
+  const planos = await getPlanosCursoProfessor(profile.id, "infantil");
   const titulo = tituloNivelPlano("infantil");
 
   return (
     <>
       <GestorPageHeader
         title={`Plano de Curso — ${titulo}`}
-        description={`Visão consolidada dos planos por disciplina e série (${titulo.toLowerCase()})`}
+        description="Planos anuais das disciplinas da educação infantil"
       />
-      <PlanoCursoView
-        grupos={grupos}
-        novoHref="/professor/planos/novo?nivel=infantil"
+      <PlanoCursoListaView
+        planos={planos}
         nivelLabel={titulo.toLowerCase()}
+        novoHref="/professor/planos/curso/novo?nivel=infantil"
       />
     </>
   );

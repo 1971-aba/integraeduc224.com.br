@@ -510,6 +510,36 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["planos_aula"]["Insert"]>;
         Relationships: [];
       };
+      planos_curso: {
+        Row: {
+          id: string;
+          professor_id: string;
+          atribuicao_id: string | null;
+          nivel: "fundamental" | "infantil";
+          disciplina: string;
+          serie: string;
+          titulo: string;
+          conteudo_ia: string;
+          conteudo_final: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          professor_id: string;
+          atribuicao_id?: string | null;
+          nivel: "fundamental" | "infantil";
+          disciplina: string;
+          serie: string;
+          titulo: string;
+          conteudo_ia: string;
+          conteudo_final?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["planos_curso"]["Insert"]>;
+        Relationships: [];
+      };
       profiles: {
         Row: {
           id: string;

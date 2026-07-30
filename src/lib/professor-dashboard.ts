@@ -86,6 +86,7 @@ export const professorMenuItems: MenuItem[] = [
       },
       { label: "Turmas e Disciplinas", href: "/professor/turmas" },
       { label: "Turmas e Alunos", href: "/professor/alunos" },
+      { label: "Horário Escolar", href: "/professor/horario-escolar" },
       {
         label: "Frequência Escolar",
         children: [
@@ -99,6 +100,14 @@ export const professorMenuItems: MenuItem[] = [
           },
         ],
       },
+      {
+        label: "Boletins e Fichas",
+        children: [
+          { label: "Boletim da Turma", href: "/professor/boletins" },
+          { label: "Ficha Individual", href: "/professor/boletins/ficha" },
+        ],
+      },
+      { label: "Aluno nota 10", href: "/professor/alunos-nota-10" },
       {
         label: "Plano de Aula",
         children: [

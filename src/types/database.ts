@@ -50,6 +50,9 @@ export type TipoFormacaoProfessor =
   | "pos_doutorado"
   | "outro";
 
+export type TipoLocalidade = "bairro" | "povoado";
+export type ZonaLocalidade = "urbana" | "rural";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -732,6 +735,80 @@ export type Database = {
         Update: Partial<
           Database["public"]["Tables"]["escala_vigilantes"]["Insert"]
         >;
+        Relationships: [];
+      };
+      escola_localidades: {
+        Row: {
+          id: string;
+          escola_id: string;
+          nome: string;
+          tipo: TipoLocalidade;
+          zona: ZonaLocalidade;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          nome: string;
+          tipo: TipoLocalidade;
+          zona: ZonaLocalidade;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["escola_localidades"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      escolas_informacoes: {
+        Row: {
+          escola_id: string;
+          telefone: string | null;
+          email: string | null;
+          diretor_nome: string | null;
+          vice_diretor_nome: string | null;
+          secretario_nome: string | null;
+          horario_funcionamento: string | null;
+          observacoes: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          escola_id: string;
+          telefone?: string | null;
+          email?: string | null;
+          diretor_nome?: string | null;
+          vice_diretor_nome?: string | null;
+          secretario_nome?: string | null;
+          horario_funcionamento?: string | null;
+          observacoes?: string | null;
+          updated_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["escolas_informacoes"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      rotas_onibus: {
+        Row: {
+          id: string;
+          escola_id: string;
+          nome: string;
+          turno: string | null;
+          motorista: string | null;
+          monitor: string | null;
+          observacoes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          nome: string;
+          turno?: string | null;
+          motorista?: string | null;
+          monitor?: string | null;
+          observacoes?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["rotas_onibus"]["Insert"]>;
         Relationships: [];
       };
       escolas: {

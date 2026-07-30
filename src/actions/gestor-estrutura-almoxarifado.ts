@@ -282,6 +282,8 @@ export async function criarEstruturaEscolar(
   if (await isDevSessionActive()) {
     devEstruturaEscolar.unshift(registro);
     revalidatePath("/gestor/estrutura");
+    revalidatePath("/gestor/estrutura/salas/cadastro");
+    revalidatePath("/gestor/estrutura/salas/relacao");
     return { success: true };
   }
 
@@ -297,6 +299,8 @@ export async function criarEstruturaEscolar(
   if (error) {
     devEstruturaEscolar.unshift(registro);
     revalidatePath("/gestor/estrutura");
+    revalidatePath("/gestor/estrutura/salas/cadastro");
+    revalidatePath("/gestor/estrutura/salas/relacao");
     return { success: true };
   }
 
@@ -316,6 +320,8 @@ export async function excluirEstruturaEscolar(
     );
     if (index >= 0) devEstruturaEscolar.splice(index, 1);
     revalidatePath("/gestor/estrutura");
+    revalidatePath("/gestor/estrutura/salas/cadastro");
+    revalidatePath("/gestor/estrutura/salas/relacao");
     return { success: true };
   }
 

@@ -264,7 +264,45 @@ export const gestorMenuItems: MenuItem[] = [
       },
       { label: "Calendário Escolar", href: "/gestor/calendario" },
       { label: "Reuniões e Eventos", href: "/gestor/reunioes" },
-      { label: "Estrutura e Outros", href: "/gestor/estrutura" },
+      {
+        label: "Estrutura e Outros",
+        children: [
+          {
+            label: "Informações da Escola",
+            href: "/gestor/estrutura/informacoes",
+          },
+          {
+            label: "Salas de Dependências",
+            children: [
+              {
+                label: "Cadastro de Salas",
+                href: "/gestor/estrutura/salas/cadastro",
+              },
+              {
+                label: "Relação de Espaços",
+                href: "/gestor/estrutura/salas/relacao",
+              },
+            ],
+          },
+          {
+            label: "Bairros e Povoados",
+            href: "/gestor/estrutura/bairros",
+          },
+          {
+            label: "Rotas de Ônibus",
+            children: [
+              {
+                label: "Cadastro de Rotas",
+                href: "/gestor/estrutura/rotas/cadastro",
+              },
+              {
+                label: "Consultar Rotas",
+                href: "/gestor/estrutura/rotas/consultar",
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {

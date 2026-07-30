@@ -187,6 +187,18 @@ export const professorMenuItems: MenuItem[] = [
                     label: "Gerar Plano com IA",
                     href: "/professor/planos/novo?nivel=fundamental",
                   },
+                  {
+                    label: "Metodologias",
+                    href: "/professor/planos/outras-opcoes/fundamental/metodologias",
+                  },
+                  {
+                    label: "Recursos",
+                    href: "/professor/planos/outras-opcoes/fundamental/recursos",
+                  },
+                  {
+                    label: "Avaliações",
+                    href: "/professor/planos/outras-opcoes/fundamental/avaliacoes",
+                  },
                 ],
               },
               {
@@ -199,6 +211,18 @@ export const professorMenuItems: MenuItem[] = [
                   {
                     label: "Gerar Plano com IA",
                     href: "/professor/planos/novo?nivel=infantil",
+                  },
+                  {
+                    label: "Metodologias",
+                    href: "/professor/planos/outras-opcoes/infantil/metodologias",
+                  },
+                  {
+                    label: "Recursos",
+                    href: "/professor/planos/outras-opcoes/infantil/recursos",
+                  },
+                  {
+                    label: "Avaliações",
+                    href: "/professor/planos/outras-opcoes/infantil/avaliacoes",
                   },
                 ],
               },

@@ -100,3 +100,107 @@ export async function getPlanosProfessor(
 export function tituloNivelPlano(nivel: NivelEnsinoPlano) {
   return nivel === "fundamental" ? "Ensino Fundamental" : "Educação Infantil";
 }
+
+export type SecaoPlano = "metodologia" | "recursos" | "avaliacao";
+
+type SecaoPlanoConfig = {
+  slug: string;
+  titulo: string;
+  descricao: string;
+  /** Palavras-chave do título da seção no texto do plano, sem acentos. */
+  marcadores: string[];
+};
+
+export const SECOES_PLANO: Record<SecaoPlano, SecaoPlanoConfig> = {
+  metodologia: {
+    slug: "metodologias",
+    titulo: "Metodologias",
+    descricao:
+      "Estratégias e etapas de aula registradas nos seus planos de aula.",
+    marcadores: ["METODOLOGIA"],
+  },
+  recursos: {
+    slug: "recursos",
+    titulo: "Recursos",
+    descricao: "Recursos didáticos previstos nos seus planos de aula.",
+    marcadores: ["RECURSOS"],
+  },
+  avaliacao: {
+    slug: "avaliacoes",
+    titulo: "Avaliações",
+    descricao:
+      "Instrumentos e critérios de avaliação previstos nos seus planos de aula.",
+    marcadores: ["AVALIACAO", "AVALIACOES"],
+  },
+};
+
+function semAcentos(texto: string) {
+  return texto.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
+
+const CABECALHO_SECAO = /^\s*\d+\s*[.)-]\s*(.+?)\s*$/;
+
+/**
+ * Recorta a seção pedida de um plano estruturado com títulos numerados
+ * ("5. METODOLOGIA", "6. RECURSOS DIDÁTICOS", ...).
+ */
+export function extrairSecaoPlano(
+  conteudo: string,
+  secao: SecaoPlano,
+): string | null {
+  const marcadores = SECOES_PLANO[secao].marcadores;
+  const linhas = conteudo.split(/\r?\n/);
+
+  let inicio = -1;
+
+  for (let i = 0; i < linhas.length; i++) {
+    const cabecalho = linhas[i].match(CABECALHO_SECAO)?.[1];
+    if (!cabecalho) continue;
+
+    const normalizado = semAcentos(cabecalho).toUpperCase();
+    if (marcadores.some((marcador) => normalizado.includes(marcador))) {
+      inicio = i + 1;
+      break;
+    }
+  }
+
+  if (inicio === -1) return null;
+
+  const corpo: string[] = [];
+
+  for (let i = inicio; i < linhas.length; i++) {
+    if (CABECALHO_SECAO.test(linhas[i])) break;
+    corpo.push(linhas[i]);
+  }
+
+  const texto = corpo.join("\n").trim();
+  return texto.length > 0 ? texto : null;
+}
+
+export type PlanoSecaoResumo = PlanoAulaResumo & {
+  secao: string | null;
+};
+
+export async function getPlanosSecaoProfessor(
+  professorId: string,
+  nivel: NivelEnsinoPlano,
+  secao: SecaoPlano,
+): Promise<PlanoSecaoResumo[]> {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("planos_aula")
+    .select(
+      "id, tema, serie, disciplina, updated_at, conteudo_ia, conteudo_final",
+    )
+    .eq("professor_id", professorId)
+    .order("updated_at", { ascending: false });
+
+  return (data ?? [])
+    .filter((plano) => planoPertenceAoNivel(plano.serie, nivel))
+    .map(({ conteudo_ia, conteudo_final, ...plano }) => ({
+      ...plano,
+      secao: extrairSecaoPlano(conteudo_final ?? conteudo_ia, secao),
+    }));
+}

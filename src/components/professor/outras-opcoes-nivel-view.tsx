@@ -1,9 +1,15 @@
 import Link from "next/link";
-import { FileText, Sparkles } from "lucide-react";
+import {
+  ClipboardCheck,
+  FileText,
+  Lightbulb,
+  Package,
+  Sparkles,
+} from "lucide-react";
 
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import type { NivelEnsinoPlano } from "@/lib/professor-planos";
-import { tituloNivelPlano } from "@/lib/professor-planos";
+import { SECOES_PLANO, tituloNivelPlano } from "@/lib/professor-planos";
 
 type OutrasOpcoesNivelViewProps = {
   nivel: NivelEnsinoPlano;
@@ -25,10 +31,28 @@ export function OutrasOpcoesNivelView({ nivel }: OutrasOpcoesNivelViewProps) {
       description: `Crie um novo plano de aula para séries do ${titulo.toLowerCase()}.`,
       icon: Sparkles,
     },
+    {
+      href: `/professor/planos/outras-opcoes/${nivel}/metodologias`,
+      title: SECOES_PLANO.metodologia.titulo,
+      description: SECOES_PLANO.metodologia.descricao,
+      icon: Lightbulb,
+    },
+    {
+      href: `/professor/planos/outras-opcoes/${nivel}/recursos`,
+      title: SECOES_PLANO.recursos.titulo,
+      description: SECOES_PLANO.recursos.descricao,
+      icon: Package,
+    },
+    {
+      href: `/professor/planos/outras-opcoes/${nivel}/avaliacoes`,
+      title: SECOES_PLANO.avaliacao.titulo,
+      description: SECOES_PLANO.avaliacao.descricao,
+      icon: ClipboardCheck,
+    },
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {opcoes.map((opcao) => (
         <Link key={opcao.href} href={opcao.href}>
           <Card className="h-full transition-shadow hover:shadow-md">

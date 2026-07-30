@@ -20,7 +20,8 @@ function revalidarExtras(tipo: TipoAtividadeExtra) {
   for (const rota of [
     "turmas",
     "atividades",
-    "professor",
+    "professor/turmas",
+    "professor/atividades",
     "alunos",
     "disciplinas",
     "horario",
@@ -65,6 +66,48 @@ async function resolverEscola(profile: GestorProfile, formData: FormData) {
   }
 
   return { escolaId };
+}
+
+/** Garante que a atividade pertence ao escopo do perfil. */
+async function validarAtividadeExtra(
+  atividadeId: string,
+  profile: GestorProfile,
+) {
+  if (!atividadeId) {
+    return { error: "Atividade não informada." };
+  }
+
+  const supabase = await createClient();
+  const { data: atividade } = await supabase
+    .from("atividades_extras")
+    .select("id, escola_id, tipo")
+    .eq("id", atividadeId)
+    .maybeSingle();
+
+  if (!atividade) {
+    return { error: "Atividade não encontrada." };
+  }
+
+  if (
+    profile.role === "gestor_escolar" &&
+    atividade.escola_id !== profile.escola_id
+  ) {
+    return { error: "Atividade fora da sua escola." };
+  }
+
+  if (profile.role === "admin_sme") {
+    const { data: escola } = await supabase
+      .from("escolas")
+      .select("secretaria_id")
+      .eq("id", atividade.escola_id)
+      .maybeSingle();
+
+    if (escola?.secretaria_id !== profile.secretaria_id) {
+      return { error: "Atividade fora da sua rede." };
+    }
+  }
+
+  return { atividade };
 }
 
 /** Garante que a turma extra pertence ao escopo do perfil. */
@@ -332,6 +375,71 @@ export async function definirProfessorTurmaExtra(
   }
 
   revalidarExtras(access.turma.tipo);
+  return { success: true };
+}
+
+export async function vincularProfessorAtividade(
+  formData: FormData,
+): Promise<ActionResult> {
+  const { profile } = await requireRole([...ROLES_GESTAO]);
+
+  const atividadeId = String(formData.get("atividade_id") ?? "").trim();
+  const professorId = String(formData.get("professor_id") ?? "").trim();
+
+  if (!professorId) return { error: "Selecione um professor." };
+
+  const access = await validarAtividadeExtra(atividadeId, profile);
+  if ("error" in access) return { error: access.error };
+
+  const supabase = await createClient();
+
+  const { data: professor } = await supabase
+    .from("profiles")
+    .select("id, role")
+    .eq("id", professorId)
+    .maybeSingle();
+
+  if (professor?.role !== "professor") {
+    return { error: "Selecione um professor válido." };
+  }
+
+  const { error } = await supabase
+    .from("atividades_extras_professores")
+    .insert({ atividade_id: atividadeId, professor_id: professorId });
+
+  if (error) {
+    return {
+      error: error.code === "23505"
+        ? "Este professor já está vinculado à atividade."
+        : "Não foi possível vincular o professor.",
+    };
+  }
+
+  revalidarExtras(access.atividade.tipo);
+  return { success: true };
+}
+
+export async function desvincularProfessorAtividade(
+  atividadeId: string,
+  professorId: string,
+): Promise<ActionResult> {
+  const { profile } = await requireRole([...ROLES_GESTAO]);
+
+  const access = await validarAtividadeExtra(atividadeId, profile);
+  if ("error" in access) return { error: access.error };
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("atividades_extras_professores")
+    .delete()
+    .eq("atividade_id", atividadeId)
+    .eq("professor_id", professorId);
+
+  if (error) {
+    return { error: "Não foi possível remover o professor." };
+  }
+
+  revalidarExtras(access.atividade.tipo);
   return { success: true };
 }
 

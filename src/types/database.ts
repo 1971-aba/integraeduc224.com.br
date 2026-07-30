@@ -70,6 +70,24 @@ export type Database = {
         >;
         Relationships: [];
       };
+      atividades_extras_professores: {
+        Row: {
+          id: string;
+          atividade_id: string;
+          professor_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          atividade_id: string;
+          professor_id: string;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["atividades_extras_professores"]["Insert"]
+        >;
+        Relationships: [];
+      };
       turmas_extras: {
         Row: {
           id: string;

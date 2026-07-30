@@ -36,9 +36,17 @@ export default async function VincularAlunosExtraPage({
       />
       <VinculosExtrasPanel
         kind="alunos"
-        turmas={turmas}
-        vinculosPorTurma={Object.fromEntries(vinculos)}
+        grupos={turmas.map((turma) => ({
+          id: turma.id,
+          titulo: turma.nome,
+          subtitulo: [turma.turno, turma.atividadeNome]
+            .filter(Boolean)
+            .join(" • "),
+        }))}
+        vinculosPorGrupo={Object.fromEntries(vinculos)}
         opcoes={alunos}
+        emptyTitle="Nenhuma turma cadastrada"
+        emptyDescription="Cadastre uma turma antes de vincular estudantes."
       />
     </>
   );

@@ -251,6 +251,50 @@ export async function getDisciplinasPorTurmaExtra(
   return resultado;
 }
 
+export async function getProfessoresPorAtividade(
+  atividadeIds: string[],
+): Promise<Map<string, VinculoTurmaExtra[]>> {
+  const resultado = new Map<string, VinculoTurmaExtra[]>();
+  if (atividadeIds.length === 0) return resultado;
+
+  const supabase = await createClient();
+
+  const { data: vinculos } = await supabase
+    .from("atividades_extras_professores")
+    .select("atividade_id, professor_id")
+    .in("atividade_id", atividadeIds);
+
+  const professorIds = [
+    ...new Set((vinculos ?? []).map((item) => item.professor_id)),
+  ];
+
+  const { data: professores } = professorIds.length
+    ? await supabase.from("profiles").select("id, nome").in("id", professorIds)
+    : { data: [] };
+
+  const professorMap = new Map(
+    (professores ?? []).map((item) => [item.id, item.nome]),
+  );
+
+  for (const vinculo of vinculos ?? []) {
+    const atual = resultado.get(vinculo.atividade_id) ?? [];
+    atual.push({
+      id: vinculo.professor_id,
+      nome: professorMap.get(vinculo.professor_id) ?? "Professor",
+    });
+    resultado.set(vinculo.atividade_id, atual);
+  }
+
+  for (const [atividadeId, lista] of resultado) {
+    resultado.set(
+      atividadeId,
+      lista.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR")),
+    );
+  }
+
+  return resultado;
+}
+
 /** Estudantes com matrícula ativa nas escolas do perfil. */
 export async function getAlunosDisponiveis(
   profile: Profile,

@@ -7,65 +7,85 @@ import { useState } from "react";
 import {
   desvincularAlunoTurmaExtra,
   desvincularDisciplinaTurmaExtra,
+  desvincularProfessorAtividade,
   vincularAlunoTurmaExtra,
   vincularDisciplinaTurmaExtra,
+  vincularProfessorAtividade,
 } from "@/actions/gestor-extras";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import type { TurmaExtra, VinculoTurmaExtra } from "@/lib/extras-config";
+import type { VinculoTurmaExtra } from "@/lib/extras-config";
 
-type VinculoKind = "alunos" | "disciplinas";
+type VinculoKind = "alunos" | "disciplinas" | "professores";
 
 const TEXTOS: Record<
   VinculoKind,
-  { campo: string; nomeCampo: string; vazio: string; adicionar: string }
+  { campo: string; nomeCampo: string; grupoCampo: string; vazio: string; adicionar: string }
 > = {
   alunos: {
     campo: "Estudante",
     nomeCampo: "aluno_id",
+    grupoCampo: "turma_extra_id",
     vazio: "Nenhum estudante vinculado.",
     adicionar: "Vincular estudante",
   },
   disciplinas: {
     campo: "Disciplina",
     nomeCampo: "disciplina_id",
+    grupoCampo: "turma_extra_id",
     vazio: "Nenhuma disciplina vinculada.",
     adicionar: "Vincular disciplina",
   },
+  professores: {
+    campo: "Professor",
+    nomeCampo: "professor_id",
+    grupoCampo: "atividade_id",
+    vazio: "Nenhum professor vinculado.",
+    adicionar: "Vincular professor",
+  },
+};
+
+/** Turma extra ou atividade que recebe os vínculos. */
+export type GrupoVinculo = {
+  id: string;
+  titulo: string;
+  subtitulo: string;
 };
 
 type VinculosExtrasPanelProps = {
   kind: VinculoKind;
-  turmas: TurmaExtra[];
-  vinculosPorTurma: Record<string, VinculoTurmaExtra[]>;
+  grupos: GrupoVinculo[];
+  vinculosPorGrupo: Record<string, VinculoTurmaExtra[]>;
   opcoes: VinculoTurmaExtra[];
+  emptyTitle: string;
+  emptyDescription: string;
 };
 
 export function VinculosExtrasPanel({
   kind,
-  turmas,
-  vinculosPorTurma,
+  grupos,
+  vinculosPorGrupo,
   opcoes,
+  emptyTitle,
+  emptyDescription,
 }: VinculosExtrasPanelProps) {
-  if (turmas.length === 0) {
+  if (grupos.length === 0) {
     return (
       <Card>
-        <CardTitle>Nenhuma turma cadastrada</CardTitle>
-        <CardDescription className="mt-2">
-          Cadastre uma turma antes de criar vínculos.
-        </CardDescription>
+        <CardTitle>{emptyTitle}</CardTitle>
+        <CardDescription className="mt-2">{emptyDescription}</CardDescription>
       </Card>
     );
   }
 
   return (
     <div className="space-y-4">
-      {turmas.map((turma) => (
-        <TurmaVinculosCard
-          key={turma.id}
+      {grupos.map((grupo) => (
+        <GrupoVinculosCard
+          key={grupo.id}
           kind={kind}
-          turma={turma}
-          vinculos={vinculosPorTurma[turma.id] ?? []}
+          grupo={grupo}
+          vinculos={vinculosPorGrupo[grupo.id] ?? []}
           opcoes={opcoes}
         />
       ))}
@@ -73,14 +93,14 @@ export function VinculosExtrasPanel({
   );
 }
 
-function TurmaVinculosCard({
+function GrupoVinculosCard({
   kind,
-  turma,
+  grupo,
   vinculos,
   opcoes,
 }: {
   kind: VinculoKind;
-  turma: TurmaExtra;
+  grupo: GrupoVinculo;
   vinculos: VinculoTurmaExtra[];
   opcoes: VinculoTurmaExtra[];
 }) {
@@ -95,12 +115,14 @@ function TurmaVinculosCard({
   async function handleAdd(formData: FormData) {
     setLoading(true);
     setError(null);
-    formData.set("turma_extra_id", turma.id);
+    formData.set(textos.grupoCampo, grupo.id);
 
     const result =
       kind === "alunos"
         ? await vincularAlunoTurmaExtra(formData)
-        : await vincularDisciplinaTurmaExtra(formData);
+        : kind === "disciplinas"
+          ? await vincularDisciplinaTurmaExtra(formData)
+          : await vincularProfessorAtividade(formData);
 
     if (result.error) {
       setError(result.error);
@@ -117,8 +139,10 @@ function TurmaVinculosCard({
 
     const result =
       kind === "alunos"
-        ? await desvincularAlunoTurmaExtra(turma.id, id)
-        : await desvincularDisciplinaTurmaExtra(turma.id, id);
+        ? await desvincularAlunoTurmaExtra(grupo.id, id)
+        : kind === "disciplinas"
+          ? await desvincularDisciplinaTurmaExtra(grupo.id, id)
+          : await desvincularProfessorAtividade(grupo.id, id);
 
     if (result.error) {
       setError(result.error);
@@ -131,23 +155,21 @@ function TurmaVinculosCard({
 
   return (
     <Card>
-      <CardTitle>{turma.nome}</CardTitle>
+      <CardTitle>{grupo.titulo}</CardTitle>
       <CardDescription>
-        {turma.turno}
-        {turma.atividadeNome ? ` • ${turma.atividadeNome}` : null} •{" "}
-        {vinculos.length} vínculo(s)
+        {grupo.subtitulo} • {vinculos.length} vínculo(s)
       </CardDescription>
 
       <form action={handleAdd} className="mt-4 flex flex-wrap items-end gap-3">
         <div className="min-w-[240px] flex-1">
           <label
-            htmlFor={`${textos.nomeCampo}-${turma.id}`}
+            htmlFor={`${textos.nomeCampo}-${grupo.id}`}
             className="text-xs font-medium text-slate-700"
           >
             {textos.campo}
           </label>
           <select
-            id={`${textos.nomeCampo}-${turma.id}`}
+            id={`${textos.nomeCampo}-${grupo.id}`}
             name={textos.nomeCampo}
             required
             defaultValue=""

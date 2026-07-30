@@ -12,7 +12,7 @@ import {
   getTurmasExtras,
 } from "@/lib/gestor-extras";
 
-export default async function VincularProfessorExtraPage({
+export default async function VincularProfessorTurmasPage({
   params,
 }: {
   params: Promise<{ tipo: string }>;
@@ -29,7 +29,7 @@ export default async function VincularProfessorExtraPage({
   return (
     <>
       <GestorPageHeader
-        title="Vincular ao Professor"
+        title="Vincular ao Professor — Turmas"
         description={`${TIPOS_ATIVIDADE_EXTRA[tipo].label} — professor responsável por cada turma`}
       />
       <ProfessorExtraPanel turmas={turmas} professores={professores} />

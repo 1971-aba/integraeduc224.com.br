@@ -18,7 +18,13 @@ function menuAtividadesExtras(tipo: "complementar" | "aee"): MenuItem[] {
   return [
     { label: "Cadastro de Turmas", href: `${base}/turmas` },
     { label: "Cadastro de Atividades", href: `${base}/atividades` },
-    { label: "Vincular ao Professor", href: `${base}/professor` },
+    {
+      label: "Vincular ao Professor",
+      children: [
+        { label: "Atividades", href: `${base}/professor/atividades` },
+        { label: "Turmas", href: `${base}/professor/turmas` },
+      ],
+    },
     { label: "Vinculando Alunos", href: `${base}/alunos` },
     { label: "Vincular Disciplinas", href: `${base}/disciplinas` },
     { label: "Horário Complementar", href: `${base}/horario` },
@@ -85,14 +91,6 @@ export const gestorMenuItems: MenuItem[] = [
               {
                 label: "Outras Opções",
                 children: [
-                  {
-                    label: "Turmas por Turno",
-                    href: "/gestor/turmas/outras-opcoes/turno",
-                  },
-                  {
-                    label: "Exportar Relação de Turmas",
-                    href: "/gestor/turmas/outras-opcoes/exportar",
-                  },
                   {
                     label: "Atividades Complementares",
                     children: menuAtividadesExtras("complementar"),

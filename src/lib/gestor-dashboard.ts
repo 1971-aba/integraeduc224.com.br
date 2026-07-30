@@ -125,6 +125,23 @@ export const gestorMenuItems: MenuItem[] = [
             label: "Outras Opções",
             children: [
               {
+                label: "Vincular Aluno Externo",
+                children: [
+                  {
+                    label: "Vincular para Matrícula",
+                    href: "/gestor/alunos/outras-opcoes/vincular/matricula",
+                  },
+                  {
+                    label: "Receber Transferências",
+                    href: "/gestor/alunos/outras-opcoes/vincular/transferencias",
+                  },
+                  {
+                    label: "Resgatar Evasão Escolar",
+                    href: "/gestor/alunos/outras-opcoes/vincular/evasao",
+                  },
+                ],
+              },
+              {
                 label: "Formulário de Matrícula",
                 href: "/gestor/alunos/outras-opcoes/formulario-matricula",
               },

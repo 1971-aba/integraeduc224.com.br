@@ -235,6 +235,163 @@ export function montarHorarioEscolar(
   );
 }
 
+export type ChoqueHorario = {
+  professorId: string;
+  professorNome: string;
+  dia: string;
+  horario: string;
+  turmas: string[];
+};
+
+export type TurmaSemVinculo = {
+  turmaId: string;
+  turmaNome: string;
+  serie: string;
+  turno: string;
+};
+
+export type IrregularidadesHorario = {
+  choques: ChoqueHorario[];
+  turmasSemDisciplina: TurmaSemVinculo[];
+  turmasSemEstudante: TurmaSemVinculo[];
+};
+
+/**
+ * Aponta inconsistências na grade: um professor alocado em duas turmas no
+ * mesmo horário, turmas sem disciplina vinculada e turmas sem matrículas.
+ */
+export function detectarIrregularidadesHorario(
+  slots: SlotHorarioEscolar[],
+  turmas: Array<{
+    turmaId: string;
+    turmaNome: string;
+    serie: string;
+    turno: string;
+    totalAlunos: number;
+  }>,
+  vinculos: VinculoDocente[],
+): IrregularidadesHorario {
+  const porProfessorHorario = new Map<
+    string,
+    { professorNome: string; dia: string; horario: string; turmas: Set<string> }
+  >();
+
+  for (const slot of slots) {
+    const horario = `${slot.horaInicio} às ${slot.horaFim}`;
+    const chave = `${slot.professorId}|${slot.diaIndex}|${slot.horaInicio}`;
+
+    const atual = porProfessorHorario.get(chave) ?? {
+      professorNome: slot.professorNome,
+      dia: slot.dia,
+      horario,
+      turmas: new Set<string>(),
+    };
+
+    atual.turmas.add(`${slot.turmaNome} — ${slot.serie}`);
+    porProfessorHorario.set(chave, atual);
+  }
+
+  const choques: ChoqueHorario[] = [];
+
+  for (const [chave, valor] of porProfessorHorario) {
+    if (valor.turmas.size < 2) continue;
+
+    choques.push({
+      professorId: chave.split("|")[0],
+      professorNome: valor.professorNome,
+      dia: valor.dia,
+      horario: valor.horario,
+      turmas: [...valor.turmas].sort((a, b) => a.localeCompare(b, "pt-BR")),
+    });
+  }
+
+  const turmasComVinculo = new Set(vinculos.map((vinculo) => vinculo.turmaId));
+
+  const resumir = (turma: (typeof turmas)[number]): TurmaSemVinculo => ({
+    turmaId: turma.turmaId,
+    turmaNome: turma.turmaNome,
+    serie: turma.serie,
+    turno: turma.turno,
+  });
+
+  return {
+    choques,
+    turmasSemDisciplina: turmas
+      .filter((turma) => !turmasComVinculo.has(turma.turmaId))
+      .map(resumir),
+    turmasSemEstudante: turmas
+      .filter((turma) => turma.totalAlunos === 0)
+      .map(resumir),
+  };
+}
+
+export type RotinaDia = {
+  dia: string;
+  diaIndex: number;
+  aulas: number;
+  turmas: number;
+  professores: number;
+};
+
+export type CargaSemanal = {
+  id: string;
+  nome: string;
+  aulas: number;
+};
+
+export type RotinasSemanais = {
+  porDia: RotinaDia[];
+  porTurma: CargaSemanal[];
+  porProfessor: CargaSemanal[];
+  totalAulas: number;
+};
+
+export function resumoRotinasSemanais(
+  slots: SlotHorarioEscolar[],
+): RotinasSemanais {
+  const porDia = DIAS_SEMANA.map((dia, diaIndex) => {
+    const doDia = slots.filter((slot) => slot.diaIndex === diaIndex);
+
+    return {
+      dia,
+      diaIndex,
+      aulas: doDia.length,
+      turmas: new Set(doDia.map((slot) => slot.turmaId)).size,
+      professores: new Set(doDia.map((slot) => slot.professorId)).size,
+    };
+  });
+
+  const acumular = (
+    chave: (slot: SlotHorarioEscolar) => { id: string; nome: string },
+  ): CargaSemanal[] => {
+    const map = new Map<string, CargaSemanal>();
+
+    for (const slot of slots) {
+      const { id, nome } = chave(slot);
+      const atual = map.get(id) ?? { id, nome, aulas: 0 };
+      atual.aulas += 1;
+      map.set(id, atual);
+    }
+
+    return [...map.values()].sort(
+      (a, b) => b.aulas - a.aulas || a.nome.localeCompare(b.nome, "pt-BR"),
+    );
+  };
+
+  return {
+    porDia,
+    porTurma: acumular((slot) => ({
+      id: slot.turmaId,
+      nome: `${slot.turmaNome} — ${slot.serie}`,
+    })),
+    porProfessor: acumular((slot) => ({
+      id: slot.professorId,
+      nome: slot.professorNome,
+    })),
+    totalAulas: slots.length,
+  };
+}
+
 export type OpcoesAtribuicao = {
   professores: Array<{ id: string; label: string }>;
   disciplinas: Array<{ id: string; label: string }>;

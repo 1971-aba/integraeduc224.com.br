@@ -50,10 +50,21 @@ export const gestorMenuItems: MenuItem[] = [
               {
                 label: "Horário Escolar",
                 children: [
-                  { label: "Por Turma", href: "/gestor/turmas/horario/turma" },
                   {
-                    label: "Por Professor",
-                    href: "/gestor/turmas/horario/professor",
+                    label: "Horário por Turma",
+                    href: "/gestor/turmas/horario/turma",
+                  },
+                  {
+                    label: "Consultar Horário",
+                    href: "/gestor/turmas/horario/consultar",
+                  },
+                  {
+                    label: "Horário Irregular",
+                    href: "/gestor/turmas/horario/irregular",
+                  },
+                  {
+                    label: "Rotinas Semanais",
+                    href: "/gestor/turmas/horario/rotinas",
                   },
                 ],
               },

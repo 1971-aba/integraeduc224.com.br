@@ -121,6 +121,19 @@ export const gestorMenuItems: MenuItem[] = [
             ],
           },
           { label: "Imprimir Carteirinhas", href: "/gestor/alunos/carteirinhas" },
+          {
+            label: "Outras Opções",
+            children: [
+              {
+                label: "Formulário de Matrícula",
+                href: "/gestor/alunos/outras-opcoes/formulario-matricula",
+              },
+              {
+                label: "Pais de Aluno da Escola",
+                href: "/gestor/alunos/outras-opcoes/pais",
+              },
+            ],
+          },
         ],
       },
       { label: "Cadastro de Professores", href: "/gestor/atribuicoes" },

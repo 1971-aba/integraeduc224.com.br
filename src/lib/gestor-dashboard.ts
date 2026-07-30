@@ -19,7 +19,61 @@ export const gestorMenuItems: MenuItem[] = [
   {
     label: "Cadastros",
     children: [
-      { label: "Turmas e Disciplinas", href: "/gestor/turmas" },
+      {
+        label: "Turmas e Disciplinas",
+        children: [
+          {
+            label: "Turmas",
+            children: [
+              { label: "Cadastro de Turmas", href: "/gestor/turmas" },
+              {
+                label: "Vincular Disciplinas",
+                href: "/gestor/turmas/disciplinas",
+              },
+              {
+                label: "Vincular Professores",
+                children: [
+                  {
+                    label: "Por Turma",
+                    href: "/gestor/turmas/professores/turma",
+                  },
+                  {
+                    label: "Por Professor",
+                    href: "/gestor/turmas/professores/professor",
+                  },
+                ],
+              },
+              {
+                label: "Formação de Turma",
+                href: "/gestor/turmas/formacao",
+              },
+              {
+                label: "Horário Escolar",
+                children: [
+                  { label: "Por Turma", href: "/gestor/turmas/horario/turma" },
+                  {
+                    label: "Por Professor",
+                    href: "/gestor/turmas/horario/professor",
+                  },
+                ],
+              },
+              {
+                label: "Outras Opções",
+                children: [
+                  {
+                    label: "Turmas por Turno",
+                    href: "/gestor/turmas/outras-opcoes/turno",
+                  },
+                  {
+                    label: "Exportar Relação de Turmas",
+                    href: "/gestor/turmas/outras-opcoes/exportar",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
       { label: "Cadastro de Alunos", href: "/gestor/alunos" },
       { label: "Cadastro de Professores", href: "/gestor/atribuicoes" },
       { label: "Cadastro de Servidores", href: "/gestor/servidores" },

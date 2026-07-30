@@ -42,6 +42,14 @@ export type TipoCadastroAluno = "regular" | "ex_aluno";
 
 export type MotivoSaidaExAluno = "concluido" | "transferido" | "cancelado";
 
+export type TipoFormacaoProfessor =
+  | "graduacao"
+  | "especializacao"
+  | "mestrado"
+  | "doutorado"
+  | "pos_doutorado"
+  | "outro";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -878,6 +886,32 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["planos_curso"]["Insert"]>;
+        Relationships: [];
+      };
+      professor_formacao: {
+        Row: {
+          id: string;
+          professor_id: string;
+          titulo: string;
+          instituicao: string | null;
+          tipo: TipoFormacaoProfessor;
+          carga_horaria: number | null;
+          ano_conclusao: number | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          professor_id: string;
+          titulo: string;
+          instituicao?: string | null;
+          tipo: TipoFormacaoProfessor;
+          carga_horaria?: number | null;
+          ano_conclusao?: number | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["professor_formacao"]["Insert"]
+        >;
         Relationships: [];
       };
       profiles: {

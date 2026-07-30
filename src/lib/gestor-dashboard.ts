@@ -232,7 +232,27 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Cadastro de Professores", href: "/gestor/atribuicoes" },
+      {
+        label: "Cadastro de Professores",
+        children: [
+          {
+            label: "Professores da Escola",
+            href: "/gestor/professores/escola",
+          },
+          {
+            label: "Vinculando Disciplinas",
+            href: "/gestor/professores/disciplinas",
+          },
+          {
+            label: "Cursos e Especializações",
+            href: "/gestor/professores/cursos",
+          },
+          {
+            label: "Formulário de Matrícula",
+            href: "/gestor/professores/formulario-matricula",
+          },
+        ],
+      },
       { label: "Cadastro de Servidores", href: "/gestor/servidores" },
       { label: "Calendário Escolar", href: "/gestor/calendario" },
       { label: "Reuniões e Eventos", href: "/gestor/reunioes" },

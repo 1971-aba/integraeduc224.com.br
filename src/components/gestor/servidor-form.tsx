@@ -28,7 +28,7 @@ function formatCpfInput(value: string) {
     .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 }
 
-export function ServidorForm() {
+export function ServidorForm({ fixedRole }: { fixedRole?: UserRole } = {}) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +50,8 @@ export function ServidorForm() {
       email: String(formData.get("email") ?? ""),
       cpf,
       senha,
-      role: String(formData.get("role") ?? "professor") as UserRole,
+      role: (fixedRole ??
+        String(formData.get("role") ?? "professor")) as UserRole,
       ativo: formData.get("ativo") === "on",
     };
 
@@ -68,10 +69,14 @@ export function ServidorForm() {
       className="space-y-4 rounded-xl border border-slate-200 bg-white p-6"
     >
       <h3 className="text-base font-semibold text-slate-900">
-        Novo servidor da escola
+        {fixedRole === "professor"
+          ? "Novo professor"
+          : "Novo servidor da escola"}
       </h3>
       <p className="text-sm text-slate-600">
-        Cadastre coordenadores e professores vinculados à unidade escolar.
+        {fixedRole === "professor"
+          ? "Cadastre professores vinculados à unidade escolar."
+          : "Cadastre coordenadores e professores vinculados à unidade escolar."}
       </p>
 
       {error ? (
@@ -121,23 +126,25 @@ export function ServidorForm() {
           />
         </div>
 
-        <div>
-          <label htmlFor="role" className="mb-1 block text-sm font-medium">
-            Perfil
-          </label>
-          <select
-            id="role"
-            name="role"
-            defaultValue="professor"
-            className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
-          >
-            {ROLE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {!fixedRole ? (
+          <div>
+            <label htmlFor="role" className="mb-1 block text-sm font-medium">
+              Perfil
+            </label>
+            <select
+              id="role"
+              name="role"
+              defaultValue="professor"
+              className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
+            >
+              {ROLE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
 
         <div>
           <label htmlFor="senha" className="mb-1 block text-sm font-medium">
@@ -193,6 +200,8 @@ export function ServidorForm() {
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             Salvando...
           </>
+        ) : fixedRole === "professor" ? (
+          "Cadastrar professor"
         ) : (
           "Cadastrar servidor"
         )}

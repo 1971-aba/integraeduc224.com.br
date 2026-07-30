@@ -18,35 +18,39 @@ type NavMenuItemProps = {
 /** Margem mínima entre o painel e a borda da janela. */
 const PANEL_MARGIN = 8;
 
+/** Espera antes de abrir, para o painel não reagir a uma passagem de mouse. */
+const OPEN_DELAY_MS = 320;
+
 /** Tolerância ao sair do menu, para o painel não fechar em falsos movimentos. */
-const CLOSE_DELAY_MS = 180;
+const CLOSE_DELAY_MS = 450;
 
 export function NavMenuItem({ item }: NavMenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [shift, setShift] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasChildren = Boolean(item.children?.length);
 
-  function cancelClose() {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
+  function cancelPending() {
+    if (hoverTimer.current) {
+      clearTimeout(hoverTimer.current);
+      hoverTimer.current = null;
     }
   }
 
-  function openNow() {
-    cancelClose();
-    setIsOpen(true);
+  function scheduleOpen() {
+    cancelPending();
+    if (isOpen) return;
+    hoverTimer.current = setTimeout(() => setIsOpen(true), OPEN_DELAY_MS);
   }
 
   function scheduleClose() {
-    cancelClose();
-    closeTimer.current = setTimeout(() => setIsOpen(false), CLOSE_DELAY_MS);
+    cancelPending();
+    hoverTimer.current = setTimeout(() => setIsOpen(false), CLOSE_DELAY_MS);
   }
 
-  useEffect(() => cancelClose, []);
+  useEffect(() => cancelPending, []);
 
   // O painel abre alinhado à esquerda; quando as colunas passam da janela,
   // ele é deslocado para a esquerda até caber.
@@ -121,7 +125,7 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
   return (
     <div
       ref={wrapperRef}
-      onMouseEnter={openNow}
+      onMouseEnter={scheduleOpen}
       onMouseLeave={scheduleClose}
       className="relative flex items-stretch"
     >
@@ -138,7 +142,10 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label={`Expandir ${item.label}`}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          cancelPending();
+          setIsOpen((prev) => !prev);
+        }}
         className={cn(
           "flex items-center px-2 py-2 text-white transition-colors hover:bg-white/10",
           isOpen && "bg-white/10",

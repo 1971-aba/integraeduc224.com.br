@@ -2,10 +2,16 @@
 
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import type { MenuItem } from "@/types/dashboard";
+
+/**
+ * Espera antes de abrir ou fechar uma coluna. Sem essa pausa, atravessar o
+ * menu troca de coluna a cada item que o cursor cruza no caminho.
+ */
+const SUBMENU_DELAY_MS = 320;
 
 function menuItemKey(item: MenuItem, index: number, prefix: string) {
   return `${prefix}-${index}-${item.href ?? item.label}`;
@@ -18,6 +24,16 @@ type NavDropdownPanelProps = {
 
 export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
   const [path, setPath] = useState<number[]>([]);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function cancelPending() {
+    if (timer.current) {
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
+  }
+
+  useEffect(() => cancelPending, []);
 
   const columns = useMemo(() => {
     const result: MenuItem[][] = [items];
@@ -34,12 +50,27 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
 
   /** Abre a coluna do item apontado, descartando os níveis mais profundos. */
   function openItem(depth: number, index: number) {
+    cancelPending();
     setPath((current) => [...current.slice(0, depth), index]);
   }
 
   /** Item sem filhos: fecha as colunas abertas a partir deste nível. */
   function closeDeeper(depth: number) {
+    cancelPending();
     setPath((current) => current.slice(0, depth));
+  }
+
+  function openItemAfterDelay(depth: number, index: number) {
+    cancelPending();
+    timer.current = setTimeout(
+      () => openItem(depth, index),
+      SUBMENU_DELAY_MS,
+    );
+  }
+
+  function closeDeeperAfterDelay(depth: number) {
+    cancelPending();
+    timer.current = setTimeout(() => closeDeeper(depth), SUBMENU_DELAY_MS);
   }
 
   return (
@@ -62,7 +93,7 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
                 <Link
                   key={menuItemKey(item, index, prefix)}
                   href={item.href ?? "#"}
-                  onMouseEnter={() => closeDeeper(depth)}
+                  onMouseEnter={() => closeDeeperAfterDelay(depth)}
                   onFocus={() => closeDeeper(depth)}
                   onClick={onNavigate}
                   className="block border-b border-slate-100 px-4 py-2.5 text-sm font-medium text-[#1E7BB8] transition-colors last:border-b-0 hover:bg-[#E3F2FD]"
@@ -77,7 +108,7 @@ export function NavDropdownPanel({ items, onNavigate }: NavDropdownPanelProps) {
                 key={menuItemKey(item, index, prefix)}
                 type="button"
                 aria-expanded={isActive}
-                onMouseEnter={() => openItem(depth, index)}
+                onMouseEnter={() => openItemAfterDelay(depth, index)}
                 onFocus={() => openItem(depth, index)}
                 onClick={() => openItem(depth, index)}
                 className={cn(

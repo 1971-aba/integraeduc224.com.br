@@ -53,7 +53,27 @@ export const professorMenuItems: MenuItem[] = [
       {
         label: "Diário Eletrônico",
         children: [
-          { label: "Informar Frequências", href: "/professor/turmas" },
+          {
+            label: "Informar Frequências",
+            children: [
+              {
+                label: "Frequência Turma",
+                href: "/professor/frequencia/turma",
+              },
+              {
+                label: "Corrigir Frequência",
+                href: "/professor/frequencia/corrigir",
+              },
+              {
+                label: "Ativ. Complementar",
+                href: "/professor/frequencia/atividade-complementar",
+              },
+              {
+                label: "Acompanhamento AEE",
+                href: "/professor/frequencia/aee",
+              },
+            ],
+          },
           {
             label: "Pendências do Diário",
             href: "/professor/diario/pendencias",

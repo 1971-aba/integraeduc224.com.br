@@ -133,6 +133,8 @@ export type Database = {
           id: string;
           atribuicao_id: string;
           data: string;
+          tipo: string;
+          observacao: string | null;
           created_by: string;
           created_at: string;
           updated_at: string;
@@ -141,6 +143,8 @@ export type Database = {
           id?: string;
           atribuicao_id: string;
           data: string;
+          tipo?: string;
+          observacao?: string | null;
           created_by: string;
           created_at?: string;
           updated_at?: string;

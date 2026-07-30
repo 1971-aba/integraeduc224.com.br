@@ -39,6 +39,7 @@ export default async function ChamadaPage({
       .select("id")
       .eq("atribuicao_id", atribuicaoId)
       .eq("data", data)
+      .eq("tipo", "regular")
       .maybeSingle(),
   ]);
 

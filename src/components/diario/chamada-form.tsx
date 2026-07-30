@@ -8,6 +8,7 @@ import { salvarChamada } from "@/actions/diario";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatDateInput, type PresencaStatus } from "@/lib/diario-utils";
+import type { ChamadaTipo } from "@/lib/chamada-tipos";
 import { cn } from "@/lib/utils";
 
 type AlunoChamada = {
@@ -21,6 +22,11 @@ type ChamadaFormProps = {
   dataInicial: string;
   alunos: AlunoChamada[];
   diaLetivo: boolean;
+  tipo?: ChamadaTipo;
+  observacaoInicial?: string;
+  permitirCorrecao?: boolean;
+  titulo?: string;
+  voltarHref?: string;
 };
 
 const statusOptions: Array<{
@@ -54,10 +60,15 @@ export function ChamadaForm({
   dataInicial,
   alunos: alunosIniciais,
   diaLetivo: diaLetivoInicial,
+  tipo = "regular",
+  observacaoInicial = "",
+  permitirCorrecao = false,
+  titulo,
 }: ChamadaFormProps) {
   const router = useRouter();
   const [data, setData] = useState(dataInicial);
   const [alunos, setAlunos] = useState(alunosIniciais);
+  const [observacao, setObservacao] = useState(observacaoInicial);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,6 +106,11 @@ export function ChamadaForm({
         matriculaId: aluno.matriculaId,
         status: aluno.status,
       })),
+      {
+        tipo,
+        observacao: observacao || undefined,
+        permitirCorrecao,
+      },
     );
 
     if (result.error) {
@@ -108,9 +124,13 @@ export function ChamadaForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 pb-24 sm:pb-0">
+      {titulo ? (
+        <h2 className="text-lg font-semibold text-slate-900">{titulo}</h2>
+      ) : null}
+
       <div className="rounded-2xl border border-slate-200 bg-white p-4">
         <label htmlFor="data-chamada" className="text-sm font-medium text-slate-700">
-          Data da aula
+          Data {tipo === "complementar" ? "da atividade" : tipo === "aee" ? "do atendimento" : "da aula"}
         </label>
         <Input
           id="data-chamada"
@@ -121,18 +141,43 @@ export function ChamadaForm({
             setData(novaData);
             setMessage(null);
             setError(null);
-            router.push(`?data=${novaData}`);
+            if (!permitirCorrecao) {
+              router.push(`?data=${novaData}`);
+            }
           }}
           className="mt-2"
           required
         />
         <p className="mt-2 text-sm text-slate-500">
           {formatDateInput(data)}
-          {!diaLetivoInicial && data === dataInicial ? (
+          {!permitirCorrecao && !diaLetivoInicial && data === dataInicial ? (
             <span className="ml-2 text-amber-700">— dia não letivo</span>
+          ) : null}
+          {permitirCorrecao ? (
+            <span className="ml-2 text-blue-700">— modo correção</span>
           ) : null}
         </p>
       </div>
+
+      {tipo !== "regular" ? (
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <label htmlFor="observacao-chamada" className="text-sm font-medium text-slate-700">
+            {tipo === "aee" ? "Registro do atendimento AEE" : "Descrição da atividade"}
+          </label>
+          <textarea
+            id="observacao-chamada"
+            value={observacao}
+            onChange={(event) => setObservacao(event.target.value)}
+            rows={3}
+            className="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900"
+            placeholder={
+              tipo === "aee"
+                ? "Objetivos, estratégias e observações do atendimento..."
+                : "Tema, local e observações da atividade complementar..."
+            }
+          />
+        </div>
+      ) : null}
 
       <div className="flex flex-wrap gap-2">
         <Button type="button" variant="secondary" onClick={() => marcarTodos("presente")}>
@@ -208,7 +253,7 @@ export function ChamadaForm({
             Salvando...
           </>
         ) : (
-          "Salvar chamada"
+          permitirCorrecao ? "Salvar correção" : "Salvar chamada"
         )}
       </Button>
     </form>

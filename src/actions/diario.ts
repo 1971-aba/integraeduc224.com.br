@@ -8,6 +8,8 @@ import {
   validateDiaLetivo,
 } from "@/lib/diario";
 import type { PresencaStatus } from "@/lib/diario-utils";
+import type { ChamadaTipo } from "@/lib/chamada-tipos";
+import { isChamadaTipo } from "@/lib/chamada-tipos";
 import { createClient } from "@/lib/supabase/server";
 
 type ActionResult = { error?: string; success?: boolean };
@@ -30,14 +32,26 @@ export async function salvarChamada(
   atribuicaoId: string,
   data: string,
   registros: Array<{ matriculaId: string; status: PresencaStatus }>,
+  options?: {
+    tipo?: ChamadaTipo;
+    observacao?: string;
+    permitirCorrecao?: boolean;
+  },
 ): Promise<ActionResult> {
   try {
+    const tipo = options?.tipo ?? "regular";
+    if (!isChamadaTipo(tipo)) {
+      return { error: "Tipo de frequência inválido." };
+    }
+
     const { profile, atribuicao } =
       await assertProfessorAtribuicao(atribuicaoId);
 
-    const diaLetivo = await validateDiaLetivo(data, atribuicao.ano_letivo_id);
-    if (!diaLetivo) {
-      return { error: "A data selecionada não é um dia letivo válido." };
+    if (!options?.permitirCorrecao) {
+      const diaLetivo = await validateDiaLetivo(data, atribuicao.ano_letivo_id);
+      if (!diaLetivo) {
+        return { error: "A data selecionada não é um dia letivo válido." };
+      }
     }
 
     if (registros.length === 0) {
@@ -45,6 +59,7 @@ export async function salvarChamada(
     }
 
     const supabase = await createClient();
+    const observacao = options?.observacao?.trim() || null;
 
     const { data: chamada, error: chamadaError } = await supabase
       .from("chamadas")
@@ -52,9 +67,11 @@ export async function salvarChamada(
         {
           atribuicao_id: atribuicaoId,
           data,
+          tipo,
+          observacao,
           created_by: profile.id,
         },
-        { onConflict: "atribuicao_id,data" },
+        { onConflict: "atribuicao_id,data,tipo" },
       )
       .select("id")
       .single();
@@ -79,6 +96,11 @@ export async function salvarChamada(
     }
 
     revalidatePath(`/professor/turma/${atribuicaoId}/chamada`);
+    revalidatePath("/professor/frequencia/turma");
+    revalidatePath("/professor/frequencia/corrigir");
+    revalidatePath(`/professor/frequencia/corrigir/${atribuicaoId}`);
+    revalidatePath("/professor/frequencia/atividade-complementar");
+    revalidatePath("/professor/frequencia/aee");
     return { success: true };
   } catch {
     return { error: "Erro ao salvar chamada." };

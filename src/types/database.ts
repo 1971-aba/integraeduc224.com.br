@@ -14,6 +14,8 @@ type UserRoleEnum =
   | "professor"
   | "tecnico_sga";
 
+export type TipoAtividadeExtra = "complementar" | "aee";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -42,6 +44,116 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;
+        Relationships: [];
+      };
+      atividades_extras: {
+        Row: {
+          id: string;
+          escola_id: string;
+          tipo: TipoAtividadeExtra;
+          nome: string;
+          descricao: string | null;
+          carga_horaria_semanal: number | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          tipo: TipoAtividadeExtra;
+          nome: string;
+          descricao?: string | null;
+          carga_horaria_semanal?: number | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["atividades_extras"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      turmas_extras: {
+        Row: {
+          id: string;
+          escola_id: string;
+          tipo: TipoAtividadeExtra;
+          nome: string;
+          turno: string;
+          local: string | null;
+          atividade_id: string | null;
+          professor_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          tipo: TipoAtividadeExtra;
+          nome: string;
+          turno?: string;
+          local?: string | null;
+          atividade_id?: string | null;
+          professor_id?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["turmas_extras"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      turmas_extras_alunos: {
+        Row: {
+          id: string;
+          turma_extra_id: string;
+          aluno_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          turma_extra_id: string;
+          aluno_id: string;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["turmas_extras_alunos"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      turmas_extras_disciplinas: {
+        Row: {
+          id: string;
+          turma_extra_id: string;
+          disciplina_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          turma_extra_id: string;
+          disciplina_id: string;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["turmas_extras_disciplinas"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      horarios_extras: {
+        Row: {
+          id: string;
+          turma_extra_id: string;
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fim: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          turma_extra_id: string;
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fim: string;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["horarios_extras"]["Insert"]
+        >;
         Relationships: [];
       };
       anos_letivos: {

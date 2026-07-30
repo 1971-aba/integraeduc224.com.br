@@ -11,6 +11,20 @@ function emBreve(modulo: string) {
   return `${EM_BREVE_BASE}?modulo=${encodeURIComponent(modulo)}`;
 }
 
+/** Atividades Complementares e AEE compartilham as mesmas seis telas. */
+function menuAtividadesExtras(tipo: "complementar" | "aee"): MenuItem[] {
+  const base = `/gestor/turmas/outras-opcoes/${tipo}`;
+
+  return [
+    { label: "Cadastro de Turmas", href: `${base}/turmas` },
+    { label: "Cadastro de Atividades", href: `${base}/atividades` },
+    { label: "Vincular ao Professor", href: `${base}/professor` },
+    { label: "Vinculando Alunos", href: `${base}/alunos` },
+    { label: "Vincular Disciplinas", href: `${base}/disciplinas` },
+    { label: "Horário Complementar", href: `${base}/horario` },
+  ];
+}
+
 export const gestorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -78,6 +92,14 @@ export const gestorMenuItems: MenuItem[] = [
                   {
                     label: "Exportar Relação de Turmas",
                     href: "/gestor/turmas/outras-opcoes/exportar",
+                  },
+                  {
+                    label: "Atividades Complementares",
+                    children: menuAtividadesExtras("complementar"),
+                  },
+                  {
+                    label: "Acompanhamento do AEE",
+                    children: menuAtividadesExtras("aee"),
                   },
                 ],
               },

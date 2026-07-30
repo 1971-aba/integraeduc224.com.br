@@ -16,6 +16,10 @@ type UserRoleEnum =
 
 export type TipoAtividadeExtra = "complementar" | "aee";
 
+export type TipoProgramaProjeto = "projeto" | "programa";
+
+export type EtapaProgramaProjeto = "fundamental" | "infantil";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -44,6 +48,54 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;
+        Relationships: [];
+      };
+      programas_projetos: {
+        Row: {
+          id: string;
+          escola_id: string;
+          tipo: TipoProgramaProjeto;
+          etapa: EtapaProgramaProjeto;
+          nome: string;
+          descricao: string | null;
+          responsavel: string | null;
+          data_inicio: string | null;
+          data_fim: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          tipo: TipoProgramaProjeto;
+          etapa: EtapaProgramaProjeto;
+          nome: string;
+          descricao?: string | null;
+          responsavel?: string | null;
+          data_inicio?: string | null;
+          data_fim?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["programas_projetos"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      programas_projetos_alunos: {
+        Row: {
+          id: string;
+          programa_projeto_id: string;
+          aluno_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          programa_projeto_id: string;
+          aluno_id: string;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["programas_projetos_alunos"]["Insert"]
+        >;
         Relationships: [];
       };
       fichas_medicas: {

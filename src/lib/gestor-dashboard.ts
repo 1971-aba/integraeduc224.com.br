@@ -31,6 +31,19 @@ function menuAtividadesExtras(tipo: "complementar" | "aee"): MenuItem[] {
   ];
 }
 
+/** Projetos e Programas usam as mesmas quatro telas, mudando apenas o tipo. */
+function menuProgramasProjetos(tipo: "projetos" | "programas"): MenuItem[] {
+  const base = `/gestor/alunos/outras-opcoes/programas-projetos/${tipo}`;
+  const rotulo = tipo === "projetos" ? "Projetos" : "Programas";
+
+  return [
+    { label: `${rotulo} Fundamental`, href: `${base}/fundamental` },
+    { label: `${rotulo} Infantil`, href: `${base}/infantil` },
+    { label: "Vincular Alunos", href: `${base}/vincular` },
+    { label: "Consultar Aluno", href: `${base}/consultar` },
+  ];
+}
+
 export const gestorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -148,6 +161,19 @@ export const gestorMenuItems: MenuItem[] = [
               {
                 label: "Pais de Aluno da Escola",
                 href: "/gestor/alunos/outras-opcoes/pais",
+              },
+              {
+                label: "Programas e Projetos",
+                children: [
+                  {
+                    label: "Projetos",
+                    children: menuProgramasProjetos("projetos"),
+                  },
+                  {
+                    label: "Programas",
+                    children: menuProgramasProjetos("programas"),
+                  },
+                ],
               },
             ],
           },

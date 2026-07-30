@@ -204,8 +204,16 @@ export const gestorMenuItems: MenuItem[] = [
                 href: "/gestor/alunos/outras-opcoes/formulario-matricula",
               },
               {
+                label: "Alunos Ensino Médio",
+                href: "/gestor/alunos/outras-opcoes/ensino-medio",
+              },
+              {
                 label: "Pais de Aluno da Escola",
                 href: "/gestor/alunos/outras-opcoes/pais",
+              },
+              {
+                label: "Cadastrar Ex-aluno",
+                href: "/gestor/alunos/outras-opcoes/ex-aluno",
               },
               {
                 label: "Programas e Projetos",

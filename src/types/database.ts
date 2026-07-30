@@ -38,6 +38,10 @@ export type ParentescoResponsavel =
   | "tutor"
   | "outro";
 
+export type TipoCadastroAluno = "regular" | "ex_aluno";
+
+export type MotivoSaidaExAluno = "concluido" | "transferido" | "cancelado";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -53,6 +57,11 @@ export type Database = {
           data_nascimento: string | null;
           nome_mae: string | null;
           nis: string | null;
+          tipo_cadastro: TipoCadastroAluno;
+          ultima_serie: string | null;
+          ano_conclusao: number | null;
+          motivo_saida: MotivoSaidaExAluno | null;
+          escola_origem_id: string | null;
           created_at: string;
         };
         Insert: {
@@ -63,6 +72,11 @@ export type Database = {
           data_nascimento?: string | null;
           nome_mae?: string | null;
           nis?: string | null;
+          tipo_cadastro?: TipoCadastroAluno;
+          ultima_serie?: string | null;
+          ano_conclusao?: number | null;
+          motivo_saida?: MotivoSaidaExAluno | null;
+          escola_origem_id?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;

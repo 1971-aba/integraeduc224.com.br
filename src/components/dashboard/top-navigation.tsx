@@ -31,22 +31,26 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
   }
 
   return (
-    <div
-      className="group relative"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-    >
-      <button
-        type="button"
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        onClick={() => setIsOpen((prev) => !prev)}
+    <div className="relative flex items-stretch">
+      <span
         className={cn(
-          "flex items-center gap-1 whitespace-nowrap px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10",
+          "flex items-center whitespace-nowrap px-3 py-2 text-sm font-medium text-white",
           isOpen && "bg-white/10",
         )}
       >
         {item.label}
+      </span>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        aria-label={`Expandir ${item.label}`}
+        onClick={() => setIsOpen((prev) => !prev)}
+        className={cn(
+          "flex items-center px-2 py-2 text-white transition-colors hover:bg-white/10",
+          isOpen && "bg-white/10",
+        )}
+      >
         <ChevronDown
           className={cn(
             "h-3.5 w-3.5 transition-transform duration-150",
@@ -55,19 +59,13 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
         />
       </button>
 
-      <div
-        className={cn(
-          "absolute left-0 top-full z-50 max-w-[min(100vw-1rem,20rem)] rounded-md border border-slate-200 bg-white py-1 shadow-lg transition-all duration-150",
-          isOpen
-            ? "visible translate-y-0 opacity-100"
-            : "invisible -translate-y-1 opacity-0",
-          "group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
-        )}
-      >
-        {item.children!.length > 0 ? (
-          <NavDropdownPanel items={item.children!} depth={0} />
-        ) : null}
-      </div>
+      {isOpen ? (
+        <div className="absolute left-0 top-full z-50 max-w-[min(100vw-1rem,20rem)] rounded-md border border-slate-200 bg-white py-1 shadow-lg">
+          {item.children!.length > 0 ? (
+            <NavDropdownPanel items={item.children!} depth={0} />
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

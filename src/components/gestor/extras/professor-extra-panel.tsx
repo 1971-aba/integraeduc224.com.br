@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { definirProfessorTurmaExtra } from "@/actions/gestor-extras";
+import { ExtrasEmptyState } from "@/components/gestor/extras/extras-empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import type { TurmaExtra, VinculoTurmaExtra } from "@/lib/extras-config";
@@ -12,20 +13,22 @@ import type { TurmaExtra, VinculoTurmaExtra } from "@/lib/extras-config";
 type ProfessorExtraPanelProps = {
   turmas: TurmaExtra[];
   professores: VinculoTurmaExtra[];
+  cadastroTurmasHref: string;
 };
 
 export function ProfessorExtraPanel({
   turmas,
   professores,
+  cadastroTurmasHref,
 }: ProfessorExtraPanelProps) {
   if (turmas.length === 0) {
     return (
-      <Card>
-        <CardTitle>Nenhuma turma cadastrada</CardTitle>
-        <CardDescription className="mt-2">
-          Cadastre uma turma antes de vincular professores.
-        </CardDescription>
-      </Card>
+      <ExtrasEmptyState
+        title="Nenhuma turma cadastrada"
+        description="Cadastre uma turma antes de definir o professor responsável."
+        actionHref={cadastroTurmasHref}
+        actionLabel="Cadastrar turma"
+      />
     );
   }
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { criarHorarioExtra, excluirHorarioExtra } from "@/actions/gestor-extras";
+import { ExtrasEmptyState } from "@/components/gestor/extras/extras-empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { DIAS_SEMANA_EXTRAS } from "@/lib/extras-config";
@@ -13,20 +14,22 @@ import type { HorarioExtra, TurmaExtra } from "@/lib/extras-config";
 type HorarioExtraPanelProps = {
   turmas: TurmaExtra[];
   horarios: HorarioExtra[];
+  cadastroTurmasHref: string;
 };
 
 export function HorarioExtraPanel({
   turmas,
   horarios,
+  cadastroTurmasHref,
 }: HorarioExtraPanelProps) {
   if (turmas.length === 0) {
     return (
-      <Card>
-        <CardTitle>Nenhuma turma cadastrada</CardTitle>
-        <CardDescription className="mt-2">
-          Cadastre uma turma antes de montar o horário.
-        </CardDescription>
-      </Card>
+      <ExtrasEmptyState
+        title="Nenhuma turma cadastrada"
+        description="Cadastre uma turma antes de montar o horário dos atendimentos."
+        actionHref={cadastroTurmasHref}
+        actionLabel="Cadastrar turma"
+      />
     );
   }
 

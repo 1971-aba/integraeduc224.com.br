@@ -47,6 +47,8 @@ export default async function VincularAlunosExtraPage({
         opcoes={alunos}
         emptyTitle="Nenhuma turma cadastrada"
         emptyDescription="Cadastre uma turma antes de vincular estudantes."
+        emptyActionHref={`/gestor/turmas/outras-opcoes/${tipo}/turmas`}
+        emptyActionLabel="Cadastrar turma"
       />
     </>
   );

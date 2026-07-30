@@ -29,7 +29,11 @@ export default async function HorarioComplementarPage({
         title="Horário Complementar"
         description={`${TIPOS_ATIVIDADE_EXTRA[tipo].label} — grade semanal dos atendimentos`}
       />
-      <HorarioExtraPanel turmas={turmas} horarios={horarios} />
+      <HorarioExtraPanel
+        turmas={turmas}
+        horarios={horarios}
+        cadastroTurmasHref={`/gestor/turmas/outras-opcoes/${tipo}/turmas`}
+      />
     </>
   );
 }

@@ -12,6 +12,7 @@ import {
   vincularDisciplinaTurmaExtra,
   vincularProfessorAtividade,
 } from "@/actions/gestor-extras";
+import { ExtrasEmptyState } from "@/components/gestor/extras/extras-empty-state";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import type { VinculoTurmaExtra } from "@/lib/extras-config";
@@ -59,6 +60,8 @@ type VinculosExtrasPanelProps = {
   opcoes: VinculoTurmaExtra[];
   emptyTitle: string;
   emptyDescription: string;
+  emptyActionHref: string;
+  emptyActionLabel: string;
 };
 
 export function VinculosExtrasPanel({
@@ -68,13 +71,17 @@ export function VinculosExtrasPanel({
   opcoes,
   emptyTitle,
   emptyDescription,
+  emptyActionHref,
+  emptyActionLabel,
 }: VinculosExtrasPanelProps) {
   if (grupos.length === 0) {
     return (
-      <Card>
-        <CardTitle>{emptyTitle}</CardTitle>
-        <CardDescription className="mt-2">{emptyDescription}</CardDescription>
-      </Card>
+      <ExtrasEmptyState
+        title={emptyTitle}
+        description={emptyDescription}
+        actionHref={emptyActionHref}
+        actionLabel={emptyActionLabel}
+      />
     );
   }
 

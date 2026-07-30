@@ -47,6 +47,8 @@ export default async function VincularDisciplinasExtraPage({
         opcoes={disciplinas}
         emptyTitle="Nenhuma turma cadastrada"
         emptyDescription="Cadastre uma turma antes de vincular disciplinas."
+        emptyActionHref={`/gestor/turmas/outras-opcoes/${tipo}/turmas`}
+        emptyActionLabel="Cadastrar turma"
       />
     </>
   );

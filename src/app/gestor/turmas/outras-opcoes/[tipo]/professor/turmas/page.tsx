@@ -32,7 +32,11 @@ export default async function VincularProfessorTurmasPage({
         title="Vincular ao Professor — Turmas"
         description={`${TIPOS_ATIVIDADE_EXTRA[tipo].label} — professor responsável por cada turma`}
       />
-      <ProfessorExtraPanel turmas={turmas} professores={professores} />
+      <ProfessorExtraPanel
+        turmas={turmas}
+        professores={professores}
+        cadastroTurmasHref={`/gestor/turmas/outras-opcoes/${tipo}/turmas`}
+      />
     </>
   );
 }

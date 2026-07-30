@@ -52,6 +52,8 @@ export default async function VincularProfessorAtividadesPage({
         opcoes={professores}
         emptyTitle="Nenhuma atividade cadastrada"
         emptyDescription="Cadastre uma atividade antes de vincular professores."
+        emptyActionHref={`/gestor/turmas/outras-opcoes/${tipo}/atividades`}
+        emptyActionLabel="Cadastrar atividade"
       />
     </>
   );

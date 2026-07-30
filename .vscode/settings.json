@@ -1,0 +1,24 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/out/**": true,
+    "**/dist/**": true,
+    "**/.turbo/**": true,
+    "**/tmp-pdf/**": true,
+    "**/Plataforma Aplicar/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/tmp-pdf": true,
+    "**/Plataforma Aplicar": true
+  },
+  "files.exclude": {
+    "**/.next": true,
+    "**/.turbo": true
+  }
+}

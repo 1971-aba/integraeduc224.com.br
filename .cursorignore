@@ -1,0 +1,15 @@
+﻿node_modules/
+.next/
+out/
+build/
+dist/
+.turbo/
+coverage/
+.vercel/
+tmp-pdf/
+Plataforma Aplicar/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.pdf

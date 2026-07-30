@@ -5,6 +5,7 @@ import type {
 
 export type FrequenciaAlunoLinha = FrequenciaAlunoResumo & {
   atribuicaoId: string;
+  turmaId: string;
   turma: string;
   serie: string;
   disciplina: string;
@@ -40,6 +41,7 @@ export function flattenFrequenciaAlunos(
       linhas.push({
         ...aluno,
         atribuicaoId: turma.atribuicaoId,
+        turmaId: turma.turmaId,
         turma: turma.turma,
         serie: turma.serie,
         disciplina: turma.disciplina,

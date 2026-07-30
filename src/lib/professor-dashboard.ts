@@ -124,8 +124,23 @@ export const professorMenuItems: MenuItem[] = [
       {
         label: "Boletins e Fichas",
         children: [
-          { label: "Boletim da Turma", href: "/professor/boletins" },
-          { label: "Ficha Individual", href: "/professor/boletins/ficha" },
+          {
+            label: "Ficha de Notas",
+            children: [
+              {
+                label: "Ensino Fundamental",
+                href: "/professor/boletins/ficha-notas/fundamental",
+              },
+              {
+                label: "Educação Infantil",
+                href: "/professor/boletins/ficha-notas/infantil",
+              },
+            ],
+          },
+          {
+            label: "Boletim Individual",
+            href: "/professor/boletins/individual",
+          },
         ],
       },
       { label: "Aluno nota 10", href: "/professor/alunos-nota-10" },

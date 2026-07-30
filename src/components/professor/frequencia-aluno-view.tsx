@@ -144,7 +144,7 @@ export function FrequenciaAlunoView({
                   {linha.totalAulas} aulas
                 </p>
                 <Link
-                  href={`/professor/boletins/ficha?turma=${linha.atribuicaoId}&aluno=${linha.matriculaId}`}
+                  href={`/professor/boletins/individual?turma=${linha.turmaId}&aluno=${linha.matriculaId}`}
                   className="mt-2 inline-block text-sm font-medium text-[#1E7BB8] hover:underline"
                 >
                   Ver ficha individual

@@ -60,9 +60,9 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
       </button>
 
       {isOpen ? (
-        <div className="absolute left-0 top-full z-50 max-w-[min(100vw-1rem,20rem)] rounded-md border border-slate-200 bg-white py-1 shadow-lg">
+        <div className="absolute left-0 top-full z-50 max-w-[calc(100vw-1rem)] overflow-x-auto rounded-md border border-slate-200 bg-white shadow-lg">
           {item.children!.length > 0 ? (
-            <NavDropdownPanel items={item.children!} depth={0} />
+            <NavDropdownPanel items={item.children!} />
           ) : null}
         </div>
       ) : null}

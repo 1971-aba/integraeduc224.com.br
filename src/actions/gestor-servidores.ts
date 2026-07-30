@@ -208,11 +208,12 @@ export async function createServidorEscola(input: ServidorInput) {
   }
 
   revalidatePath("/gestor/servidores");
+  revalidatePath("/gestor/servidores/escola");
   revalidatePath("/gestor/professores/escola");
   redirect(
     input.role === "professor"
       ? "/gestor/professores/escola"
-      : "/gestor/servidores",
+      : "/gestor/servidores/escola",
   );
 }
 
@@ -280,5 +281,6 @@ export async function toggleServidorAtivo(userId: string, ativo: boolean) {
   }
 
   revalidatePath("/gestor/servidores");
+  revalidatePath("/gestor/servidores/escola");
   return { success: true };
 }

@@ -253,7 +253,15 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Cadastro de Servidores", href: "/gestor/servidores" },
+      {
+        label: "Cadastro de Servidores",
+        children: [
+          {
+            label: "Servidores da Escola",
+            href: "/gestor/servidores/escola",
+          },
+        ],
+      },
       { label: "Calendário Escolar", href: "/gestor/calendario" },
       { label: "Reuniões e Eventos", href: "/gestor/reunioes" },
       { label: "Estrutura e Outros", href: "/gestor/estrutura" },

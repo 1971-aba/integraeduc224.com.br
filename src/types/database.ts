@@ -20,6 +20,15 @@ export type TipoProgramaProjeto = "projeto" | "programa";
 
 export type EtapaProgramaProjeto = "fundamental" | "infantil";
 
+/** Categorias de cor/raça do Censo Escolar. */
+export type CorRaca =
+  | "branca"
+  | "preta"
+  | "parda"
+  | "amarela"
+  | "indigena"
+  | "nao_declarada";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -48,6 +57,32 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["alunos"]["Insert"]>;
+        Relationships: [];
+      };
+      alunos_complementares: {
+        Row: {
+          id: string;
+          aluno_id: string;
+          cor_raca: CorRaca | null;
+          etnia_indigena: string | null;
+          foto_path: string | null;
+          atualizado_por: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          aluno_id: string;
+          cor_raca?: CorRaca | null;
+          etnia_indigena?: string | null;
+          foto_path?: string | null;
+          atualizado_por?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["alunos_complementares"]["Insert"]
+        >;
         Relationships: [];
       };
       programas_projetos: {

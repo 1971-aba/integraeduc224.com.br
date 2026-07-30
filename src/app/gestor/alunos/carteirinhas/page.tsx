@@ -6,6 +6,7 @@ import { CarteirinhasView } from "@/components/gestor/carteirinhas-view";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { requireRole } from "@/lib/auth";
 import { formatTurnoLabel } from "@/lib/dashboard-utils";
+import { getFotosPorAluno } from "@/lib/gestor-alunos-complementares";
 import { createClient } from "@/lib/supabase/server";
 
 function formatNascimento(data: string | null) {
@@ -126,13 +127,16 @@ export default async function CarteirinhasPage({
 
   const alunoIds = matriculas?.map((matricula) => matricula.aluno_id) ?? [];
 
-  const { data: alunos } = alunoIds.length
-    ? await supabase
-        .from("alunos")
-        .select("id, nome, data_nascimento, nome_mae")
-        .in("id", alunoIds)
-        .order("nome")
-    : { data: [] };
+  const [{ data: alunos }, fotos] = await Promise.all([
+    alunoIds.length
+      ? supabase
+          .from("alunos")
+          .select("id, nome, data_nascimento, nome_mae")
+          .in("id", alunoIds)
+          .order("nome")
+      : Promise.resolve({ data: [] }),
+    getFotosPorAluno(alunoIds),
+  ]);
 
   const turmaLabel = `${turmaSelecionada.nome} — ${turmaSelecionada.serie}`;
 
@@ -169,6 +173,7 @@ export default async function CarteirinhasPage({
             nome: aluno.nome,
             nascimento: formatNascimento(aluno.data_nascimento),
             responsavel: aluno.nome_mae ?? "—",
+            fotoUrl: fotos.get(aluno.id) ?? null,
           }))}
         />
       ) : (

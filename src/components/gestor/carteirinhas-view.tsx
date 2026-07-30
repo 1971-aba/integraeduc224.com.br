@@ -9,6 +9,7 @@ type CarteirinhaAluno = {
   nome: string;
   nascimento: string;
   responsavel: string;
+  fotoUrl: string | null;
 };
 
 type CarteirinhasViewProps = {
@@ -62,9 +63,20 @@ export function CarteirinhasView({
             </header>
 
             <div className="mt-3 flex gap-3">
-              <div className="flex h-[68px] w-[52px] shrink-0 items-center justify-center rounded border border-dashed border-slate-400 text-[8px] uppercase text-slate-400">
-                Foto
-              </div>
+              {aluno.fotoUrl ? (
+                // URL assinada e temporária do bucket privado, por isso fora do
+                // otimizador de imagens do Next.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={aluno.fotoUrl}
+                  alt=""
+                  className="h-[68px] w-[52px] shrink-0 rounded border border-slate-300 object-cover"
+                />
+              ) : (
+                <div className="flex h-[68px] w-[52px] shrink-0 items-center justify-center rounded border border-dashed border-slate-400 text-[8px] uppercase text-slate-400">
+                  Foto
+                </div>
+              )}
 
               <dl className="min-w-0 flex-1 space-y-1.5 text-[10px]">
                 <Dado rotulo="Nome" valor={aluno.nome} destaque />

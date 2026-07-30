@@ -155,6 +155,27 @@ export const gestorMenuItems: MenuItem[] = [
                 ],
               },
               {
+                label: "Dados Complementares",
+                children: [
+                  {
+                    label: "Informar Cor / Raça / Etnia",
+                    href: "/gestor/alunos/outras-opcoes/complementares/cor-raca",
+                  },
+                  {
+                    label: "Incluir Fotografia do Aluno",
+                    href: "/gestor/alunos/outras-opcoes/complementares/fotografia",
+                  },
+                  {
+                    label: "Alunos Novos da Escola",
+                    href: "/gestor/alunos/outras-opcoes/complementares/novos",
+                  },
+                  {
+                    label: "Casos de Idade Incompatível",
+                    href: "/gestor/alunos/outras-opcoes/complementares/idade-serie",
+                  },
+                ],
+              },
+              {
                 label: "Formulário de Matrícula",
                 href: "/gestor/alunos/outras-opcoes/formulario-matricula",
               },

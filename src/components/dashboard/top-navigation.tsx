@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { logout } from "@/actions/auth";
 import { MobileNavDrawer } from "@/components/dashboard/mobile-nav-drawer";
-import { NavDropdownItem } from "@/components/dashboard/nav-dropdown-item";
+import { NavDropdownPanel } from "@/components/dashboard/nav-dropdown-item";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { MenuItem } from "@/types/dashboard";
@@ -64,9 +64,9 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
           "group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
         )}
       >
-        {item.children!.map((child) => (
-          <NavDropdownItem key={child.label} item={child} />
-        ))}
+        {item.children!.length > 0 ? (
+          <NavDropdownPanel items={item.children!} depth={0} />
+        ) : null}
       </div>
     </div>
   );

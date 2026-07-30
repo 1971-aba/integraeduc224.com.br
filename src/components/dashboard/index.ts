@@ -1,7 +1,7 @@
 export { EducationalDashboard } from "./educational-dashboard";
 export { GestorPageHeader } from "./gestor-page-header";
 export { GestorShell } from "./gestor-shell";
-export { NavDropdownItem } from "./nav-dropdown-item";
+export { NavDropdownItem, NavDropdownPanel } from "./nav-dropdown-item";
 export { NotificationBoard } from "./notification-board";
 export { NotificationItem } from "./notification-item";
 export { NavMenuItem, TopNavigation } from "./top-navigation";

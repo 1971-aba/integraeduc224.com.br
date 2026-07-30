@@ -101,9 +101,9 @@ function MobileNavAccordion({
 }) {
   return (
     <ul className="space-y-1">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <MobileNavItem
-          key={`${depth}-${item.label}`}
+          key={`${depth}-${index}-${item.href ?? item.label}`}
           item={item}
           onNavigate={onNavigate}
           depth={depth}

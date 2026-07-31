@@ -292,12 +292,8 @@ export const gestorMenuItems: MenuItem[] = [
             label: "Rotas de Ônibus",
             children: [
               {
-                label: "Cadastro de Rotas",
+                label: "Cadastro e Consultas",
                 href: "/gestor/estrutura/rotas/cadastro",
-              },
-              {
-                label: "Consultar Rotas",
-                href: "/gestor/estrutura/rotas/consultar",
               },
             ],
           },

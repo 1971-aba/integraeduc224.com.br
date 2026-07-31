@@ -22,7 +22,7 @@ export default async function GestorFrequenciaServidorLancarPage({
   if (!profile.escola_id) {
     return (
       <>
-        <GestorPageHeader title="Lançar Faltas Dia" />
+        <GestorPageHeader title="Lançamento de Faltas" />
         <SemEscolaAlert />
       </>
     );
@@ -36,7 +36,7 @@ export default async function GestorFrequenciaServidorLancarPage({
   return (
     <>
       <GestorPageHeader
-        title="Lançar Faltas Dia"
+        title="Lançamento de Faltas"
         description="Registro diário de faltas dos servidores da unidade"
       />
 

@@ -378,7 +378,7 @@ export const gestorMenuItems: MenuItem[] = [
             label: "Frequência Servidor",
             children: [
               {
-                label: "Lançar Faltas Dia",
+                label: "Lançamento de Faltas",
                 href: "/gestor/frequencia-mensal/servidor/lancar",
               },
               {

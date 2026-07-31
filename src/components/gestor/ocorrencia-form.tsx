@@ -6,7 +6,9 @@ import { useState, useTransition } from "react";
 
 import { criarOcorrencia } from "@/actions/gestor-administracao";
 import {
+  OCORRENCIA_ESTRUTURA_TIPO_LABEL,
   OCORRENCIA_TIPO_LABEL,
+  type OcorrenciaCategoria,
   type OcorrenciaTipo,
 } from "@/lib/gestor-modulos-types";
 
@@ -14,9 +16,10 @@ type AlunoOption = { id: string; nome: string };
 
 type OcorrenciaFormProps = {
   alunos: AlunoOption[];
+  categoria: OcorrenciaCategoria;
 };
 
-export function OcorrenciaForm({ alunos }: OcorrenciaFormProps) {
+export function OcorrenciaForm({ alunos, categoria }: OcorrenciaFormProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -39,12 +42,21 @@ export function OcorrenciaForm({ alunos }: OcorrenciaFormProps) {
   }
 
   const hoje = new Date().toISOString().slice(0, 10);
+  const tipos =
+    categoria === "estrutura"
+      ? (Object.keys(OCORRENCIA_ESTRUTURA_TIPO_LABEL) as OcorrenciaTipo[])
+      : (Object.keys(OCORRENCIA_TIPO_LABEL) as OcorrenciaTipo[]);
+  const tipoLabels =
+    categoria === "estrutura" ? OCORRENCIA_ESTRUTURA_TIPO_LABEL : OCORRENCIA_TIPO_LABEL;
+  const tipoPadrao = categoria === "estrutura" ? "administrativa" : "disciplinar";
 
   return (
     <form
       onSubmit={handleSubmit}
       className="space-y-4 rounded-xl border border-slate-200 bg-white p-6"
     >
+      <input type="hidden" name="categoria" value={categoria} />
+
       <h3 className="text-base font-semibold text-slate-900">
         Registrar ocorrência
       </h3>
@@ -76,16 +88,14 @@ export function OcorrenciaForm({ alunos }: OcorrenciaFormProps) {
           <select
             id="tipo"
             name="tipo"
-            defaultValue="disciplinar"
+            defaultValue={tipoPadrao}
             className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
           >
-            {(Object.keys(OCORRENCIA_TIPO_LABEL) as OcorrenciaTipo[]).map(
-              (tipo) => (
-                <option key={tipo} value={tipo}>
-                  {OCORRENCIA_TIPO_LABEL[tipo]}
-                </option>
-              ),
-            )}
+            {tipos.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipoLabels[tipo]}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -104,24 +114,26 @@ export function OcorrenciaForm({ alunos }: OcorrenciaFormProps) {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="aluno_id" className="mb-1 block text-sm font-medium">
-          Aluno (opcional)
-        </label>
-        <select
-          id="aluno_id"
-          name="aluno_id"
-          defaultValue=""
-          className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
-        >
-          <option value="">Ocorrência geral / sem aluno</option>
-          {alunos.map((aluno) => (
-            <option key={aluno.id} value={aluno.id}>
-              {aluno.nome}
-            </option>
-          ))}
-        </select>
-      </div>
+      {categoria === "alunos" ? (
+        <div>
+          <label htmlFor="aluno_id" className="mb-1 block text-sm font-medium">
+            Aluno (opcional)
+          </label>
+          <select
+            id="aluno_id"
+            name="aluno_id"
+            defaultValue=""
+            className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
+          >
+            <option value="">Ocorrência geral / sem aluno</option>
+            {alunos.map((aluno) => (
+              <option key={aluno.id} value={aluno.id}>
+                {aluno.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
 
       <div>
         <label htmlFor="descricao" className="mb-1 block text-sm font-medium">

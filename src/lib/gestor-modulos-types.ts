@@ -12,6 +12,8 @@ export type OcorrenciaTipo =
   | "administrativa"
   | "outro";
 
+export type OcorrenciaCategoria = "alunos" | "estrutura";
+
 export type ReuniaoEscolar = {
   id: string;
   escolaId: string;
@@ -33,6 +35,7 @@ export type OcorrenciaEscolar = {
   titulo: string;
   descricao: string;
   tipo: OcorrenciaTipo;
+  categoria: OcorrenciaCategoria;
   data: string;
   registradoPor: string | null;
   createdAt: string;
@@ -71,6 +74,13 @@ export const OCORRENCIA_TIPO_LABEL: Record<OcorrenciaTipo, string> = {
   disciplinar: "Disciplinar",
   pedagogica: "Pedagógica",
   saude: "Saúde / enfermaria",
+  administrativa: "Administrativa",
+  outro: "Outro",
+};
+
+export const OCORRENCIA_ESTRUTURA_TIPO_LABEL: Partial<
+  Record<OcorrenciaTipo, string>
+> = {
   administrativa: "Administrativa",
   outro: "Outro",
 };

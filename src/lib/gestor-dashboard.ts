@@ -305,7 +305,19 @@ export const gestorMenuItems: MenuItem[] = [
     label: "Administração",
     children: [
       { label: "Entrada de Alunos", href: "/gestor/entrada-alunos" },
-      { label: "Ocorrências", href: "/gestor/ocorrencias" },
+      {
+        label: "Ocorrências",
+        children: [
+          {
+            label: "Alunos e Outros",
+            href: "/gestor/ocorrencias/alunos",
+          },
+          {
+            label: "Estrutura e Outros",
+            href: "/gestor/ocorrencias/estrutura",
+          },
+        ],
+      },
       { label: "Feriados e Folgas", href: "/gestor/feriados" },
       { label: "Escala de Vigilantes", href: "/gestor/vigilantes" },
       { label: "Controle de Almoxarifado", href: "/gestor/almoxarifado" },

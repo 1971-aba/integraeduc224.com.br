@@ -7,7 +7,11 @@ import {
   devOcorrencias,
   devReunioes,
 } from "@/lib/dev-gestor-modulos";
-import type { OcorrenciaTipo, ReuniaoTipo } from "@/lib/gestor-modulos-types";
+import type {
+  OcorrenciaCategoria,
+  OcorrenciaTipo,
+  ReuniaoTipo,
+} from "@/lib/gestor-modulos-types";
 import { createClient } from "@/lib/supabase/server";
 
 type ActionResult = { error?: string; success?: boolean };
@@ -24,6 +28,12 @@ async function getGestorEscolaId() {
 
 function revalidateReunioes() {
   revalidatePath("/gestor/reunioes");
+}
+
+function revalidateOcorrencias() {
+  revalidatePath("/gestor/ocorrencias");
+  revalidatePath("/gestor/ocorrencias/alunos");
+  revalidatePath("/gestor/ocorrencias/estrutura");
 }
 
 export async function listReunioesEscola(escolaId: string) {
@@ -166,25 +176,41 @@ export async function excluirReuniaoEscolar(
   return { success: true };
 }
 
-export async function listOcorrenciasEscola(escolaId: string) {
+export async function listOcorrenciasEscola(
+  escolaId: string,
+  categoria?: OcorrenciaCategoria,
+) {
   await requireRole(["gestor_escolar", "admin_sme", "coordenador"]);
 
   if (await isDevSessionActive()) {
     return devOcorrencias
-      .filter((item) => item.escolaId === escolaId)
+      .filter(
+        (item) =>
+          item.escolaId === escolaId &&
+          (!categoria || item.categoria === categoria),
+      )
       .sort((a, b) => b.data.localeCompare(a.data));
   }
 
   const supabase = await createClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from("ocorrencias")
     .select("*")
-    .eq("escola_id", escolaId)
-    .order("data", { ascending: false });
+    .eq("escola_id", escolaId);
+
+  if (categoria) {
+    query = query.eq("categoria", categoria);
+  }
+
+  const { data, error } = await query.order("data", { ascending: false });
 
   if (error) {
     return devOcorrencias
-      .filter((item) => item.escolaId === escolaId)
+      .filter(
+        (item) =>
+          item.escolaId === escolaId &&
+          (!categoria || item.categoria === categoria),
+      )
       .sort((a, b) => b.data.localeCompare(a.data));
   }
 
@@ -208,6 +234,7 @@ export async function listOcorrenciasEscola(escolaId: string) {
       titulo: item.titulo,
       descricao: item.descricao,
       tipo: item.tipo as OcorrenciaTipo,
+      categoria: (item.categoria ?? "alunos") as OcorrenciaCategoria,
       data: item.data,
       registradoPor: item.registrado_por,
       createdAt: item.created_at,
@@ -223,7 +250,13 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
   const descricao = String(formData.get("descricao") ?? "").trim();
   const data = String(formData.get("data") ?? "").trim();
   const tipo = String(formData.get("tipo") ?? "disciplinar") as OcorrenciaTipo;
-  const alunoId = String(formData.get("aluno_id") ?? "").trim() || null;
+  const categoria = String(
+    formData.get("categoria") ?? "alunos",
+  ) as OcorrenciaCategoria;
+  const alunoId =
+    categoria === "estrutura"
+      ? null
+      : String(formData.get("aluno_id") ?? "").trim() || null;
 
   if (!titulo) return { error: "Informe o título." };
   if (!descricao) return { error: "Informe a descrição." };
@@ -249,11 +282,12 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
       titulo,
       descricao,
       tipo,
+      categoria,
       data,
       registradoPor: ctx.profile.id,
       createdAt: new Date().toISOString(),
     });
-    revalidatePath("/gestor/ocorrencias");
+    revalidateOcorrencias();
     return { success: true };
   }
 
@@ -264,6 +298,7 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
     titulo,
     descricao,
     tipo,
+    categoria,
     data,
     registrado_por: ctx.profile.id,
   });
@@ -277,15 +312,16 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
       titulo,
       descricao,
       tipo,
+      categoria,
       data,
       registradoPor: ctx.profile.id,
       createdAt: new Date().toISOString(),
     });
-    revalidatePath("/gestor/ocorrencias");
+    revalidateOcorrencias();
     return { success: true };
   }
 
-  revalidatePath("/gestor/ocorrencias");
+  revalidateOcorrencias();
   return { success: true };
 }
 
@@ -300,7 +336,7 @@ export async function excluirOcorrencia(
       (item) => item.id === ocorrenciaId && item.escolaId === ctx.escolaId,
     );
     if (index >= 0) devOcorrencias.splice(index, 1);
-    revalidatePath("/gestor/ocorrencias");
+    revalidateOcorrencias();
     return { success: true };
   }
 
@@ -313,6 +349,6 @@ export async function excluirOcorrencia(
 
   if (error) return { error: "Não foi possível excluir a ocorrência." };
 
-  revalidatePath("/gestor/ocorrencias");
+  revalidateOcorrencias();
   return { success: true };
 }

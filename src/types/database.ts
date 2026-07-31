@@ -553,6 +553,7 @@ export type Database = {
           titulo: string;
           descricao: string;
           tipo: string;
+          categoria: string;
           data: string;
           registrado_por: string | null;
           created_at: string;
@@ -564,6 +565,7 @@ export type Database = {
           titulo: string;
           descricao: string;
           tipo?: string;
+          categoria?: string;
           data?: string;
           registrado_por?: string | null;
           created_at?: string;

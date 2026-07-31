@@ -263,6 +263,23 @@ export type FrequenciaMensalEscola = {
   };
 };
 
+export type FrequenciaServidorFalta = {
+  id: string;
+  escolaId: string;
+  servidorId: string | null;
+  servidorNome: string;
+  data: string;
+  observacao: string | null;
+  createdAt: string;
+};
+
+export type FrequenciaServidorFaltoso = {
+  servidorId: string | null;
+  servidorNome: string;
+  totalFaltas: number;
+  datas: string[];
+};
+
 export const ESTRUTURA_TIPO_LABEL: Record<EstruturaTipo, string> = {
   sala: "Sala de aula",
   laboratorio: "Laboratório",

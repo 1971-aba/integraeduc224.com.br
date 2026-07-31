@@ -48,6 +48,14 @@ function menuProgramasProjetos(tipo: "projetos" | "programas"): MenuItem[] {
   ];
 }
 
+/** Meses disponíveis em Consultar Faltosos (servidor). */
+function menuFaltososServidor2026(): MenuItem[] {
+  return [3, 4, 5, 6, 7].map((mes) => ({
+    label: `Gerar: ${mes}/2026`,
+    href: `/gestor/frequencia-mensal/servidor/faltosos/2026/${mes}`,
+  }));
+}
+
 export const gestorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -359,7 +367,28 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Frequência Mensal 2026", href: "/gestor/frequencia-mensal" },
+      {
+        label: "Frequência Mensal 2026",
+        children: [
+          {
+            label: "Frequência Professor",
+            href: "/gestor/frequencia-mensal/professor",
+          },
+          {
+            label: "Frequência Servidor",
+            children: [
+              {
+                label: "Lançar Faltas Dia",
+                href: "/gestor/frequencia-mensal/servidor/lancar",
+              },
+              {
+                label: "Consultar Faltosos",
+                children: menuFaltososServidor2026(),
+              },
+            ],
+          },
+        ],
+      },
       { label: "Corrigir Matrículas 2026", href: "/gestor/corrigir-matriculas" },
     ],
   },

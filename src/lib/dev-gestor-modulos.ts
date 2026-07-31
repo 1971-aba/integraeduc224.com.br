@@ -98,6 +98,19 @@ export const devEscalaVigilantes: import("@/lib/gestor-modulos-types").EscalaVig
     },
   ];
 
+export const devFrequenciaServidorFaltas: import("@/lib/gestor-modulos-types").FrequenciaServidorFalta[] =
+  [
+    {
+      id: "dev-falta-servidor-1",
+      escolaId: DEMO_ESCOLA_ID,
+      servidorId: null,
+      servidorNome: "Maria Santos",
+      data: "2026-03-10",
+      observacao: "Atestado médico",
+      createdAt: "2026-03-10T08:00:00Z",
+    },
+  ];
+
 export const devMerendaEstoque: import("@/lib/gestor-modulos-types").MerendaEstoqueItem[] =
   [
     {

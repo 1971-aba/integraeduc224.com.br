@@ -15,7 +15,7 @@ export default async function CadastroSalasPage() {
     return (
       <>
         <GestorPageHeader
-          title="Cadastro de Salas"
+          title="Cadastro e Consultas"
           description="Salas e dependências da unidade"
         />
         <SemEscolaAlert />
@@ -28,7 +28,7 @@ export default async function CadastroSalasPage() {
   return (
     <>
       <GestorPageHeader
-        title="Cadastro de Salas"
+        title="Cadastro e Consultas"
         description="Salas de aula, laboratórios, biblioteca e demais dependências"
       />
 

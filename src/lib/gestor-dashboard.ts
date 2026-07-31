@@ -275,11 +275,11 @@ export const gestorMenuItems: MenuItem[] = [
             label: "Salas de Dependências",
             children: [
               {
-                label: "Cadastro de Salas",
+                label: "Cadastro e Consultas",
                 href: "/gestor/estrutura/salas/cadastro",
               },
               {
-                label: "Relação de Espaços",
+                label: "Vincular nova Série",
                 href: "/gestor/estrutura/salas/relacao",
               },
             ],

@@ -14,7 +14,7 @@ export default async function RelacaoSalasPage() {
     return (
       <>
         <GestorPageHeader
-          title="Relação de Espaços"
+          title="Vincular nova Série"
           description="Salas e dependências da unidade"
         />
         <SemEscolaAlert />
@@ -45,7 +45,7 @@ export default async function RelacaoSalasPage() {
   return (
     <>
       <GestorPageHeader
-        title="Relação de Espaços"
+        title="Vincular nova Série"
         description={`${itens.length} espaço(s) · capacidade total ${capacidadeTotal} · ${
           escola?.nome ?? "Unidade Escolar"
         }`}
@@ -100,7 +100,7 @@ export default async function RelacaoSalasPage() {
                     colSpan={4}
                     className="px-3 py-8 text-center text-slate-500"
                   >
-                    Nenhum espaço cadastrado. Use Cadastro de Salas para incluir.
+                    Nenhum espaço cadastrado. Use Cadastro e Consultas para incluir.
                   </td>
                 </tr>
               ) : null}

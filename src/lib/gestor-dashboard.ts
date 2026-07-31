@@ -329,7 +329,23 @@ export const gestorMenuItems: MenuItem[] = [
       },
       { label: "Feriados e Folgas", href: "/gestor/feriados" },
       { label: "Escala de Vigilantes", href: "/gestor/vigilantes" },
-      { label: "Controle de Almoxarifado", href: "/gestor/almoxarifado" },
+      {
+        label: "Controle de Almoxarifado",
+        children: [
+          {
+            label: "Estoque da Rede",
+            href: "/gestor/almoxarifado/rede",
+          },
+          {
+            label: "Estoque da Escola",
+            href: "/gestor/almoxarifado/escola",
+          },
+          {
+            label: "Doação para Alunos",
+            href: "/gestor/almoxarifado/doacao",
+          },
+        ],
+      },
       { label: "Controle de Merenda", href: "/gestor/merenda" },
       { label: "Frequência Mensal 2026", href: "/gestor/frequencia-mensal" },
       { label: "Corrigir Matrículas 2026", href: "/gestor/corrigir-matriculas" },

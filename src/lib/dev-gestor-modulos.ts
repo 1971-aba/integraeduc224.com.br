@@ -115,6 +115,9 @@ export const devMerendaRegistros: import("@/lib/gestor-modulos-types").MerendaRe
 export const devTarefasEscolares: import("@/lib/gestor-modulos-types").TarefaEscolar[] =
   [];
 
+export const devAlmoxarifadoDoacoes: import("@/lib/gestor-modulos-types").AlmoxarifadoDoacao[] =
+  [];
+
 export const devAlmoxarifadoItens: import("@/lib/gestor-modulos-types").AlmoxarifadoItem[] =
   [
     {

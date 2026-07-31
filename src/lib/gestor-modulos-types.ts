@@ -195,6 +195,22 @@ export type AlmoxarifadoItem = {
   createdAt: string;
 };
 
+export type AlmoxarifadoItemRede = AlmoxarifadoItem & {
+  escolaNome: string;
+};
+
+export type AlmoxarifadoDoacao = {
+  id: string;
+  escolaId: string;
+  itemId: string;
+  itemNome: string;
+  alunoId: string | null;
+  alunoNome: string | null;
+  quantidade: number;
+  observacao: string | null;
+  createdAt: string;
+};
+
 export type EstruturaEscolarItem = {
   id: string;
   escolaId: string;

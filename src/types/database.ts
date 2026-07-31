@@ -641,6 +641,32 @@ export type Database = {
         >;
         Relationships: [];
       };
+      almoxarifado_doacoes: {
+        Row: {
+          id: string;
+          escola_id: string;
+          item_id: string;
+          aluno_id: string | null;
+          quantidade: number;
+          observacao: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          item_id: string;
+          aluno_id?: string | null;
+          quantidade: number;
+          observacao?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["almoxarifado_doacoes"]["Insert"]
+        >;
+        Relationships: [];
+      };
       entradas_alunos: {
         Row: {
           id: string;

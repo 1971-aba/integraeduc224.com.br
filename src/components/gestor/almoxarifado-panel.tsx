@@ -8,6 +8,7 @@ import {
   criarAlmoxarifadoItem,
   excluirAlmoxarifadoItem,
   movimentarAlmoxarifadoItem,
+  registrarDoacaoAluno,
 } from "@/actions/gestor-estrutura-almoxarifado";
 import { Button } from "@/components/ui/button";
 import {
@@ -140,5 +141,106 @@ export function AlmoxarifadoListItem({ item }: { item: AlmoxarifadoItem }) {
       </form>
       {error ? <p className="mt-1 text-xs text-red-600">{error}</p> : null}
     </li>
+  );
+}
+
+type DoacaoAlunoFormProps = {
+  itens: { id: string; nome: string; quantidade: number; unidade: string }[];
+  alunos: { id: string; nome: string }[];
+};
+
+export function DoacaoAlunoForm({ itens, alunos }: DoacaoAlunoFormProps) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    startTransition(async () => {
+      const result = await registrarDoacaoAluno(new FormData(event.currentTarget));
+      if (result.error) setError(result.error);
+      else {
+        event.currentTarget.reset();
+        router.refresh();
+      }
+    });
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <h3 className="font-semibold text-slate-900">Registrar doação</h3>
+      {error ? (
+        <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
+
+      <div>
+        <label htmlFor="item_id" className="mb-1 block text-sm font-medium">
+          Item
+        </label>
+        <select
+          id="item_id"
+          name="item_id"
+          required
+          defaultValue=""
+          className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
+        >
+          <option value="" disabled>
+            Selecione o material
+          </option>
+          {itens.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.nome} ({item.quantidade} {item.unidade})
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="aluno_id" className="mb-1 block text-sm font-medium">
+          Aluno (opcional)
+        </label>
+        <select
+          id="aluno_id"
+          name="aluno_id"
+          defaultValue=""
+          className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
+        >
+          <option value="">Doação geral</option>
+          {alunos.map((aluno) => (
+            <option key={aluno.id} value={aluno.id}>
+              {aluno.nome}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <input
+        name="quantidade"
+        type="number"
+        min={0.01}
+        step="0.01"
+        required
+        placeholder="Quantidade"
+        className="h-10 w-full rounded-md border border-slate-300 px-3 text-sm"
+      />
+
+      <textarea
+        name="observacao"
+        rows={3}
+        placeholder="Observações"
+        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+      />
+
+      <button
+        type="submit"
+        disabled={pending || itens.length === 0}
+        className="inline-flex h-10 items-center rounded-md bg-[#1E7BB8] px-4 text-sm font-medium text-white disabled:opacity-60"
+      >
+        {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Registrar doação"}
+      </button>
+    </form>
   );
 }

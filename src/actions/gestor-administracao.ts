@@ -9,6 +9,7 @@ import {
 } from "@/lib/dev-gestor-modulos";
 import type {
   OcorrenciaCategoria,
+  OcorrenciaStatus,
   OcorrenciaTipo,
   ReuniaoTipo,
 } from "@/lib/gestor-modulos-types";
@@ -34,6 +35,8 @@ function revalidateOcorrencias() {
   revalidatePath("/gestor/ocorrencias");
   revalidatePath("/gestor/ocorrencias/alunos");
   revalidatePath("/gestor/ocorrencias/estrutura");
+  revalidatePath("/gestor/ocorrencias/estrutura/informar");
+  revalidatePath("/gestor/ocorrencias/estrutura/atendidas");
 }
 
 export async function listReunioesEscola(escolaId: string) {
@@ -179,6 +182,7 @@ export async function excluirReuniaoEscolar(
 export async function listOcorrenciasEscola(
   escolaId: string,
   categoria?: OcorrenciaCategoria,
+  status?: OcorrenciaStatus,
 ) {
   await requireRole(["gestor_escolar", "admin_sme", "coordenador"]);
 
@@ -187,7 +191,8 @@ export async function listOcorrenciasEscola(
       .filter(
         (item) =>
           item.escolaId === escolaId &&
-          (!categoria || item.categoria === categoria),
+          (!categoria || item.categoria === categoria) &&
+          (!status || item.status === status),
       )
       .sort((a, b) => b.data.localeCompare(a.data));
   }
@@ -202,6 +207,10 @@ export async function listOcorrenciasEscola(
     query = query.eq("categoria", categoria);
   }
 
+  if (status) {
+    query = query.eq("status", status);
+  }
+
   const { data, error } = await query.order("data", { ascending: false });
 
   if (error) {
@@ -209,7 +218,8 @@ export async function listOcorrenciasEscola(
       .filter(
         (item) =>
           item.escolaId === escolaId &&
-          (!categoria || item.categoria === categoria),
+          (!categoria || item.categoria === categoria) &&
+          (!status || item.status === status),
       )
       .sort((a, b) => b.data.localeCompare(a.data));
   }
@@ -235,6 +245,7 @@ export async function listOcorrenciasEscola(
       descricao: item.descricao,
       tipo: item.tipo as OcorrenciaTipo,
       categoria: (item.categoria ?? "alunos") as OcorrenciaCategoria,
+      status: (item.status ?? "informada") as OcorrenciaStatus,
       data: item.data,
       registradoPor: item.registrado_por,
       createdAt: item.created_at,
@@ -283,6 +294,7 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
       descricao,
       tipo,
       categoria,
+      status: "informada",
       data,
       registradoPor: ctx.profile.id,
       createdAt: new Date().toISOString(),
@@ -299,6 +311,7 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
     descricao,
     tipo,
     categoria,
+    status: "informada",
     data,
     registrado_por: ctx.profile.id,
   });
@@ -313,6 +326,7 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
       descricao,
       tipo,
       categoria,
+      status: "informada",
       data,
       registradoPor: ctx.profile.id,
       createdAt: new Date().toISOString(),
@@ -320,6 +334,37 @@ export async function criarOcorrencia(formData: FormData): Promise<ActionResult>
     revalidateOcorrencias();
     return { success: true };
   }
+
+  revalidateOcorrencias();
+  return { success: true };
+}
+
+export async function marcarOcorrenciaAtendida(
+  ocorrenciaId: string,
+): Promise<ActionResult> {
+  const ctx = await getGestorEscolaId();
+  if ("error" in ctx) return { error: ctx.error };
+
+  if (await isDevSessionActive()) {
+    const item = devOcorrencias.find(
+      (ocorrencia) =>
+        ocorrencia.id === ocorrenciaId && ocorrencia.escolaId === ctx.escolaId,
+    );
+    if (!item) return { error: "Ocorrência não encontrada." };
+    item.status = "atendida";
+    revalidateOcorrencias();
+    return { success: true };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("ocorrencias")
+    .update({ status: "atendida" })
+    .eq("id", ocorrenciaId)
+    .eq("escola_id", ctx.escolaId)
+    .eq("categoria", "estrutura");
+
+  if (error) return { error: "Não foi possível marcar a ocorrência como atendida." };
 
   revalidateOcorrencias();
   return { success: true };

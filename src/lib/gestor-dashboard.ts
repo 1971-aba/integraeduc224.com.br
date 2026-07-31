@@ -314,7 +314,16 @@ export const gestorMenuItems: MenuItem[] = [
           },
           {
             label: "Estrutura e Outros",
-            href: "/gestor/ocorrencias/estrutura",
+            children: [
+              {
+                label: "Informar",
+                href: "/gestor/ocorrencias/estrutura/informar",
+              },
+              {
+                label: "Atendidas",
+                href: "/gestor/ocorrencias/estrutura/atendidas",
+              },
+            ],
           },
         ],
       },

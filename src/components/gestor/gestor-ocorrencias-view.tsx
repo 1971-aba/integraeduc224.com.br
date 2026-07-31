@@ -5,19 +5,30 @@ import { OcorrenciaForm } from "@/components/gestor/ocorrencia-form";
 import { OcorrenciaListItem } from "@/components/gestor/ocorrencia-list-item";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { requireRole } from "@/lib/auth";
-import type { OcorrenciaCategoria } from "@/lib/gestor-modulos-types";
+import type {
+  OcorrenciaCategoria,
+  OcorrenciaStatus,
+} from "@/lib/gestor-modulos-types";
 import { createClient } from "@/lib/supabase/server";
 
 type GestorOcorrenciasViewProps = {
   categoria: OcorrenciaCategoria;
   title: string;
   description: string;
+  status?: OcorrenciaStatus;
+  mostrarFormulario?: boolean;
+  permitirMarcarAtendida?: boolean;
+  listaTitulo?: string;
 };
 
 export async function GestorOcorrenciasView({
   categoria,
   title,
   description,
+  status,
+  mostrarFormulario = categoria === "alunos",
+  permitirMarcarAtendida = false,
+  listaTitulo = "Histórico de ocorrências",
 }: GestorOcorrenciasViewProps) {
   const { profile } = await requireRole(["gestor_escolar", "admin_sme"]);
 
@@ -39,7 +50,7 @@ export async function GestorOcorrenciasView({
           .select("id")
           .eq("escola_id", profile.escola_id)
       : Promise.resolve({ data: [] }),
-    listOcorrenciasEscola(profile.escola_id, categoria),
+    listOcorrenciasEscola(profile.escola_id, categoria, status),
   ]);
 
   const turmaIds = turmas?.map((turma) => turma.id) ?? [];
@@ -68,13 +79,23 @@ export async function GestorOcorrenciasView({
     <>
       <GestorPageHeader title={title} description={description} />
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div
+        className={
+          mostrarFormulario
+            ? "grid gap-6 lg:grid-cols-[1fr_360px]"
+            : "max-w-4xl"
+        }
+      >
         <Card>
-          <CardTitle>Histórico de ocorrências</CardTitle>
+          <CardTitle>{listaTitulo}</CardTitle>
           <CardDescription>{ocorrencias.length} registro(s)</CardDescription>
           <ul className="mt-4 space-y-3">
             {ocorrencias.map((ocorrencia) => (
-              <OcorrenciaListItem key={ocorrencia.id} ocorrencia={ocorrencia} />
+              <OcorrenciaListItem
+                key={ocorrencia.id}
+                ocorrencia={ocorrencia}
+                permitirMarcarAtendida={permitirMarcarAtendida}
+              />
             ))}
             {ocorrencias.length === 0 ? (
               <li className="text-sm text-slate-500">
@@ -84,10 +105,9 @@ export async function GestorOcorrenciasView({
           </ul>
         </Card>
 
-        <OcorrenciaForm
-          alunos={alunos ?? []}
-          categoria={categoria}
-        />
+        {mostrarFormulario ? (
+          <OcorrenciaForm alunos={alunos ?? []} categoria={categoria} />
+        ) : null}
       </div>
     </>
   );

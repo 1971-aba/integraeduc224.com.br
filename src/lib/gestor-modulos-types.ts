@@ -14,6 +14,8 @@ export type OcorrenciaTipo =
 
 export type OcorrenciaCategoria = "alunos" | "estrutura";
 
+export type OcorrenciaStatus = "informada" | "atendida";
+
 export type ReuniaoEscolar = {
   id: string;
   escolaId: string;
@@ -36,6 +38,7 @@ export type OcorrenciaEscolar = {
   descricao: string;
   tipo: OcorrenciaTipo;
   categoria: OcorrenciaCategoria;
+  status: OcorrenciaStatus;
   data: string;
   registradoPor: string | null;
   createdAt: string;
@@ -83,6 +86,11 @@ export const OCORRENCIA_ESTRUTURA_TIPO_LABEL: Partial<
 > = {
   administrativa: "Administrativa",
   outro: "Outro",
+};
+
+export const OCORRENCIA_STATUS_LABEL: Record<OcorrenciaStatus, string> = {
+  informada: "Informada",
+  atendida: "Atendida",
 };
 
 export const DEFAULT_POLITICA_SENHA: PoliticaSenha = {

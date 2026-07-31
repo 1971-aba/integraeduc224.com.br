@@ -554,6 +554,7 @@ export type Database = {
           descricao: string;
           tipo: string;
           categoria: string;
+          status: string;
           data: string;
           registrado_por: string | null;
           created_at: string;
@@ -566,6 +567,7 @@ export type Database = {
           descricao: string;
           tipo?: string;
           categoria?: string;
+          status?: string;
           data?: string;
           registrado_por?: string | null;
           created_at?: string;

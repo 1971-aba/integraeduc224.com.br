@@ -1,11 +1,5 @@
-import { GestorOcorrenciasView } from "@/components/gestor/gestor-ocorrencias-view";
+import { redirect } from "next/navigation";
 
 export default function GestorOcorrenciasEstruturaPage() {
-  return (
-    <GestorOcorrenciasView
-      categoria="estrutura"
-      title="Estrutura e Outros"
-      description="Ocorrências de infraestrutura, patrimônio e demais registros da unidade escolar"
-    />
-  );
+  redirect("/gestor/ocorrencias/estrutura/informar");
 }

@@ -46,6 +46,7 @@ export const devOcorrencias: OcorrenciaEscolar[] = [
     descricao: "Aluno conversando durante a aula após orientação do professor.",
     tipo: "disciplinar",
     categoria: "alunos",
+    status: "informada",
     data: "2026-07-10",
     registradoPor: null,
     createdAt: "2026-07-10T14:30:00Z",

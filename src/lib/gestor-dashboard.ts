@@ -56,6 +56,14 @@ function menuFaltososServidor2026(): MenuItem[] {
   }));
 }
 
+/** Meses disponíveis em Consultar Faltosos (professor). */
+function menuFaltososProfessor2026(): MenuItem[] {
+  return [3, 4, 5, 6, 7].map((mes) => ({
+    label: `Gerar: ${mes}/2026`,
+    href: `/gestor/frequencia-mensal/professor/faltosos/2026/${mes}`,
+  }));
+}
+
 export const gestorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -379,7 +387,7 @@ export const gestorMenuItems: MenuItem[] = [
               },
               {
                 label: "Consultar Faltosos",
-                href: "/gestor/frequencia-mensal/professor/faltosos",
+                children: menuFaltososProfessor2026(),
               },
             ],
           },

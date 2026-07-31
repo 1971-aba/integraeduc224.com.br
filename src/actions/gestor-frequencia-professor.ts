@@ -15,6 +15,11 @@ type ActionResult = { error?: string; success?: boolean };
 const FREQUENCIA_PROFESSOR_PATHS = [
   "/gestor/frequencia-mensal/professor/lancar",
   "/gestor/frequencia-mensal/professor/faltosos",
+  "/gestor/frequencia-mensal/professor/faltosos/2026/3",
+  "/gestor/frequencia-mensal/professor/faltosos/2026/4",
+  "/gestor/frequencia-mensal/professor/faltosos/2026/5",
+  "/gestor/frequencia-mensal/professor/faltosos/2026/6",
+  "/gestor/frequencia-mensal/professor/faltosos/2026/7",
 ];
 
 function revalidarFrequenciaProfessor() {

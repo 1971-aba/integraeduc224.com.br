@@ -280,6 +280,23 @@ export type FrequenciaServidorFaltoso = {
   datas: string[];
 };
 
+export type FrequenciaProfessorFalta = {
+  id: string;
+  escolaId: string;
+  professorId: string | null;
+  professorNome: string;
+  data: string;
+  observacao: string | null;
+  createdAt: string;
+};
+
+export type FrequenciaProfessorFaltoso = {
+  professorId: string | null;
+  professorNome: string;
+  totalFaltas: number;
+  datas: string[];
+};
+
 export const ESTRUTURA_TIPO_LABEL: Record<EstruturaTipo, string> = {
   sala: "Sala de aula",
   laboratorio: "Laboratório",

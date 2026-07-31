@@ -111,6 +111,19 @@ export const devFrequenciaServidorFaltas: import("@/lib/gestor-modulos-types").F
     },
   ];
 
+export const devFrequenciaProfessorFaltas: import("@/lib/gestor-modulos-types").FrequenciaProfessorFalta[] =
+  [
+    {
+      id: "dev-falta-professor-1",
+      escolaId: DEMO_ESCOLA_ID,
+      professorId: null,
+      professorNome: "João Silva",
+      data: "2026-03-12",
+      observacao: "Licença médica",
+      createdAt: "2026-03-12T08:00:00Z",
+    },
+  ];
+
 export const devMerendaEstoque: import("@/lib/gestor-modulos-types").MerendaEstoqueItem[] =
   [
     {

@@ -885,6 +885,32 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["matriculas"]["Insert"]>;
         Relationships: [];
       };
+      frequencia_professor_faltas: {
+        Row: {
+          id: string;
+          escola_id: string;
+          professor_id: string | null;
+          professor_nome: string;
+          data: string;
+          observacao: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          professor_id?: string | null;
+          professor_nome: string;
+          data?: string;
+          observacao?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["frequencia_professor_faltas"]["Insert"]
+        >;
+        Relationships: [];
+      };
       frequencia_servidor_faltas: {
         Row: {
           id: string;

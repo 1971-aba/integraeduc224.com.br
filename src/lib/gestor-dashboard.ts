@@ -372,7 +372,16 @@ export const gestorMenuItems: MenuItem[] = [
         children: [
           {
             label: "Frequência Professor",
-            href: "/gestor/frequencia-mensal/professor",
+            children: [
+              {
+                label: "Lançar Falta Dia",
+                href: "/gestor/frequencia-mensal/professor/lancar",
+              },
+              {
+                label: "Consultar Faltosos",
+                href: "/gestor/frequencia-mensal/professor/faltosos",
+              },
+            ],
           },
           {
             label: "Frequência Servidor",

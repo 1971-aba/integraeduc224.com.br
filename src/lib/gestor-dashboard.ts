@@ -346,7 +346,19 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Controle de Merenda", href: "/gestor/merenda" },
+      {
+        label: "Controle de Merenda",
+        children: [
+          {
+            label: "Estoque da Escola",
+            href: "/gestor/merenda/estoque",
+          },
+          {
+            label: "Cardápios da Escola",
+            href: "/gestor/merenda/cardapios",
+          },
+        ],
+      },
       { label: "Frequência Mensal 2026", href: "/gestor/frequencia-mensal" },
       { label: "Corrigir Matrículas 2026", href: "/gestor/corrigir-matriculas" },
     ],

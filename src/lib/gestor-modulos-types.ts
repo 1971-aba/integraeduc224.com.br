@@ -159,6 +159,17 @@ export type MerendaRegistro = {
   createdAt: string;
 };
 
+export type MerendaEstoqueItem = {
+  id: string;
+  escolaId: string;
+  nome: string;
+  quantidade: number;
+  unidade: string;
+  estoqueMinimo: number;
+  validade: string | null;
+  createdAt: string;
+};
+
 export type TarefaEscolar = {
   id: string;
   atribuicaoId: string;

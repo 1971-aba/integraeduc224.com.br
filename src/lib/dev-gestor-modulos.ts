@@ -98,6 +98,30 @@ export const devEscalaVigilantes: import("@/lib/gestor-modulos-types").EscalaVig
     },
   ];
 
+export const devMerendaEstoque: import("@/lib/gestor-modulos-types").MerendaEstoqueItem[] =
+  [
+    {
+      id: "dev-merenda-estoque-1",
+      escolaId: DEMO_ESCOLA_ID,
+      nome: "Arroz",
+      quantidade: 120,
+      unidade: "kg",
+      estoqueMinimo: 30,
+      validade: "2026-12-31",
+      createdAt: "2026-01-10T08:00:00Z",
+    },
+    {
+      id: "dev-merenda-estoque-2",
+      escolaId: DEMO_ESCOLA_ID,
+      nome: "Feijão",
+      quantidade: 45,
+      unidade: "kg",
+      estoqueMinimo: 20,
+      validade: null,
+      createdAt: "2026-01-10T08:00:00Z",
+    },
+  ];
+
 export const devMerendaRegistros: import("@/lib/gestor-modulos-types").MerendaRegistro[] =
   [
     {

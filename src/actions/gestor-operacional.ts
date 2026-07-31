@@ -5,10 +5,12 @@ import { revalidatePath } from "next/cache";
 import { isDevSessionActive, requireRole } from "@/lib/auth";
 import {
   devEscalaVigilantes,
+  devMerendaEstoque,
   devMerendaRegistros,
 } from "@/lib/dev-gestor-modulos";
 import type {
   EscalaVigilante,
+  MerendaEstoqueItem,
   MerendaRegistro,
   RefeicaoMerenda,
   TurnoVigilancia,
@@ -25,6 +27,16 @@ async function getGestorEscolaId() {
   }
 
   return { profile, escolaId: profile.escola_id };
+}
+
+const MERENDA_PATHS = [
+  "/gestor/merenda",
+  "/gestor/merenda/estoque",
+  "/gestor/merenda/cardapios",
+];
+
+function revalidarMerenda() {
+  for (const path of MERENDA_PATHS) revalidatePath(path);
 }
 
 export async function listEscalaVigilantes(
@@ -210,7 +222,7 @@ export async function criarMerendaRegistro(
 
   if (await isDevSessionActive()) {
     devMerendaRegistros.unshift(registro);
-    revalidatePath("/gestor/merenda");
+    revalidarMerenda();
     return { success: true };
   }
 
@@ -227,11 +239,11 @@ export async function criarMerendaRegistro(
 
   if (error) {
     devMerendaRegistros.unshift(registro);
-    revalidatePath("/gestor/merenda");
+    revalidarMerenda();
     return { success: true };
   }
 
-  revalidatePath("/gestor/merenda");
+  revalidarMerenda();
   return { success: true };
 }
 
@@ -246,7 +258,7 @@ export async function excluirMerendaRegistro(
       (item) => item.id === registroId && item.escolaId === ctx.escolaId,
     );
     if (index >= 0) devMerendaRegistros.splice(index, 1);
-    revalidatePath("/gestor/merenda");
+    revalidarMerenda();
     return { success: true };
   }
 
@@ -259,6 +271,124 @@ export async function excluirMerendaRegistro(
 
   if (error) return { error: "Não foi possível excluir o registro." };
 
-  revalidatePath("/gestor/merenda");
+  revalidarMerenda();
+  return { success: true };
+}
+
+export async function listMerendaEstoque(
+  escolaId: string,
+): Promise<MerendaEstoqueItem[]> {
+  await requireRole(["gestor_escolar", "admin_sme"]);
+
+  if (await isDevSessionActive()) {
+    return devMerendaEstoque
+      .filter((item) => item.escolaId === escolaId)
+      .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("merenda_estoque")
+    .select("*")
+    .eq("escola_id", escolaId)
+    .order("nome");
+
+  if (error) {
+    return devMerendaEstoque.filter((item) => item.escolaId === escolaId);
+  }
+
+  return (
+    data?.map((item) => ({
+      id: item.id,
+      escolaId: item.escola_id,
+      nome: item.nome,
+      quantidade: Number(item.quantidade),
+      unidade: item.unidade,
+      estoqueMinimo: Number(item.estoque_minimo),
+      validade: item.validade,
+      createdAt: item.created_at,
+    })) ?? []
+  );
+}
+
+export async function criarMerendaEstoqueItem(
+  formData: FormData,
+): Promise<ActionResult> {
+  const ctx = await getGestorEscolaId();
+  if ("error" in ctx) return { error: ctx.error };
+
+  const nome = String(formData.get("nome") ?? "").trim();
+  const quantidade = Number(formData.get("quantidade") ?? 0);
+  const unidade = String(formData.get("unidade") ?? "kg").trim();
+  const estoqueMinimo = Number(formData.get("estoque_minimo") ?? 0);
+  const validade = String(formData.get("validade") ?? "").trim() || null;
+
+  if (!nome) return { error: "Informe o nome do insumo." };
+  if (quantidade < 0 || estoqueMinimo < 0) {
+    return { error: "Quantidades inválidas." };
+  }
+
+  const item: MerendaEstoqueItem = {
+    id: crypto.randomUUID(),
+    escolaId: ctx.escolaId,
+    nome,
+    quantidade,
+    unidade,
+    estoqueMinimo,
+    validade,
+    createdAt: new Date().toISOString(),
+  };
+
+  if (await isDevSessionActive()) {
+    devMerendaEstoque.unshift(item);
+    revalidarMerenda();
+    return { success: true };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("merenda_estoque").insert({
+    escola_id: ctx.escolaId,
+    nome,
+    quantidade,
+    unidade,
+    estoque_minimo: estoqueMinimo,
+    validade,
+  });
+
+  if (error) {
+    devMerendaEstoque.unshift(item);
+    revalidarMerenda();
+    return { success: true };
+  }
+
+  revalidarMerenda();
+  return { success: true };
+}
+
+export async function excluirMerendaEstoqueItem(
+  itemId: string,
+): Promise<ActionResult> {
+  const ctx = await getGestorEscolaId();
+  if ("error" in ctx) return { error: ctx.error };
+
+  if (await isDevSessionActive()) {
+    const index = devMerendaEstoque.findIndex(
+      (item) => item.id === itemId && item.escolaId === ctx.escolaId,
+    );
+    if (index >= 0) devMerendaEstoque.splice(index, 1);
+    revalidarMerenda();
+    return { success: true };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("merenda_estoque")
+    .delete()
+    .eq("id", itemId)
+    .eq("escola_id", ctx.escolaId);
+
+  if (error) return { error: "Não foi possível excluir o item." };
+
+  revalidarMerenda();
   return { success: true };
 }

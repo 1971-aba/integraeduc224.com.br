@@ -885,6 +885,32 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["matriculas"]["Insert"]>;
         Relationships: [];
       };
+      merenda_estoque: {
+        Row: {
+          id: string;
+          escola_id: string;
+          nome: string;
+          quantidade: number;
+          unidade: string;
+          estoque_minimo: number;
+          validade: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          escola_id: string;
+          nome: string;
+          quantidade?: number;
+          unidade?: string;
+          estoque_minimo?: number;
+          validade?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["merenda_estoque"]["Insert"]
+        >;
+        Relationships: [];
+      };
       merenda_registros: {
         Row: {
           id: string;

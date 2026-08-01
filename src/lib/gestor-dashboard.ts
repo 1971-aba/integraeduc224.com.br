@@ -647,7 +647,16 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Complementares 2024",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/complementares-2024",
+                    children: [
+                      {
+                        label: "Matrícula Detalhada",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/complementares-2024/matricula-detalhada",
+                      },
+                      {
+                        label: "Desempenho Alunos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/complementares-2024/desempenho-alunos",
+                      },
+                    ],
                   },
                   {
                     label: "Diário de Classe 2024",
@@ -713,7 +722,16 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Complementares 2025",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/complementares-2025",
+                    children: [
+                      {
+                        label: "Matrícula Detalhada",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/complementares-2025/matricula-detalhada",
+                      },
+                      {
+                        label: "Desempenho Alunos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/complementares-2025/desempenho-alunos",
+                      },
+                    ],
                   },
                   {
                     label: "Diário de Classe 2025",

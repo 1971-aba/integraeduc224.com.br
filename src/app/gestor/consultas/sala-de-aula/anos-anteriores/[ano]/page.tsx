@@ -13,5 +13,11 @@ export default async function GestorSalaDeAulaAnosAnterioresAnoPage({
     notFound();
   }
 
+  if (ano === "2023") {
+    redirect(
+      "/gestor/consultas/sala-de-aula/anos-anteriores/2023/ata-de-resultados",
+    );
+  }
+
   redirect(`/gestor/em-breve?modulo=Anos Anteriores ${ano}`);
 }

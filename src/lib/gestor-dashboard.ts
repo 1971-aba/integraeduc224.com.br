@@ -516,7 +516,48 @@ export const gestorMenuItems: MenuItem[] = [
             children: [
               {
                 label: "2023",
-                href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023",
+                children: [
+                  {
+                    label: "ATA de Resultados",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/ata-de-resultados",
+                  },
+                  {
+                    label: "Ficha de Avaliações",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/ficha-de-avaliacoes",
+                  },
+                  {
+                    label: "Boletins Individuais",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/boletins-individuais",
+                  },
+                  {
+                    label: "Concludentes 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/concludentes-2023",
+                  },
+                  {
+                    label: "Retidos 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/retidos-2023",
+                  },
+                  {
+                    label: "Evasão Escolar 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023",
+                  },
+                  {
+                    label: "Formações 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/formacoes-2023",
+                  },
+                  {
+                    label: "Aluno Nota 10 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/aluno-nota-10-2023",
+                  },
+                  {
+                    label: "Complementares 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/complementares-2023",
+                  },
+                  {
+                    label: "Diário de Classe 2023",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/diario-de-classe-2023",
+                  },
+                ],
               },
               {
                 label: "2024",

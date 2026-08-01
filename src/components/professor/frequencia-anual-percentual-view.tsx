@@ -10,14 +10,18 @@ type FrequenciaAnualPercentualViewProps = {
   resumos: FrequenciaTurmaResumo[];
   filtro: FrequenciaPercentualFiltro;
   basePath: string;
+  modoDestaque?: "lte" | "between";
 };
 
 export function FrequenciaAnualPercentualView({
   resumos,
   filtro,
   basePath,
+  modoDestaque,
 }: FrequenciaAnualPercentualViewProps) {
   const filtroAtivo = Boolean(filtro.tipo);
+  const mostrarMenorOuIgual = !modoDestaque || modoDestaque === "lte";
+  const mostrarEntre = !modoDestaque || modoDestaque === "between";
 
   return (
     <>
@@ -30,6 +34,7 @@ export function FrequenciaAnualPercentualView({
         </p>
 
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
+          {mostrarMenorOuIgual ? (
           <form className="flex flex-wrap items-end gap-3" method="get">
             <input type="hidden" name="tipo" value="lte" />
             <div className="min-w-[180px] flex-1">
@@ -58,7 +63,9 @@ export function FrequenciaAnualPercentualView({
               Filtrar
             </button>
           </form>
+          ) : null}
 
+          {mostrarEntre ? (
           <form className="flex flex-wrap items-end gap-3" method="get">
             <input type="hidden" name="tipo" value="between" />
             <div className="min-w-[120px] flex-1">
@@ -106,6 +113,7 @@ export function FrequenciaAnualPercentualView({
               Filtrar
             </button>
           </form>
+          ) : null}
         </div>
 
         {filtroAtivo ? (

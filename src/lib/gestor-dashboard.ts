@@ -427,7 +427,16 @@ export const gestorMenuItems: MenuItem[] = [
                 children: [
                   {
                     label: "Percentual Atingido",
-                    href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/percentual",
+                    children: [
+                      {
+                        label: "Menor ou Igual a:",
+                        href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/percentual/menor-ou-igual-a",
+                      },
+                      {
+                        label: "Entre:",
+                        href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/percentual/entre",
+                      },
+                    ],
                   },
                   {
                     label: "Turma por Ano %",

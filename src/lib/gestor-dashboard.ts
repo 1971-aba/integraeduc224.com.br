@@ -437,6 +437,15 @@ export const gestorMenuItems: MenuItem[] = [
           },
         ],
       },
+      {
+        label: "Aluno nota 10",
+        children: [
+          {
+            label: "Ranking por Turma",
+            href: "/gestor/consultas/aluno-nota-10/ranking-por-turma",
+          },
+        ],
+      },
       { label: "Visão Geral", href: "/gestor/relatorios" },
       { label: "Conferir Diários", href: "/gestor/consultas/diario" },
       { label: "Frequência Escolar", href: "/gestor/consultas/frequencia" },

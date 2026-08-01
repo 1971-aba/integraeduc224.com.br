@@ -585,7 +585,20 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Diário de Classe 2023",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/diario-de-classe-2023",
+                    children: [
+                      {
+                        label: "Ensino Fundamental",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/diario-de-classe-2023/ensino-fundamental",
+                      },
+                      {
+                        label: "Educação Infantil",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/diario-de-classe-2023/educacao-infantil",
+                      },
+                      {
+                        label: "Atividade Complementar",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/diario-de-classe-2023/atividade-complementar",
+                      },
+                    ],
                   },
                 ],
               },

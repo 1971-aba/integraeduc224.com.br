@@ -4,15 +4,50 @@ import { revalidatePath } from "next/cache";
 
 import { requireRole } from "@/lib/auth";
 import {
+  getAtribuicaoForEscola,
   getAtribuicaoForProfessor,
   validateDiaLetivo,
 } from "@/lib/diario";
+import { getGestorEscolaId } from "@/lib/gestor-relatorios";
 import type { PresencaStatus } from "@/lib/diario-utils";
 import type { ChamadaTipo } from "@/lib/chamada-tipos";
 import { isChamadaTipo } from "@/lib/chamada-tipos";
 import { createClient } from "@/lib/supabase/server";
 
 type ActionResult = { error?: string; success?: boolean };
+
+async function assertChamadaAtribuicao(atribuicaoId: string) {
+  const { profile } = await requireRole([
+    "professor",
+    "gestor_escolar",
+    "admin_sme",
+  ]);
+
+  if (profile.role === "professor") {
+    const atribuicao = await getAtribuicaoForProfessor(
+      atribuicaoId,
+      profile.id,
+    );
+
+    if (!atribuicao) {
+      throw new Error("Atribuição não encontrada.");
+    }
+
+    return { profile, atribuicao };
+  }
+
+  const escolaId = getGestorEscolaId(profile);
+  if (!escolaId) {
+    throw new Error("Escola não vinculada ao gestor.");
+  }
+
+  const atribuicao = await getAtribuicaoForEscola(atribuicaoId, escolaId);
+  if (!atribuicao) {
+    throw new Error("Atribuição não encontrada.");
+  }
+
+  return { profile, atribuicao };
+}
 
 async function assertProfessorAtribuicao(atribuicaoId: string) {
   const { profile } = await requireRole(["professor"]);
@@ -45,7 +80,7 @@ export async function salvarChamada(
     }
 
     const { profile, atribuicao } =
-      await assertProfessorAtribuicao(atribuicaoId);
+      await assertChamadaAtribuicao(atribuicaoId);
 
     if (!options?.permitirCorrecao) {
       const diaLetivo = await validateDiaLetivo(data, atribuicao.ano_letivo_id);
@@ -101,6 +136,15 @@ export async function salvarChamada(
     revalidatePath(`/professor/frequencia/corrigir/${atribuicaoId}`);
     revalidatePath("/professor/frequencia/atividade-complementar");
     revalidatePath("/professor/frequencia/aee");
+    revalidatePath("/gestor/consultas/sala-de-aula/frequencia-turma/realizar");
+    revalidatePath(
+      `/gestor/consultas/sala-de-aula/frequencia-turma/realizar/${atribuicaoId}`,
+    );
+    revalidatePath("/gestor/consultas/sala-de-aula/frequencia-turma/corrigir");
+    revalidatePath(
+      `/gestor/consultas/sala-de-aula/frequencia-turma/corrigir/${atribuicaoId}`,
+    );
+    revalidatePath("/gestor/consultas/frequencia");
     return { success: true };
   } catch {
     return { error: "Erro ao salvar chamada." };

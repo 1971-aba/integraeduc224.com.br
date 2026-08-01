@@ -40,6 +40,9 @@ export function ProfessorTurmasGrid({
             <p className="mt-1 text-sm text-slate-600">
               {turma.turma} — {turma.serie} • {turma.turno}
             </p>
+            {turma.detalhe ? (
+              <p className="mt-1 text-xs text-slate-500">{turma.detalhe}</p>
+            ) : null}
             <p className="mt-4 text-sm font-medium text-[#1E7BB8]">{actionLabel}</p>
           </Link>
         ))}

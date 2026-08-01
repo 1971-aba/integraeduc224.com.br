@@ -578,6 +578,8 @@ export type ProfessorTurmaResumo = {
 
   anoLetivo: number | null;
 
+  detalhe?: string;
+
 };
 
 

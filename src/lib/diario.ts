@@ -121,6 +121,32 @@ export async function getAtribuicaoForProfessor(
   return mapped as AtribuicaoDetalhe;
 }
 
+export async function getAtribuicaoForEscola(
+  atribuicaoId: string,
+  escolaId: string,
+) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("atribuicoes_docentes")
+    .select("id, turma_id, disciplina_id, ano_letivo_id")
+    .eq("id", atribuicaoId)
+    .maybeSingle();
+
+  if (error || !data) {
+    return null;
+  }
+
+  const [mapped] = await mapAtribuicoes([data]);
+  const atribuicao = mapped as AtribuicaoDetalhe;
+
+  if (atribuicao.turmas?.escola_id !== escolaId) {
+    return null;
+  }
+
+  return atribuicao;
+}
+
 export async function getMatriculasAtivas(turmaId: string) {
   const supabase = await createClient();
 

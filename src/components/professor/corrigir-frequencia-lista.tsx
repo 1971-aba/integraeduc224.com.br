@@ -16,6 +16,7 @@ type CorrigirFrequenciaListaProps = {
   atribuicaoId: string;
   turmaLabel: string;
   chamadas: ChamadaResumo[];
+  basePath?: string;
 };
 
 const tipoLabels: Record<ChamadaTipo, string> = {
@@ -28,6 +29,7 @@ export function CorrigirFrequenciaLista({
   atribuicaoId,
   turmaLabel,
   chamadas,
+  basePath = "/professor/frequencia/corrigir",
 }: CorrigirFrequenciaListaProps) {
   return (
     <>
@@ -37,7 +39,7 @@ export function CorrigirFrequenciaLista({
       />
 
       <Link
-        href="/professor/frequencia/corrigir"
+        href={basePath}
         className="mb-4 inline-flex text-sm font-medium text-blue-700 hover:underline"
       >
         ← Voltar às turmas
@@ -68,7 +70,7 @@ export function CorrigirFrequenciaLista({
                 </td>
                 <td className="px-4 py-3 text-right">
                   <Link
-                    href={`/professor/frequencia/corrigir/${atribuicaoId}?data=${chamada.data}&tipo=${chamada.tipo}`}
+                    href={`${basePath}/${atribuicaoId}?data=${chamada.data}&tipo=${chamada.tipo}`}
                     className="font-medium text-[#1E7BB8] hover:underline"
                   >
                     Corrigir

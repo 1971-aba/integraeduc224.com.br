@@ -106,6 +106,28 @@ export async function getEscolaAtribuicoes(
   });
 }
 
+export function mapEscolaAtribuicoesTurmas(
+  atribuicoes: EscolaAtribuicao[],
+): Array<{
+  id: string;
+  disciplina: string;
+  turma: string;
+  serie: string;
+  turno: string;
+  anoLetivo: number | null;
+  detalhe?: string;
+}> {
+  return atribuicoes.map((item) => ({
+    id: item.id,
+    disciplina: item.disciplina,
+    turma: item.turma,
+    serie: item.serie,
+    turno: item.turno,
+    anoLetivo: null,
+    detalhe: item.professorNome,
+  }));
+}
+
 export async function getDiarioPendenciasEscola(
   supabase: SupabaseClient<Database>,
   escolaId: string,

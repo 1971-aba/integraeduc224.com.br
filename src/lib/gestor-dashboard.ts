@@ -417,7 +417,16 @@ export const gestorMenuItems: MenuItem[] = [
         children: [
           {
             label: "Frequência Aluno",
-            href: "/gestor/consultas/sala-de-aula/frequencia-aluno",
+            children: [
+              {
+                label: "Frequência Aluno",
+                href: "/gestor/consultas/sala-de-aula/frequencia-aluno/aluno",
+              },
+              {
+                label: "Frequência Anual",
+                href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual",
+              },
+            ],
           },
           {
             label: "Frequência Turma",

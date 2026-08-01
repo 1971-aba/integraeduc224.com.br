@@ -312,6 +312,7 @@ export async function getEscolaBimestreOptions(
 export async function getFrequenciaConsolidadaEscola(
   escolaId: string,
   bimestreId?: string,
+  escopo: "bimestre" | "anual" = "bimestre",
 ): Promise<FrequenciaTurmaResumo[]> {
   const supabase = await createClient();
   const turmaIds = await getEscolaTurmaIds(supabase, escolaId);
@@ -353,35 +354,37 @@ export async function getFrequenciaConsolidadaEscola(
   const resumos: FrequenciaTurmaResumo[] = [];
 
   for (const atribuicao of atribuicoes) {
-    let periodoLabel = "Período letivo";
+    let periodoLabel = escopo === "anual" ? "Ano letivo" : "Período letivo";
     let dataInicio: string | null = null;
     let dataFim: string | null = null;
 
-    if (bimestreId) {
-      const { data: bimestre } = await supabase
-        .from("bimestres")
-        .select("numero, data_inicio, data_fim")
-        .eq("id", bimestreId)
-        .maybeSingle();
+    if (escopo === "bimestre") {
+      if (bimestreId) {
+        const { data: bimestre } = await supabase
+          .from("bimestres")
+          .select("numero, data_inicio, data_fim")
+          .eq("id", bimestreId)
+          .maybeSingle();
 
-      if (bimestre) {
-        periodoLabel = `${bimestre.numero}º bimestre`;
-        dataInicio = bimestre.data_inicio;
-        dataFim = bimestre.data_fim;
-      }
-    } else {
-      const { data: bimestreAtual } = await supabase
-        .from("bimestres")
-        .select("numero, data_inicio, data_fim")
-        .eq("ano_letivo_id", atribuicao.ano_letivo_id)
-        .lte("data_inicio", new Date().toISOString().slice(0, 10))
-        .gte("data_fim", new Date().toISOString().slice(0, 10))
-        .maybeSingle();
+        if (bimestre) {
+          periodoLabel = `${bimestre.numero}º bimestre`;
+          dataInicio = bimestre.data_inicio;
+          dataFim = bimestre.data_fim;
+        }
+      } else {
+        const { data: bimestreAtual } = await supabase
+          .from("bimestres")
+          .select("numero, data_inicio, data_fim")
+          .eq("ano_letivo_id", atribuicao.ano_letivo_id)
+          .lte("data_inicio", new Date().toISOString().slice(0, 10))
+          .gte("data_fim", new Date().toISOString().slice(0, 10))
+          .maybeSingle();
 
-      if (bimestreAtual) {
-        periodoLabel = `${bimestreAtual.numero}º bimestre (atual)`;
-        dataInicio = bimestreAtual.data_inicio;
-        dataFim = bimestreAtual.data_fim;
+        if (bimestreAtual) {
+          periodoLabel = `${bimestreAtual.numero}º bimestre (atual)`;
+          dataInicio = bimestreAtual.data_inicio;
+          dataFim = bimestreAtual.data_fim;
+        }
       }
     }
 

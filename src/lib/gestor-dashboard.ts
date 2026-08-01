@@ -424,7 +424,20 @@ export const gestorMenuItems: MenuItem[] = [
               },
               {
                 label: "Frequência Anual",
-                href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual",
+                children: [
+                  {
+                    label: "Percentual Atingido",
+                    href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/percentual",
+                  },
+                  {
+                    label: "Turma por Ano %",
+                    href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/turma",
+                  },
+                  {
+                    label: "Disciplina Ano %",
+                    href: "/gestor/consultas/sala-de-aula/frequencia-aluno/anual/disciplina",
+                  },
+                ],
               },
             ],
           },

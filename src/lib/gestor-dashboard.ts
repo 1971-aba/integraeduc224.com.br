@@ -460,7 +460,20 @@ export const gestorMenuItems: MenuItem[] = [
           },
           {
             label: "Anos Anteriores",
-            href: "/gestor/consultas/sala-de-aula/anos-anteriores",
+            children: [
+              {
+                label: "2023",
+                href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023",
+              },
+              {
+                label: "2024",
+                href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024",
+              },
+              {
+                label: "2025",
+                href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025",
+              },
+            ],
           },
           {
             label: "Atualizar Dados",

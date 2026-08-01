@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function GestorSalaDeAulaAnosAnterioresPage() {
-  redirect("/gestor/em-breve?modulo=Anos Anteriores");
+export default function GestorSalaDeAulaAnosAnterioresIndexPage() {
+  redirect("/gestor/consultas/sala-de-aula/anos-anteriores/2023");
 }

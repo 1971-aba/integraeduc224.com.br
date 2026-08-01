@@ -8,7 +8,6 @@ const MODULOS_2023: Record<string, string> = {
   "retidos-2023": "Retidos 2023",
   "formacoes-2023": "Formações 2023",
   "aluno-nota-10-2023": "Aluno Nota 10 2023",
-  "complementares-2023": "Complementares 2023",
   "diario-de-classe-2023": "Diário de Classe 2023",
 };
 

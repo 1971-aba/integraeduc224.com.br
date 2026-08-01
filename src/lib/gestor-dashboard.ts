@@ -572,7 +572,16 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Complementares 2023",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/complementares-2023",
+                    children: [
+                      {
+                        label: "Matrícula Detalhada",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/complementares-2023/matricula-detalhada",
+                      },
+                      {
+                        label: "Desempenho Alunos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/complementares-2023/desempenho-alunos",
+                      },
+                    ],
                   },
                   {
                     label: "Diário de Classe 2023",

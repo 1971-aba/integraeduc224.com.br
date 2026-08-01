@@ -671,7 +671,28 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Evasão Escolar 2025",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025",
+                    children: [
+                      {
+                        label: "Todas as Evasões",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025/todas-as-evasoes",
+                      },
+                      {
+                        label: "Desistentes",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025/desistentes",
+                      },
+                      {
+                        label: "Transferidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025/transferidos",
+                      },
+                      {
+                        label: "Expulsos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025/expulsos",
+                      },
+                      {
+                        label: "Falecidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025/falecidos",
+                      },
+                    ],
                   },
                   {
                     label: "Formações 2025",

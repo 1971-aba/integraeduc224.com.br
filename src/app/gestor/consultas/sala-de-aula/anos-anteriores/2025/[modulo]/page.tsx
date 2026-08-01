@@ -6,7 +6,6 @@ const MODULOS_2025: Record<string, string> = {
   "boletins-individuais": "Boletins Individuais",
   "concludentes-2025": "Concludentes 2025",
   "retidos-2025": "Retidos 2025",
-  "evasao-escolar-2025": "Evasão Escolar 2025",
   "formacoes-2025": "Formações 2025",
   "aluno-nota-10-2025": "Aluno Nota 10 2025",
   "complementares-2025": "Complementares 2025",

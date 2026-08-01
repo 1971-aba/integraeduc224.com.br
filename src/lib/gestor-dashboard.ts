@@ -412,6 +412,31 @@ export const gestorMenuItems: MenuItem[] = [
   {
     label: "Consultas",
     children: [
+      {
+        label: "Sala de Aula",
+        children: [
+          {
+            label: "Frequência Aluno",
+            href: "/gestor/consultas/sala-de-aula/frequencia-aluno",
+          },
+          {
+            label: "Frequência Turma",
+            href: "/gestor/consultas/sala-de-aula/frequencia-turma",
+          },
+          {
+            label: "Avaliações Gerais",
+            href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais",
+          },
+          {
+            label: "Anos Anteriores",
+            href: "/gestor/consultas/sala-de-aula/anos-anteriores",
+          },
+          {
+            label: "Atualizar Dados",
+            href: "/gestor/consultas/sala-de-aula/atualizar-dados",
+          },
+        ],
+      },
       { label: "Visão Geral", href: "/gestor/relatorios" },
       { label: "Conferir Diários", href: "/gestor/consultas/diario" },
       { label: "Frequência Escolar", href: "/gestor/consultas/frequencia" },

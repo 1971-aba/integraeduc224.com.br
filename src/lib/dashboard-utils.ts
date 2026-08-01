@@ -21,3 +21,13 @@ export function formatTurnoLabel(turno: string) {
 
   return labels[turno.toLowerCase()] ?? turno.toUpperCase();
 }
+
+export function formatTurmaAtualizarDadosLabel(
+  serie: string,
+  turno: string,
+  id: string,
+  nome?: string,
+) {
+  const displayId = nome && /^\d+$/.test(nome) ? nome : id;
+  return `${serie.toUpperCase()} - ${formatTurnoLabel(turno)} - ID: ${displayId}`;
+}

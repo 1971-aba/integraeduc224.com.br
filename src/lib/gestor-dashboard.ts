@@ -1,6 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import { formatDashboardDate, formatTurnoLabel } from "@/lib/dashboard-utils";
+import {
+  formatDashboardDate,
+  formatTurmaAtualizarDadosLabel,
+  formatTurnoLabel,
+} from "@/lib/dashboard-utils";
 import {
   DOCUMENTOS_ALUNO,
   DOCUMENTOS_ALUNO_IDS,
@@ -819,7 +823,7 @@ export const gestorMenuItems: MenuItem[] = [
               {
                 label: "Frequência Turma",
                 href: "/gestor/consultas/sala-de-aula/atualizar-dados/frequencia-turma",
-              },
+              }, // children dinâmicos em getGestorMenuItems
               {
                 label: "Antecipa Certificado",
                 href: "/gestor/consultas/sala-de-aula/atualizar-dados/antecipa-certificado",
@@ -875,6 +879,104 @@ export const gestorMenuItems: MenuItem[] = [
     ],
   },
 ];
+
+const FREQUENCIA_TURMA_ATUALIZAR_BASE =
+  "/gestor/consultas/sala-de-aula/atualizar-dados/frequencia-turma";
+
+const TURNO_ORDEM = ["manha", "tarde", "noite", "integral"];
+
+type TurmaMenu = { id: string; serie: string; turno: string; nome: string };
+
+function compareTurmasMenu(a: TurmaMenu, b: TurmaMenu) {
+  const serie = a.serie.localeCompare(b.serie, "pt-BR", { numeric: true });
+  if (serie !== 0) return serie;
+
+  const turnoA = TURNO_ORDEM.indexOf(a.turno.toLowerCase());
+  const turnoB = TURNO_ORDEM.indexOf(b.turno.toLowerCase());
+  return (turnoA === -1 ? 99 : turnoA) - (turnoB === -1 ? 99 : turnoB);
+}
+
+function patchFrequenciaTurmaAtualizarDados(
+  items: MenuItem[],
+  turmas: TurmaMenu[],
+): MenuItem[] {
+  const turmaChildren: MenuItem[] = turmas.map((turma) => ({
+    label: formatTurmaAtualizarDadosLabel(
+      turma.serie,
+      turma.turno,
+      turma.id,
+      turma.nome,
+    ),
+    href: `${FREQUENCIA_TURMA_ATUALIZAR_BASE}/${turma.id}`,
+  }));
+
+  const frequenciaTurmaItem: MenuItem =
+    turmaChildren.length > 0
+      ? { label: "Frequência Turma", children: turmaChildren }
+      : {
+          label: "Frequência Turma",
+          href: FREQUENCIA_TURMA_ATUALIZAR_BASE,
+        };
+
+  return items.map((item) => {
+    if (item.label !== "Consultas" || !item.children) return item;
+
+    return {
+      ...item,
+      children: item.children.map((consulta) => {
+        if (consulta.label !== "Sala de Aula" || !consulta.children) {
+          return consulta;
+        }
+
+        return {
+          ...consulta,
+          children: consulta.children.map((salaItem) => {
+            if (salaItem.label !== "Atualizar Dados" || !salaItem.children) {
+              return salaItem;
+            }
+
+            return {
+              ...salaItem,
+              children: salaItem.children.map((modulo) =>
+                modulo.label === "Frequência Turma" ? frequenciaTurmaItem : modulo,
+              ),
+            };
+          }),
+        };
+      }),
+    };
+  });
+}
+
+export async function getGestorMenuItems(
+  supabase: SupabaseClient<Database>,
+  escolaId: string | null,
+): Promise<MenuItem[]> {
+  if (!escolaId) {
+    return gestorMenuItems;
+  }
+
+  const { data: anoAtivo } = await supabase
+    .from("anos_letivos")
+    .select("id")
+    .eq("ativo", true)
+    .maybeSingle();
+
+  let turmasQuery = supabase
+    .from("turmas")
+    .select("id, serie, turno, nome")
+    .eq("escola_id", escolaId);
+
+  if (anoAtivo?.id) {
+    turmasQuery = turmasQuery.eq("ano_letivo_id", anoAtivo.id);
+  }
+
+  const { data: turmas } = await turmasQuery;
+
+  const turmasOrdenadas = [...(turmas ?? [])].sort(compareTurmasMenu);
+
+  return patchFrequenciaTurmaAtualizarDados(gestorMenuItems, turmasOrdenadas);
+}
 
 export async function getGestorDashboardConfig(
   supabase: SupabaseClient<Database>,

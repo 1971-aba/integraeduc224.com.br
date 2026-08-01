@@ -28,10 +28,6 @@ const MODULOS: Record<
     tipo: "em-breve",
     label: "Acessos dos Alunos",
   },
-  "frequencia-turma": {
-    tipo: "em-breve",
-    label: "Frequência Turma",
-  },
   "antecipa-certificado": {
     tipo: "em-breve",
     label: "Antecipa Certificado",

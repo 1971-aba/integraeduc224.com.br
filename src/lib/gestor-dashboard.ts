@@ -761,7 +761,20 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Diário de Classe 2025",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/diario-de-classe-2025",
+                    children: [
+                      {
+                        label: "Ensino Fundamental",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/diario-de-classe-2025/ensino-fundamental",
+                      },
+                      {
+                        label: "Educação Infantil",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/diario-de-classe-2025/educacao-infantil",
+                      },
+                      {
+                        label: "Atividade Complementar",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/diario-de-classe-2025/atividade-complementar",
+                      },
+                    ],
                   },
                 ],
               },

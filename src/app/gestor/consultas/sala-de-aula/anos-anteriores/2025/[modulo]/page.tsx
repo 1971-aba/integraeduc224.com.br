@@ -8,7 +8,6 @@ const MODULOS_2025: Record<string, string> = {
   "retidos-2025": "Retidos 2025",
   "formacoes-2025": "Formações 2025",
   "aluno-nota-10-2025": "Aluno Nota 10 2025",
-  "diario-de-classe-2025": "Diário de Classe 2025",
 };
 
 export default async function GestorSalaDeAulaAnosAnteriores2025ModuloPage({

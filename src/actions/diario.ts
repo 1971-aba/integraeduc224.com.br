@@ -137,8 +137,9 @@ export async function salvarChamada(
     revalidatePath("/professor/frequencia/atividade-complementar");
     revalidatePath("/professor/frequencia/aee");
     revalidatePath("/gestor/consultas/sala-de-aula/frequencia-turma/realizar");
+    revalidatePath("/gestor/consultas/sala-de-aula/frequencia-turma/realizar/turma");
     revalidatePath(
-      `/gestor/consultas/sala-de-aula/frequencia-turma/realizar/${atribuicaoId}`,
+      `/gestor/consultas/sala-de-aula/frequencia-turma/realizar/turma/${atribuicaoId}`,
     );
     revalidatePath("/gestor/consultas/sala-de-aula/frequencia-turma/corrigir");
     revalidatePath(

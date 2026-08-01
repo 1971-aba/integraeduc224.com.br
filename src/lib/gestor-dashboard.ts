@@ -479,7 +479,16 @@ export const gestorMenuItems: MenuItem[] = [
                 children: [
                   {
                     label: "Ficha de Avaliações",
-                    href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/ficha-de-avaliacoes",
+                    children: [
+                      {
+                        label: "Ensino Fundamental",
+                        href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/ficha-de-avaliacoes/fundamental",
+                      },
+                      {
+                        label: "Educação Infantil",
+                        href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/ficha-de-avaliacoes/infantil",
+                      },
+                    ],
                   },
                   {
                     label: "Boletim do Aluno",

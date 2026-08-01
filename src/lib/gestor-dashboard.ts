@@ -605,7 +605,28 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Evasão Escolar 2024",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024",
+                    children: [
+                      {
+                        label: "Todas as Evasões",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024/todas-as-evasoes",
+                      },
+                      {
+                        label: "Desistentes",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024/desistentes",
+                      },
+                      {
+                        label: "Transferidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024/transferidos",
+                      },
+                      {
+                        label: "Expulsos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024/expulsos",
+                      },
+                      {
+                        label: "Falecidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/evasao-escolar-2024/falecidos",
+                      },
+                    ],
                   },
                   {
                     label: "Formações 2024",

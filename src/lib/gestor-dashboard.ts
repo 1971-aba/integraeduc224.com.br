@@ -492,7 +492,16 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Boletim do Aluno",
-                    href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/boletim-do-aluno",
+                    children: [
+                      {
+                        label: "Completo",
+                        href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/boletim-do-aluno/completo",
+                      },
+                      {
+                        label: "Resumido",
+                        href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/boletim-do-aluno/resumido",
+                      },
+                    ],
                   },
                 ],
               },

@@ -12,6 +12,7 @@ type BoletimIndividualViewProps = {
   matriculaId: string;
   bimestreId?: string;
   escolaNome: string;
+  modo?: "completo" | "resumido";
 };
 
 function formatNota(value: number | null) {
@@ -31,6 +32,7 @@ export function BoletimIndividualView({
   matriculaId,
   bimestreId,
   escolaNome,
+  modo = "completo",
 }: BoletimIndividualViewProps) {
   const aluno = boletim.alunos.find((item) => item.matriculaId === matriculaId);
   const bimestreNumero =
@@ -69,7 +71,7 @@ export function BoletimIndividualView({
             {escolaNome}
           </p>
           <h2 className="mt-2 text-xl font-semibold text-slate-900">
-            Boletim Individual
+            {modo === "resumido" ? "Boletim Resumido" : "Boletim Completo"}
           </h2>
           <p className="mt-1 text-sm text-slate-600">
             {boletim.turma.nome} — {boletim.turma.serie} •{" "}
@@ -96,7 +98,9 @@ export function BoletimIndividualView({
               <thead className="border-b border-slate-200 text-slate-600">
                 <tr>
                   <th className="py-2 text-left font-medium">Disciplina</th>
-                  <th className="py-2 text-left font-medium">Professor</th>
+                  {modo === "completo" ? (
+                    <th className="py-2 text-left font-medium">Professor</th>
+                  ) : null}
                   <th className="py-2 text-right font-medium">Nota / Média</th>
                 </tr>
               </thead>
@@ -112,9 +116,11 @@ export function BoletimIndividualView({
                       <td className="py-3 font-medium text-slate-900">
                         {disciplina.disciplina}
                       </td>
-                      <td className="py-3 text-slate-600">
-                        {disciplina.professor}
-                      </td>
+                      {modo === "completo" ? (
+                        <td className="py-3 text-slate-600">
+                          {disciplina.professor}
+                        </td>
+                      ) : null}
                       <td className={`py-3 text-right ${notaTone(media)}`}>
                         {formatNota(media)}
                       </td>
@@ -125,7 +131,7 @@ export function BoletimIndividualView({
               <tfoot>
                 <tr className="border-t border-slate-200">
                   <td
-                    colSpan={2}
+                    colSpan={modo === "completo" ? 2 : 1}
                     className="py-3 font-semibold text-slate-900"
                   >
                     Média geral

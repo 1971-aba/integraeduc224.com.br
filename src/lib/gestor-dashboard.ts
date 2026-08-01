@@ -606,7 +606,48 @@ export const gestorMenuItems: MenuItem[] = [
               },
               {
                 label: "2025",
-                href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025",
+                children: [
+                  {
+                    label: "ATA de Resultados",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/ata-de-resultados",
+                  },
+                  {
+                    label: "Ficha de Avaliações",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/ficha-de-avaliacoes",
+                  },
+                  {
+                    label: "Boletins Individuais",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/boletins-individuais",
+                  },
+                  {
+                    label: "Concludentes 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/concludentes-2025",
+                  },
+                  {
+                    label: "Retidos 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/retidos-2025",
+                  },
+                  {
+                    label: "Evasão Escolar 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/evasao-escolar-2025",
+                  },
+                  {
+                    label: "Formações 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/formacoes-2025",
+                  },
+                  {
+                    label: "Aluno Nota 10 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/aluno-nota-10-2025",
+                  },
+                  {
+                    label: "Complementares 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/complementares-2025",
+                  },
+                  {
+                    label: "Diário de Classe 2025",
+                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2025/diario-de-classe-2025",
+                  },
+                ],
               },
             ],
           },

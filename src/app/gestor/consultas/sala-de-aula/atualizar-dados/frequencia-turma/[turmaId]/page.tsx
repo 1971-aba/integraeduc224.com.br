@@ -24,7 +24,7 @@ export default async function GestorAtualizarDadosFrequenciaTurmaPage({
 
   const { data: turma } = await supabase
     .from("turmas")
-    .select("id, serie, turno, nome, escola_id")
+    .select("id, serie, turno, nome, codigo, escola_id")
     .eq("id", turmaId)
     .maybeSingle();
 
@@ -36,7 +36,7 @@ export default async function GestorAtualizarDadosFrequenciaTurmaPage({
     turma.serie,
     turma.turno,
     turma.id,
-    turma.nome,
+    { nome: turma.nome, codigo: turma.codigo },
   );
 
   redirect(

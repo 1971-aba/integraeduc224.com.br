@@ -1231,6 +1231,7 @@ export type Database = {
           nome: string;
           serie: string;
           turno: string;
+          codigo: number | null;
           created_at: string;
         };
         Insert: {
@@ -1240,6 +1241,7 @@ export type Database = {
           nome: string;
           serie: string;
           turno: string;
+          codigo?: number | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["turmas"]["Insert"]>;

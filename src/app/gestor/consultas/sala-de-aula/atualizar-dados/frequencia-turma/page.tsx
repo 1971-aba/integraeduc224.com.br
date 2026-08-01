@@ -29,6 +29,7 @@ export default async function GestorAtualizarDadosFrequenciaTurmaIndexPage() {
     .from("turmas")
     .select("id")
     .eq("escola_id", escolaId)
+    .order("codigo", { ascending: true, nullsFirst: false })
     .order("serie")
     .limit(1);
 

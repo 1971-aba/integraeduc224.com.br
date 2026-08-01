@@ -239,18 +239,93 @@ async function ensureDemoBaseData(db) {
   console.log("✓ Disciplina demo");
 
   const { error: turmaError } = await db.from("turmas").upsert(
-    {
-      id: TURMA_5A_ID,
-      escola_id: ESCOLA_MARIA_ID,
-      ano_letivo_id: ANO_LETIVO_ID,
-      nome: "5º A",
-      serie: "5º ano",
-      turno: "manha",
-    },
+    [
+      {
+        id: "a1000001-0001-4001-8001-000000000001",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "1º ano",
+        turno: "matutino",
+        codigo: 54,
+      },
+      {
+        id: "a1000002-0002-4002-8002-000000000002",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "2º ano",
+        turno: "matutino",
+        codigo: 55,
+      },
+      {
+        id: "a1000003-0003-4003-8003-000000000003",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "3º ano",
+        turno: "matutino",
+        codigo: 56,
+      },
+      {
+        id: "a1000004-0004-4004-8004-000000000004",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "4º ano",
+        turno: "matutino",
+        codigo: 57,
+      },
+      {
+        id: TURMA_5A_ID,
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "5º ano",
+        turno: "matutino",
+        codigo: 58,
+      },
+      {
+        id: "a1000006-0006-4006-8006-000000000006",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "6º ano",
+        turno: "vespertino",
+        codigo: 59,
+      },
+      {
+        id: "a1000007-0007-4007-8007-000000000007",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "7º ano",
+        turno: "vespertino",
+        codigo: 60,
+      },
+      {
+        id: "a1000008-0008-4008-8008-000000000008",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "8º ano",
+        turno: "vespertino",
+        codigo: 61,
+      },
+      {
+        id: "a1000009-0009-4009-8009-000000000009",
+        escola_id: ESCOLA_MARIA_ID,
+        ano_letivo_id: ANO_LETIVO_ID,
+        nome: "A",
+        serie: "9º ano",
+        turno: "vespertino",
+        codigo: 62,
+      },
+    ],
     { onConflict: "id" },
   );
   if (turmaError) throw turmaError;
-  console.log("✓ Turma demo");
+  console.log("✓ Turmas demo (1º ao 9º ano)");
 }
 
 async function main() {

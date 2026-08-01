@@ -12,22 +12,41 @@ export function formatDashboardDate(date: Date) {
 }
 
 export function formatTurnoLabel(turno: string) {
+  const normalized = turno.toLowerCase();
   const labels: Record<string, string> = {
     manha: "MANHÃ",
+    matutino: "MANHÃ",
     tarde: "TARDE",
+    vespertino: "TARDE",
     noite: "NOITE",
+    noturno: "NOITE",
     integral: "INTEGRAL",
   };
 
-  return labels[turno.toLowerCase()] ?? turno.toUpperCase();
+  return labels[normalized] ?? turno.toUpperCase();
+}
+
+export function formatSerieMenuLabel(serie: string) {
+  const match = serie.match(/(\d+)/);
+  if (!match) {
+    return serie.toUpperCase();
+  }
+
+  return `${match[1]}ª ANO`;
 }
 
 export function formatTurmaAtualizarDadosLabel(
   serie: string,
   turno: string,
   id: string,
-  nome?: string,
+  options?: { nome?: string; codigo?: number | null },
 ) {
-  const displayId = nome && /^\d+$/.test(nome) ? nome : id;
-  return `${serie.toUpperCase()} - ${formatTurnoLabel(turno)} - ID: ${displayId}`;
+  const displayId =
+    options?.codigo != null
+      ? String(options.codigo)
+      : options?.nome && /^\d+$/.test(options.nome)
+        ? options.nome
+        : id;
+
+  return `${formatSerieMenuLabel(serie)} - ${formatTurnoLabel(turno)} - ID: ${displayId}`;
 }

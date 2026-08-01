@@ -883,16 +883,38 @@ export const gestorMenuItems: MenuItem[] = [
 const FREQUENCIA_TURMA_ATUALIZAR_BASE =
   "/gestor/consultas/sala-de-aula/atualizar-dados/frequencia-turma";
 
-const TURNO_ORDEM = ["manha", "tarde", "noite", "integral"];
+const TURNO_ORDEM = [
+  "manha",
+  "matutino",
+  "tarde",
+  "vespertino",
+  "noite",
+  "noturno",
+  "integral",
+];
 
-type TurmaMenu = { id: string; serie: string; turno: string; nome: string };
+type TurmaMenu = {
+  id: string;
+  serie: string;
+  turno: string;
+  nome: string;
+  codigo: number | null;
+};
+
+function normalizeTurno(turno: string) {
+  const value = turno.toLowerCase();
+  if (value === "matutino") return "manha";
+  if (value === "vespertino") return "tarde";
+  if (value === "noturno") return "noite";
+  return value;
+}
 
 function compareTurmasMenu(a: TurmaMenu, b: TurmaMenu) {
   const serie = a.serie.localeCompare(b.serie, "pt-BR", { numeric: true });
   if (serie !== 0) return serie;
 
-  const turnoA = TURNO_ORDEM.indexOf(a.turno.toLowerCase());
-  const turnoB = TURNO_ORDEM.indexOf(b.turno.toLowerCase());
+  const turnoA = TURNO_ORDEM.indexOf(normalizeTurno(a.turno));
+  const turnoB = TURNO_ORDEM.indexOf(normalizeTurno(b.turno));
   return (turnoA === -1 ? 99 : turnoA) - (turnoB === -1 ? 99 : turnoB);
 }
 
@@ -901,12 +923,10 @@ function patchFrequenciaTurmaAtualizarDados(
   turmas: TurmaMenu[],
 ): MenuItem[] {
   const turmaChildren: MenuItem[] = turmas.map((turma) => ({
-    label: formatTurmaAtualizarDadosLabel(
-      turma.serie,
-      turma.turno,
-      turma.id,
-      turma.nome,
-    ),
+    label: formatTurmaAtualizarDadosLabel(turma.serie, turma.turno, turma.id, {
+      nome: turma.nome,
+      codigo: turma.codigo,
+    }),
     href: `${FREQUENCIA_TURMA_ATUALIZAR_BASE}/${turma.id}`,
   }));
 
@@ -964,7 +984,7 @@ export async function getGestorMenuItems(
 
   let turmasQuery = supabase
     .from("turmas")
-    .select("id, serie, turno, nome")
+    .select("id, serie, turno, nome, codigo")
     .eq("escola_id", escolaId);
 
   if (anoAtivo?.id) {

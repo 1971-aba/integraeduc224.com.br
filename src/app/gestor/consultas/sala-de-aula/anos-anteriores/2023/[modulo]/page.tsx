@@ -6,7 +6,6 @@ const MODULOS_2023: Record<string, string> = {
   "boletins-individuais": "Boletins Individuais",
   "concludentes-2023": "Concludentes 2023",
   "retidos-2023": "Retidos 2023",
-  "evasao-escolar-2023": "Evasão Escolar 2023",
   "formacoes-2023": "Formações 2023",
   "aluno-nota-10-2023": "Aluno Nota 10 2023",
   "complementares-2023": "Complementares 2023",

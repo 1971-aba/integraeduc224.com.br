@@ -539,7 +539,28 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Evasão Escolar 2023",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023",
+                    children: [
+                      {
+                        label: "Todas as Evasões",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023/todas-as-evasoes",
+                      },
+                      {
+                        label: "Desistentes",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023/desistentes",
+                      },
+                      {
+                        label: "Transferidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023/transferidos",
+                      },
+                      {
+                        label: "Expulsos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023/expulsos",
+                      },
+                      {
+                        label: "Falecidos",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2023/evasao-escolar-2023/falecidos",
+                      },
+                    ],
                   },
                   {
                     label: "Formações 2023",

@@ -477,7 +477,40 @@ export const gestorMenuItems: MenuItem[] = [
           },
           {
             label: "Atualizar Dados",
-            href: "/gestor/consultas/sala-de-aula/atualizar-dados",
+            children: [
+              {
+                label: "Formação de Turma",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/formacao-de-turma",
+              },
+              {
+                label: "Alunos Matriculados",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/alunos-matriculados",
+              },
+              {
+                label: "Horário das Aulas",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/horario-das-aulas",
+              },
+              {
+                label: "Conteúdos das Aulas",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/conteudos-das-aulas",
+              },
+              {
+                label: "Notas Avaliativas",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/notas-avaliativas",
+              },
+              {
+                label: "Acessos dos Alunos",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/acessos-dos-alunos",
+              },
+              {
+                label: "Frequência Turma",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/frequencia-turma",
+              },
+              {
+                label: "Antecipa Certificado",
+                href: "/gestor/consultas/sala-de-aula/atualizar-dados/antecipa-certificado",
+              },
+            ],
           },
         ],
       },

@@ -443,7 +443,20 @@ export const gestorMenuItems: MenuItem[] = [
           },
           {
             label: "Avaliações Gerais",
-            href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais",
+            children: [
+              {
+                label: "Diagnóstico Inicial",
+                href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/diagnostico-inicial",
+              },
+              {
+                label: "Boletim e Ficha",
+                href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha",
+              },
+              {
+                label: "Relatório Desempenho",
+                href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/relatorio-desempenho",
+              },
+            ],
           },
           {
             label: "Anos Anteriores",

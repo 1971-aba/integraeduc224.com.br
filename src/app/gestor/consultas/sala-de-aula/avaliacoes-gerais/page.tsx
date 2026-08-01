@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function GestorSalaDeAulaAvaliacoesGeraisPage() {
-  redirect("/gestor/em-breve?modulo=Avaliações Gerais");
+export default function GestorSalaDeAulaAvaliacoesGeraisIndexPage() {
+  redirect("/gestor/consultas/sala-de-aula/avaliacoes-gerais/diagnostico-inicial");
 }

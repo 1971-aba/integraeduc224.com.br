@@ -673,7 +673,20 @@ export const gestorMenuItems: MenuItem[] = [
                   },
                   {
                     label: "Diário de Classe 2024",
-                    href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/diario-de-classe-2024",
+                    children: [
+                      {
+                        label: "Ensino Fundamental",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/diario-de-classe-2024/ensino-fundamental",
+                      },
+                      {
+                        label: "Educação Infantil",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/diario-de-classe-2024/educacao-infantil",
+                      },
+                      {
+                        label: "Atividade Complementar",
+                        href: "/gestor/consultas/sala-de-aula/anos-anteriores/2024/diario-de-classe-2024/atividade-complementar",
+                      },
+                    ],
                   },
                 ],
               },

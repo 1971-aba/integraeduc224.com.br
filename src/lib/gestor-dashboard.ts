@@ -476,7 +476,16 @@ export const gestorMenuItems: MenuItem[] = [
               },
               {
                 label: "Boletim e Ficha",
-                href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha",
+                children: [
+                  {
+                    label: "Ficha de Avaliações",
+                    href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/ficha-de-avaliacoes",
+                  },
+                  {
+                    label: "Boletim do Aluno",
+                    href: "/gestor/consultas/sala-de-aula/avaliacoes-gerais/boletim-e-ficha/boletim-do-aluno",
+                  },
+                ],
               },
               {
                 label: "Relatório Desempenho",

@@ -450,7 +450,19 @@ export const gestorMenuItems: MenuItem[] = [
       { label: "Conferir Diários", href: "/gestor/consultas/diario" },
       { label: "Frequência Escolar", href: "/gestor/consultas/frequencia" },
       { label: "Evasão Escolar", href: "/gestor/consultas/evasao" },
-      { label: "Matrículas", href: "/gestor/alunos" },
+      {
+        label: "Matrículas 2026",
+        children: [
+          {
+            label: "Matrículas 2026 Geral",
+            href: "/gestor/consultas/matriculas-2026/geral",
+          },
+          {
+            label: "Matrículas 2026 Turno",
+            href: "/gestor/consultas/matriculas-2026/turno",
+          },
+        ],
+      },
     ],
   },
   {

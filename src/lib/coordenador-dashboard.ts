@@ -12,6 +12,10 @@ function emBreve(modulo: string) {
   return `${EM_BREVE_BASE}?modulo=${encodeURIComponent(modulo)}`;
 }
 
+function emBreveAdmin(modulo: string) {
+  return emBreve(`Administração — ${modulo}`);
+}
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -20,12 +24,66 @@ export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Administração",
     children: [
-      { label: "Conferir Diários", href: "/coordenador/diario" },
-      { label: "Frequência Escolar", href: "/coordenador/frequencia" },
-      { label: "Evasão Escolar", href: "/coordenador/evasao" },
       {
-        label: "Relatório Avaliativo",
-        href: "/coordenador/relatorio-avaliativo",
+        label: "Escolas da Rede",
+        href: emBreveAdmin("Escolas da Rede"),
+      },
+      {
+        label: "Calendário Escolar",
+        href: "/coordenador/calendario",
+      },
+      {
+        label: "Feriados e Folgas",
+        href: emBreveAdmin("Feriados e Folgas"),
+      },
+      {
+        label: "Evasão Escolar",
+        href: "/coordenador/evasao",
+      },
+      {
+        label: "Reuniões e Eventos",
+        href: emBreveAdmin("Reuniões e Eventos"),
+      },
+      {
+        label: "Estrutura e Outros",
+        children: [
+          {
+            label: "Informações da Escola",
+            href: emBreveAdmin("Estrutura e Outros — Informações da Escola"),
+          },
+          {
+            label: "Salas de Dependências",
+            children: [
+              {
+                label: "Cadastro e Consultas",
+                href: emBreveAdmin(
+                  "Estrutura e Outros — Salas de Dependências — Cadastro e Consultas",
+                ),
+              },
+              {
+                label: "Vincular nova Série",
+                href: emBreveAdmin(
+                  "Estrutura e Outros — Salas de Dependências — Vincular nova Série",
+                ),
+              },
+            ],
+          },
+          {
+            label: "Bairros e Povoados",
+            href: emBreveAdmin("Estrutura e Outros — Bairros e Povoados"),
+          },
+          {
+            label: "Rotas de Ônibus",
+            children: [
+              {
+                label: "Cadastro e Consultas",
+                href: emBreveAdmin(
+                  "Estrutura e Outros — Rotas de Ônibus — Cadastro e Consultas",
+                ),
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -163,7 +221,7 @@ export async function getCoordenadorNotifications(
       id: "alert-pendencias",
       type: "alert",
       message: `${resumo.pendenciasHoje} pendência(s) de diário hoje na escola`,
-      detail: "Consulte Administração → Conferir Diários",
+      detail: "Acesse Conferir Diários pelo painel inicial",
     });
   }
 

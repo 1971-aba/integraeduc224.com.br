@@ -48,25 +48,8 @@ export const coordenadorMenuItems: MenuItem[] = [
         label: "Estrutura e Outros",
         children: [
           {
-            label: "Informações da Escola",
-            href: emBreveAdmin("Estrutura e Outros — Informações da Escola"),
-          },
-          {
-            label: "Salas de Dependências",
-            children: [
-              {
-                label: "Cadastro e Consultas",
-                href: emBreveAdmin(
-                  "Estrutura e Outros — Salas de Dependências — Cadastro e Consultas",
-                ),
-              },
-              {
-                label: "Vincular nova Série",
-                href: emBreveAdmin(
-                  "Estrutura e Outros — Salas de Dependências — Vincular nova Série",
-                ),
-              },
-            ],
+            label: "Dados da Secretaria",
+            href: emBreveAdmin("Estrutura e Outros — Dados da Secretaria"),
           },
           {
             label: "Bairros e Povoados",
@@ -74,14 +57,23 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Rotas de Ônibus",
-            children: [
-              {
-                label: "Cadastro e Consultas",
-                href: emBreveAdmin(
-                  "Estrutura e Outros — Rotas de Ônibus — Cadastro e Consultas",
-                ),
-              },
-            ],
+            href: emBreveAdmin("Estrutura e Outros — Rotas de Ônibus"),
+          },
+          {
+            label: "Turmas Ativas",
+            href: emBreveAdmin("Estrutura e Outros — Turmas Ativas"),
+          },
+          {
+            label: "Atualização de Dados",
+            href: emBreveAdmin("Estrutura e Outros — Atualização de Dados"),
+          },
+          {
+            label: "Cópia de Segurança",
+            href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança"),
+          },
+          {
+            label: "Relatório Avaliativo",
+            href: "/coordenador/relatorio-avaliativo",
           },
         ],
       },

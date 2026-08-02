@@ -18,10 +18,22 @@ export const coordenadorMenuItems: MenuItem[] = [
     href: "/coordenador",
   },
   {
-    label: "Alunos",
+    label: "Administração",
+    children: [
+      { label: "Conferir Diários", href: "/coordenador/diario" },
+      { label: "Frequência Escolar", href: "/coordenador/frequencia" },
+      { label: "Evasão Escolar", href: "/coordenador/evasao" },
+      {
+        label: "Relatório Avaliativo",
+        href: "/coordenador/relatorio-avaliativo",
+      },
+    ],
+  },
+  {
+    label: "Alunos da Rede",
     children: [
       { label: "Relação de Alunos", href: "/coordenador/alunos" },
-      { label: "Matrículas Ativas", href: "/coordenador/alunos" },
+      { label: "Boletins e Fichas", href: "/coordenador/boletins" },
     ],
   },
   {
@@ -32,18 +44,12 @@ export const coordenadorMenuItems: MenuItem[] = [
     ],
   },
   {
-    label: "Diário Escolar",
+    label: "Servidores",
     children: [
-      { label: "Conferir Diários", href: "/coordenador/diario" },
-    ],
-  },
-  {
-    label: "Consultas",
-    children: [
-      { label: "Frequência Escolar", href: "/coordenador/frequencia" },
-      { label: "Evasão Escolar", href: "/coordenador/evasao" },
-      { label: "Boletins e Fichas", href: "/coordenador/boletins" },
-      { label: "Relatório Avaliativo", href: "/coordenador/relatorio-avaliativo" },
+      {
+        label: "Servidores da Escola",
+        href: emBreve("Servidores — Servidores da Escola"),
+      },
     ],
   },
 ];
@@ -157,7 +163,7 @@ export async function getCoordenadorNotifications(
       id: "alert-pendencias",
       type: "alert",
       message: `${resumo.pendenciasHoje} pendência(s) de diário hoje na escola`,
-      detail: "Consulte Conferir Diários no menu",
+      detail: "Consulte Administração → Conferir Diários",
     });
   }
 

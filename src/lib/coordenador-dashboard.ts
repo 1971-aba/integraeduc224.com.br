@@ -51,6 +51,36 @@ const alunosPorIdadeItems: MenuItem[] = [
   },
 ];
 
+const OUTRAS_INFORMACOES_BASE = "Outras Informações";
+const INFORMACOES_PENDENTES_BASE = `${OUTRAS_INFORMACOES_BASE} — Informações Pendentes`;
+
+const informacoesPendentesItems: MenuItem[] = [
+  {
+    label: "CPF Pendente",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — CPF Pendente`),
+  },
+  {
+    label: "RG Pendente",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — RG Pendente`),
+  },
+  {
+    label: "RC Pendente",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — RC Pendente`),
+  },
+  {
+    label: "NIS Pendente",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — NIS Pendente`),
+  },
+  {
+    label: "ID Censo Pendente",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — ID Censo Pendente`),
+  },
+  {
+    label: "Cor/Raça/Etnia",
+    href: emBreveAlunosRede(`${INFORMACOES_PENDENTES_BASE} — Cor/Raça/Etnia`),
+  },
+];
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -278,7 +308,24 @@ export const coordenadorMenuItems: MenuItem[] = [
       },
       {
         label: "Outras Informações",
-        href: emBreveAlunosRede("Outras Informações"),
+        children: [
+          {
+            label: "Alunos Novos da Rede",
+            href: emBreveAlunosRede(`${OUTRAS_INFORMACOES_BASE} — Alunos Novos da Rede`),
+          },
+          {
+            label: "Idade Incompatível",
+            href: emBreveAlunosRede(`${OUTRAS_INFORMACOES_BASE} — Idade Incompatível`),
+          },
+          {
+            label: "Suspeitas de Duplicidade",
+            href: emBreveAlunosRede(`${OUTRAS_INFORMACOES_BASE} — Suspeitas de Duplicidade`),
+          },
+          {
+            label: "Informações Pendentes",
+            children: informacoesPendentesItems,
+          },
+        ],
       },
       { label: "Frequência Escolar", href: "/coordenador/frequencia" },
       { label: "Boletins e Fichas", href: "/coordenador/boletins" },

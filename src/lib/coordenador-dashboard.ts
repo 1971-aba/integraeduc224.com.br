@@ -172,7 +172,16 @@ export const coordenadorMenuItems: MenuItem[] = [
     children: [
       {
         label: "Históricos e Declarações",
-        href: emBreveAlunosRede("Históricos e Declarações"),
+        children: [
+          {
+            label: "Emitir Declarações",
+            href: emBreveAlunosRede("Históricos e Declarações — Emitir Declarações"),
+          },
+          {
+            label: "Histórico Escolar",
+            href: emBreveAlunosRede("Históricos e Declarações — Histórico Escolar"),
+          },
+        ],
       },
       { label: "Relação de Alunos", href: "/coordenador/alunos" },
       {

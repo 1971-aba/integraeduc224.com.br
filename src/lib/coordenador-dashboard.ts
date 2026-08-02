@@ -81,6 +81,37 @@ const informacoesPendentesItems: MenuItem[] = [
   },
 ];
 
+const FREQUENCIA_ESCOLAR_BASE = "Frequência Escolar";
+const POR_ANO_ESCOLAR_BASE = `${FREQUENCIA_ESCOLAR_BASE} — Por Ano Escolar`;
+
+const MESES_ANO = [
+  "JANEIRO",
+  "FEVEREIRO",
+  "MARÇO",
+  "ABRIL",
+  "MAIO",
+  "JUNHO",
+  "JULHO",
+  "AGOSTO",
+  "SETEMBRO",
+  "OUTUBRO",
+  "NOVEMBRO",
+  "DEZEMBRO",
+] as const;
+
+const porAnoEscolarItems: MenuItem[] = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((ano) => {
+  const anoLabel = `${ano}º ANO`;
+  const anoBase = `${POR_ANO_ESCOLAR_BASE} — ${anoLabel}`;
+
+  return {
+    label: anoLabel,
+    children: MESES_ANO.map((mes) => ({
+      label: mes,
+      href: emBreveAlunosRede(`${anoBase} — ${mes}`),
+    })),
+  };
+});
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -327,7 +358,23 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Frequência Escolar", href: "/coordenador/frequencia" },
+      {
+        label: "Frequência Escolar",
+        children: [
+          {
+            label: "Frequência Aluno",
+            href: "/coordenador/frequencia",
+          },
+          {
+            label: "Por Ano Escolar",
+            children: porAnoEscolarItems,
+          },
+          {
+            label: "Conferir Datas",
+            href: emBreveAlunosRede(`${FREQUENCIA_ESCOLAR_BASE} — Conferir Datas`),
+          },
+        ],
+      },
       { label: "Boletins e Fichas", href: "/coordenador/boletins" },
       {
         label: "Aluno Nota 10: 2026",

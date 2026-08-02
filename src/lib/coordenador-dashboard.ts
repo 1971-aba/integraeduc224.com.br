@@ -108,7 +108,52 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Cópia de Segurança",
-            href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança"),
+            children: [
+              {
+                label: "Cadastro de Alunos",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Cadastro de Alunos"),
+              },
+              {
+                label: "Escolas da Rede",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Escolas da Rede"),
+              },
+              {
+                label: "Turmas da Rede",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Turmas da Rede"),
+              },
+              {
+                label: "Disciplinas da Rede",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Disciplinas da Rede"),
+              },
+              {
+                label: "Históricos Escolares",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Históricos Escolares"),
+              },
+              {
+                label: "Notas Avaliativas",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Notas Avaliativas"),
+              },
+              {
+                label: "Conceitos Avaliativos",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Conceitos Avaliativos"),
+              },
+              {
+                label: "Frequência Escolar",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Frequência Escolar"),
+              },
+              {
+                label: "Informações Locais",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Informações Locais"),
+              },
+              {
+                label: "Cadastro de Professores",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Cadastro de Professores"),
+              },
+              {
+                label: "Cadastro de Servidores",
+                href: emBreveAdmin("Estrutura e Outros — Cópia de Segurança — Cadastro de Servidores"),
+              },
+            ],
           },
           {
             label: "Relatório Avaliativo",

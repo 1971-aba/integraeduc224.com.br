@@ -57,7 +57,14 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Rotas de Ônibus",
-            href: emBreveAdmin("Estrutura e Outros — Rotas de Ônibus"),
+            children: [
+              {
+                label: "Cadastro e Consultas",
+                href: emBreveAdmin(
+                  "Estrutura e Outros — Rotas de Ônibus — Cadastro e Consultas",
+                ),
+              },
+            ],
           },
           {
             label: "Turmas Ativas",

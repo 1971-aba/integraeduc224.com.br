@@ -97,7 +97,14 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Atualização de Dados",
-            href: emBreveAdmin("Estrutura e Outros — Atualização de Dados"),
+            children: [
+              {
+                label: "Cadastro e Consultas",
+                href: emBreveAdmin(
+                  "Estrutura e Outros — Atualização de Dados — Cadastro e Consultas",
+                ),
+              },
+            ],
           },
           {
             label: "Cópia de Segurança",

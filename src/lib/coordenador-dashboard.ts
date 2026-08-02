@@ -68,7 +68,32 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Turmas Ativas",
-            href: emBreveAdmin("Estrutura e Outros — Turmas Ativas"),
+            children: [
+              {
+                label: "Todas as Turmas",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — Todas as Turmas"),
+              },
+              {
+                label: "Ens. Fund. Finais",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — Ens. Fund. Finais"),
+              },
+              {
+                label: "Ens. Fund. Iniciais",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — Ens. Fund. Iniciais"),
+              },
+              {
+                label: "Educação Infantil",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — Educação Infantil"),
+              },
+              {
+                label: "EJA",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — EJA"),
+              },
+              {
+                label: "Multisseriados",
+                href: emBreveAdmin("Estrutura e Outros — Turmas Ativas — Multisseriados"),
+              },
+            ],
           },
           {
             label: "Atualização de Dados",

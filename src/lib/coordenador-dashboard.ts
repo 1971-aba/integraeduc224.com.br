@@ -16,6 +16,10 @@ function emBreveAdmin(modulo: string) {
   return emBreve(`Administração — ${modulo}`);
 }
 
+function emBreveAlunosRede(modulo: string) {
+  return emBreve(`Alunos da Rede — ${modulo}`);
+}
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -166,8 +170,29 @@ export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Alunos da Rede",
     children: [
+      {
+        label: "Históricos e Declarações",
+        href: emBreveAlunosRede("Históricos e Declarações"),
+      },
       { label: "Relação de Alunos", href: "/coordenador/alunos" },
+      {
+        label: "Outras Informações",
+        href: emBreveAlunosRede("Outras Informações"),
+      },
+      { label: "Frequência Escolar", href: "/coordenador/frequencia" },
       { label: "Boletins e Fichas", href: "/coordenador/boletins" },
+      {
+        label: "Aluno Nota 10: 2026",
+        href: emBreveAlunosRede("Aluno Nota 10: 2026"),
+      },
+      {
+        label: "Matrícula 2026",
+        href: emBreveAlunosRede("Matrícula 2026"),
+      },
+      {
+        label: "Anos Anteriores",
+        href: emBreveAlunosRede("Anos Anteriores"),
+      },
     ],
   },
   {

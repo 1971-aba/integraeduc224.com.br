@@ -29,6 +29,28 @@ const historicosPorAnoItems: MenuItem[] = [2, 3, 4, 5, 6, 7, 8, 9].map((ano) => 
   href: emBreveAlunosRede(`${CONFECCAO_ANO_A_ANO_BASE} — Históricos ${ano}º ano`),
 }));
 
+const RELACAO_ALUNOS_BASE = "Relação de Alunos";
+const ALUNOS_POR_IDADE_BASE = `${RELACAO_ALUNOS_BASE} — Alunos por Idade`;
+
+const alunosPorIdadeItems: MenuItem[] = [
+  {
+    label: "Quantos anos?",
+    href: emBreveAlunosRede(`${ALUNOS_POR_IDADE_BASE} — Quantos anos?`),
+  },
+  {
+    label: "Entre:",
+    href: emBreveAlunosRede(`${ALUNOS_POR_IDADE_BASE} — Entre:`),
+  },
+  {
+    label: "Menor ou Igual a:",
+    href: emBreveAlunosRede(`${ALUNOS_POR_IDADE_BASE} — Menor ou Igual a:`),
+  },
+  {
+    label: "Maior ou Igual a:",
+    href: emBreveAlunosRede(`${ALUNOS_POR_IDADE_BASE} — Maior ou Igual a:`),
+  },
+];
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -212,7 +234,48 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
         ],
       },
-      { label: "Relação de Alunos", href: "/coordenador/alunos" },
+      {
+        label: "Relação de Alunos",
+        children: [
+          { label: "Todos os Alunos", href: "/coordenador/alunos" },
+          {
+            label: "Alunos por Idade",
+            children: alunosPorIdadeItems,
+          },
+          {
+            label: "Aluno por Zona",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Aluno por Zona`),
+          },
+          {
+            label: "Aluno por Turno",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Aluno por Turno`),
+          },
+          {
+            label: "Aluno por Sexo",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Aluno por Sexo`),
+          },
+          {
+            label: "Dist. Idade-Série",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Dist. Idade-Série`),
+          },
+          {
+            label: "Por Documentos",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Por Documentos`),
+          },
+          {
+            label: "Montar Relatório",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Montar Relatório`),
+          },
+          {
+            label: "Ensino Regular",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Ensino Regular`),
+          },
+          {
+            label: "Alunos do EJA",
+            href: emBreveAlunosRede(`${RELACAO_ALUNOS_BASE} — Alunos do EJA`),
+          },
+        ],
+      },
       {
         label: "Outras Informações",
         href: emBreveAlunosRede("Outras Informações"),

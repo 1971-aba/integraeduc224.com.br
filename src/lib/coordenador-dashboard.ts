@@ -20,6 +20,15 @@ function emBreveAlunosRede(modulo: string) {
   return emBreve(`Alunos da Rede — ${modulo}`);
 }
 
+const HISTORICO_ESCOLAR_BASE = "Históricos e Declarações — Histórico Escolar";
+const ACOMPANHAR_CONFECCAO_BASE = `${HISTORICO_ESCOLAR_BASE} — Acompanhar Confecção`;
+const CONFECCAO_ANO_A_ANO_BASE = `${ACOMPANHAR_CONFECCAO_BASE} — Confecção ano a ano`;
+
+const historicosPorAnoItems: MenuItem[] = [2, 3, 4, 5, 6, 7, 8, 9].map((ano) => ({
+  label: `Históricos ${ano}º ano`,
+  href: emBreveAlunosRede(`${CONFECCAO_ANO_A_ANO_BASE} — Históricos ${ano}º ano`),
+}));
+
 export const coordenadorMenuItems: MenuItem[] = [
   {
     label: "Home",
@@ -179,7 +188,27 @@ export const coordenadorMenuItems: MenuItem[] = [
           },
           {
             label: "Histórico Escolar",
-            href: emBreveAlunosRede("Históricos e Declarações — Histórico Escolar"),
+            children: [
+              {
+                label: "Históricos da Rede",
+                href: emBreveAlunosRede(`${HISTORICO_ESCOLAR_BASE} — Históricos da Rede`),
+              },
+              {
+                label: "Acompanhar Confecção",
+                children: [
+                  {
+                    label: "Confecção 6º ao 9º ano",
+                    href: emBreveAlunosRede(
+                      `${ACOMPANHAR_CONFECCAO_BASE} — Confecção 6º ao 9º ano`,
+                    ),
+                  },
+                  {
+                    label: "Confecção ano a ano",
+                    children: historicosPorAnoItems,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
